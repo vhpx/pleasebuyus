@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input[type='file']::-webkit-file-upload-button,
+input[type='file']::file-selector-button {
+    @apply cursor-pointer rounded-lg border-0 py-2.5 pl-8 pr-4 text-sm font-medium transition duration-300 hover:bg-white dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-700;
+    margin-inline-start: -1rem;
+    margin-inline-end: 1rem;
+}
+
+@layer base {
+    body {
+        @apply bg-zinc-100 dark:bg-[#111113];
+    }
+}

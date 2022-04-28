@@ -10,7 +10,7 @@ export default function Footer() {
                         href="https://www.vohoangphuc.com"
                         className="ml-1 font-semibold text-zinc-600 dark:text-zinc-200"
                     >
-                        Võ Hoàng Phúc
+                        Insert Team Name
                     </BetterLink>
                 </div>
             </div>
