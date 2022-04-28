@@ -27,9 +27,7 @@ export default function UserDropdown({
     return (
         <Popover className={`relative ${desktopOnly && 'hidden md:block'}`}>
             <Popover.Button
-                className={`flex items-center justify-center rounded-lg border ${
-                    whiteText && 'border-transparent'
-                } px-4 py-2 transition duration-300 hover:border-zinc-300 dark:border-zinc-700 dark:hover:border-zinc-400`}
+                className={`flex items-center justify-center rounded-lg px-4 py-2 transition duration-300 hover:bg-white/10 dark:hover:bg-zinc-800`}
             >
                 <Avatar size={30} />
                 {displayName && (
@@ -43,11 +41,11 @@ export default function UserDropdown({
                 )}
             </Popover.Button>
 
-            <Popover.Panel className="absolute right-0 top-16 z-10">
+            <Popover.Panel className="absolute right-0 top-[3.5rem] z-10">
                 <div className="my-1 flex w-48 flex-col rounded-lg bg-white/50 shadow backdrop-blur dark:bg-zinc-700/50">
                     <BetterLink
                         href="/settings"
-                        className="px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
+                        className="rounded-t-lg px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
                     >
                         Settings
                     </BetterLink>
