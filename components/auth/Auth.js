@@ -35,12 +35,16 @@ export default function Auth({ signUp }) {
                   ));
 
             if (error) throw error;
+
             if (signUp) {
                 setConfirmEmailSent(true);
                 return;
             }
 
-            setServerSideCookie(null, session);
+            const { refresh_token } = session;
+
+            supabase.auth.setSession(refresh_token);
+            setServerSideCookie('SIGNED_IN', session);
 
             if (session) router.push('/');
             else setLoading(false);
