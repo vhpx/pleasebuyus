@@ -25,23 +25,20 @@ export const UserProvider = (props) => {
     };
 
     const updateUserData = async ({
-        username,
-        displayName,
-        firstName,
-        lastName,
-        bio,
-        website,
+        name,
+        birthday,
+        gender,
+        phoneNumber,
         avatarUrl,
     }) => {
         if (!userData) return;
 
         setUserData((prevData) => ({
-            username: username ?? prevData?.username,
-            display_name: displayName ?? prevData?.display_name,
-            first_name: firstName ?? prevData?.first_name,
-            last_name: lastName ?? prevData?.last_name,
-            bio,
-            website,
+            name: name ?? prevData?.name,
+            email: prevData?.email,
+            birthday: birthday ?? prevData?.birthday,
+            gender: gender ?? prevData?.gender,
+            phone_number: phoneNumber ?? prevData?.phone_number,
             avatar_url: avatarUrl ?? prevData?.avatar_url,
         }));
     };
