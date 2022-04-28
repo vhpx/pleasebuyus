@@ -4,7 +4,10 @@ const nextConfig = {
     images: {
         domains: [
             'zaqgppthphhjbxhrvvau.supabase.in',
+            'wdfmjzdkzfryqbrbbbpo.supabase.in',
+
             'zaqgppthphhjbxhrvvau.supabase.co',
+            'wdfmjzdkzfryqbrbbbpo.supabase.co',
         ],
     },
 };
