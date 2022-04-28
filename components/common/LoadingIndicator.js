@@ -1,10 +1,12 @@
-export default function LoadingIndicator({ className, size = 4 }) {
+export default function LoadingIndicator({ className, svgClassName }) {
     return (
         <div
             className={`inline-flex items-center rounded-md border border-transparent text-base ${className}`}
         >
             <svg
-                className={`h-${size} w-${size} animate-spin text-black dark:text-zinc-200`}
+                className={`${
+                    svgClassName ?? 'h-4 w-4'
+                } animate-spin text-black dark:text-zinc-200`}
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"

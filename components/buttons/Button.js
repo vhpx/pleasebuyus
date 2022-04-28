@@ -1,4 +1,5 @@
-export default function OutlinedButton({
+export default function Button({
+    loading,
     label,
     loadingLabel,
     type,
