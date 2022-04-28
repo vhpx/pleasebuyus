@@ -7,6 +7,7 @@ import {
 import { useState, useEffect } from 'react';
 import { useTheme } from '../../hooks/useTheme';
 import { useUser } from '../../hooks/useUser';
+import Avatar from '../common/Avatar';
 import Logo from '../common/Logo';
 import CartDropdown from '../dropdown/CartDropdown';
 import UserDropdown from '../dropdown/UserDropdown';
@@ -29,6 +30,13 @@ export function StoreNavBar() {
     const openMenu = () => setMenuClosed(false);
     const closeMenu = () => setMenuClosed(true);
 
+    const displayName = userData?.['name'];
+
+    const navigateTo = (path) => {
+        closeMenu();
+        window.location.href = path;
+    };
+
     return (
         <nav
             className={`flex items-center justify-between border-b bg-blue-500 px-4 py-2 shadow dark:border-transparent dark:bg-zinc-900 dark:text-white md:px-12 ${
@@ -36,7 +44,7 @@ export function StoreNavBar() {
             }`}
         >
             {menuClosed || (
-                <div className="fixed inset-0 z-50 bg-white/70 backdrop-blur-lg dark:bg-zinc-900/70 md:hidden md:bg-white md:dark:bg-zinc-900">
+                <div className="fixed flex flex-col justify-between inset-0 z-50 bg-white/70 backdrop-blur-lg dark:bg-zinc-900/70 md:hidden md:bg-white md:dark:bg-zinc-900">
                     <div className="relative flex items-center justify-center px-2.5 py-4">
                         <Logo />
                         <button
@@ -45,6 +53,38 @@ export function StoreNavBar() {
                         >
                             <XIcon className="h-6 w-6" />
                         </button>
+                    </div>
+
+                    <div className="flex flex-col px-8 py-4 space-y-2 text-center">
+                        <BetterLink
+                            className="px-4 py-2 rounded-lg font-semibold bg-zinc-200/20 dark:bg-zinc-700/40"
+                            onClick={() => navigateTo('/history')}
+                        >
+                            Purchase History
+                        </BetterLink>
+
+                        <BetterLink
+                            className="px-4 py-2 rounded-lg font-semibold bg-zinc-200/20 dark:bg-zinc-700/40"
+                            onClick={() => navigateTo('/outlets')}
+                        >
+                            Outlets
+                        </BetterLink>
+
+                        <BetterLink
+                            className="px-4 py-2 rounded-lg font-semibold bg-zinc-200/20 dark:bg-zinc-700/40"
+                            onClick={() => navigateTo('/settings')}
+                        >
+                            Settings
+                        </BetterLink>
+                    </div>
+
+                    <div className="relative flex items-center justify-center px-2.5 py-4">
+                        <Avatar size={30} />
+                        {displayName && (
+                            <div className="ml-2 text-sm font-semibold md:block">
+                                {displayName}
+                            </div>
+                        )}
                     </div>
                 </div>
             )}
