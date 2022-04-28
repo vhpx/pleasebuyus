@@ -1,5 +1,6 @@
 import '../styles/tailwind.css';
 import ToastWrapper from '../components/toast/ToastWrapper';
+import 'react-toastify/dist/ReactToastify.css';
 import Head from 'next/head';
 import { CartProvider } from '../hooks/useCart';
 import { UserProvider } from '../hooks/useUser';
@@ -24,8 +25,8 @@ function MyApp({ Component, pageProps }) {
                             content="width=device-width, initial-scale=1, shrink-to-fit=no"
                         />
                     </Head>
-                    {getLayout(<Component {...pageProps} />)}
                     <ToastWrapper />
+                    {getLayout(<Component {...pageProps} />)}
                 </CartProvider>
             </UserProvider>
         </ThemeProvider>
