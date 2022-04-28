@@ -14,11 +14,9 @@ export default function CartDropdown({ loggedIn, whiteText }) {
     return (
         <Popover className="relative">
             <Popover.Button
-                className={`flex items-center justify-center space-x-1 rounded-lg border px-3 ${
+                className={`flex items-center justify-center space-x-1 rounded-lg px-3 ${
                     loggedIn ? 'py-[0.725rem]' : 'py-2'
-                } ${
-                    whiteText && 'border-transparent'
-                } transition duration-300 hover:border-zinc-300 dark:border-zinc-700 dark:hover:border-zinc-400`}
+                } transition duration-300 hover:bg-white/10 dark:hover:bg-zinc-800`}
             >
                 <ShoppingCartIcon
                     className={`h-5 w-5 ${whiteText && 'text-white'}`}

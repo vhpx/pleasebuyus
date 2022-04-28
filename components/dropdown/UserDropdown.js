@@ -27,9 +27,7 @@ export default function UserDropdown({
     return (
         <Popover className={`relative ${desktopOnly && 'hidden md:block'}`}>
             <Popover.Button
-                className={`flex items-center justify-center rounded-lg border ${
-                    whiteText && 'border-transparent'
-                } px-4 py-2 transition duration-300 hover:border-zinc-300 dark:border-zinc-700 dark:hover:border-zinc-400`}
+                className={`flex items-center justify-center rounded-lg px-4 py-2 transition duration-300 hover:bg-white/10 dark:hover:bg-zinc-800`}
             >
                 <Avatar size={30} />
                 {displayName && (
