@@ -1,4 +1,4 @@
-import { StoreLayout } from '../../components/layout/layout';
+import { StoreLayout } from '../components/layout/layout';
 
 SettingsPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
