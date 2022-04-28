@@ -1,3 +1,4 @@
+import { BadgeCheckIcon } from '@heroicons/react/outline';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import OutlinedButton from '../components/buttons/OutlinedButton';
@@ -8,6 +9,7 @@ import FormInput from '../components/form/FormInput';
 import FormLabel from '../components/form/FormLabel';
 import FormSelect from '../components/form/FormSelect';
 import { StoreLayout } from '../components/layout/layout';
+import { useTheme } from '../hooks/useTheme';
 import { RequireAuth, useUser } from '../hooks/useUser';
 import { supabase } from '../utils/supabase-client';
 
@@ -35,6 +37,7 @@ export default function SettingsPage() {
     RequireAuth();
 
     const { user, userData, fetchUserData, updateUserData } = useUser();
+    const { darkMode, updateTheme } = useTheme();
 
     const [uploading, setUploading] = useState(false);
     const [updating, setUpdating] = useState(false);
@@ -160,8 +163,20 @@ export default function SettingsPage() {
         }
     };
 
+    const setLightMode = () => {
+        if (!darkMode) return;
+        localStorage.setItem('pbu-dark-mode', 'false');
+        updateTheme(false);
+    };
+
+    const setDarkMode = () => {
+        if (darkMode) return;
+        localStorage.setItem('pbu-dark-mode', 'true');
+        updateTheme(true);
+    };
+
     return (
-        <div className="p-4 md:p-8 lg:p-16">
+        <div className="p-4 md:p-8 lg:p-16 space-y-8">
             <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
                 <Title label="Profile" />
                 <Divider />
@@ -246,6 +261,43 @@ export default function SettingsPage() {
                         loadingLabel="Saving"
                         onClick={updateProfile}
                     />
+                </div>
+            </div>
+
+            <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
+                <Title label="Theme" />
+                <Divider />
+
+                <div className="mb-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-8">
+                    <button
+                        onClick={setLightMode}
+                        className="group flex flex-1 justify-between rounded-lg border-2 border-blue-600 p-4 shadow transition duration-300 dark:border-zinc-600 dark:hover:border-white dark:hover:bg-zinc-800"
+                    >
+                        <div className="dark:group-hover:text-white">
+                            Light mode
+                        </div>
+                        {darkMode || (
+                            <div className="flex items-center space-x-1 text-sm font-bold text-blue-600 dark:text-white dark:group-hover:text-white">
+                                <div>Selected</div>
+                                <BadgeCheckIcon className="h-6 w-6" />
+                            </div>
+                        )}
+                    </button>
+
+                    <button
+                        onClick={setDarkMode}
+                        className="group flex flex-1 justify-between rounded-lg border-2 p-4 transition duration-300 hover:border-black dark:border-zinc-300 dark:bg-zinc-700"
+                    >
+                        <div className="group-hover:text-black dark:text-zinc-200 dark:group-hover:text-zinc-200">
+                            Dark mode
+                        </div>
+                        {darkMode && (
+                            <div className="flex items-center space-x-1 text-sm font-bold text-blue-600 group-hover:text-black dark:text-zinc-200 dark:group-hover:text-zinc-200">
+                                <div>Selected</div>
+                                <BadgeCheckIcon className="h-6 w-6" />
+                            </div>
+                        )}
+                    </button>
                 </div>
             </div>
         </div>
