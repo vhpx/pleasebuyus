@@ -110,6 +110,12 @@ export default function UserDropdown({
                         >
                             Settings
                         </BetterLink>
+                        <BetterLink
+                            href="/outlets"
+                            className="px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
+                        >
+                            Outlets
+                        </BetterLink>
                         <BlockDarkModeToggle
                             className="font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
                             darkMode={darkMode}
