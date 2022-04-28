@@ -7,9 +7,18 @@ CheckoutPage.getLayout = (page) => {
 
 export default function CheckoutPage() {
     return (
-        <div className="grid grid-cols-5">
-            <div className="col-span-4">Detailed items</div>
-            <div className="col-span-1 flex flex-col mb-4 item-center justify-center w-full max-w-md bg-white dark:bg-zinc-800 rounded shadow-lg px-8 pt-6 pb-8">
+        <div className="grid grid-cols-4">
+            <div className="col-span-3">
+                <div className="flex flex-col mb-4 item-center justify-center h-64 m-10 w-auto bg-white dark:bg-zinc-800 rounded shadow-lg px-8 pt-6 pb-8">
+                    Detailed items
+                    </div>
+                <div className="flex flex-col mb-4 item-center justify-center h-64 m-10 w-auto bg-white dark:bg-zinc-800 rounded shadow-lg px-8 pt-6 pb-8">
+                    Detailed items
+                    </div>
+            </div>
+
+                
+            <div className="col-span-1 flex flex-col mb-4 item-center justify-center m-2 w-auto max-w-md bg-white dark:bg-zinc-800 rounded shadow-lg px-8 pt-6 pb-8">
                 <div className="flex item-center justify-center mb-1 pt-1 pb-1">
                     <Title label="Order Summary" />
                 </div>
@@ -54,6 +63,17 @@ export default function CheckoutPage() {
                     PleaseBuy Points™
                 </a>
                 <div className="mt-2 mb-1 h-[1px] w-full bg-zinc-300 dark:bg-zinc-700" />
+
+                <div className="text text-left font-bold text-xl text-black mb-1 pt-4 pb-1">
+                    {' '}
+                    Apply today, Shop Now.{' '}
+                </div>
+
+                <div className="text text-left text-l text-gray-600 mb-1 pt-1 pb-1">
+                        {' '}
+                        10% back in rewards on first day of purchases for new PleaseBuy® Members or accumilate point(s) to exchange for discount!{' '}
+                    </div>
+                    
             </div>
         </div>
     );
