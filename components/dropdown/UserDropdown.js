@@ -105,7 +105,7 @@ export default function UserDropdown({
                 ) : (
                     <div className="my-1 flex w-48 flex-col rounded-lg bg-white/50 shadow backdrop-blur dark:bg-zinc-700/50">
                         <BetterLink
-                            href="https://www.vohoangphuc.com/settings"
+                            href="/settings"
                             className="px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
                         >
                             Settings
