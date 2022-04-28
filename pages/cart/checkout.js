@@ -1,28 +1,21 @@
 import Link from 'next/link';
 import Title from '../../components/common/Title';
+import FormSelect from '../../components/form/FormSelect';
 import { StoreLayout } from '../../components/layout/layout';
 
 CheckoutPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
 };
 
-<svg class="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-  <path
-    stroke-linecap="round"
-    stroke-linejoin="round"
-    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-  />
-</svg>
-
 export default function CheckoutPage() {
     return (
         <div className="grid grid-cols-4">
             <div className="col-span-3">
                 <div className="text text-left font-bold text-xl text-black ml-10 mb-1 pt-4 pb-1">
-                        {' '}
-                        Your Cart{' '}
-                    </div>
-                    
+                    {' '}
+                    Your Cart{' '}
+                </div>
+
                 <div className="flex flex-col mb-4 item-center justify-center h-64 mt-2 m-10 w-auto bg-white dark:bg-zinc-800 rounded shadow-lg px-8 pt-6 pb-8">
                     <div className="grid grid-cols-4">
                         <div className="col-span-1 text text-left font-bold text-xl text-black mb-1 pt-4 pb-1">
@@ -42,9 +35,9 @@ export default function CheckoutPage() {
                             Apply today, Shop Now.{' '}
                         </div>
                     </div>
-                    
+
                     <div className="mt-2 mb-1 h-[1px] w-full bg-zinc-300 dark:bg-zinc-700" />
-                    </div>
+                </div>
 
                 <div className="flex flex-col mb-4 item-center justify-center h-64 m-10 w-auto bg-white dark:bg-zinc-800 rounded shadow-lg px-8 pt-6 pb-8">
                     <div className="text text-left font-bold text-xl text-black mb-1 pt-4 pb-1">
@@ -52,7 +45,7 @@ export default function CheckoutPage() {
                         Saved Item.{' '}
                     </div>
                     <div className="mt-2 mb-1 h-[1px] w-full bg-zinc-300 dark:bg-zinc-700" />
-                    </div>
+                </div>
             </div>
 
             <div className="col-span-1 flex flex-col mb-4 item-center justify-center m-2 w-auto max-w-md bg-white dark:bg-zinc-800 rounded shadow-lg px-8 pt-6 pb-8">
