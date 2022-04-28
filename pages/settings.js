@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import OutlinedButton from '../components/buttons/OutlinedButton';
+import Avatar from '../components/common/Avatar';
 import Divider from '../components/common/Divider';
 import Title from '../components/common/Title';
 import FormInput from '../components/form/FormInput';
+import FormLabel from '../components/form/FormLabel';
 import FormSelect from '../components/form/FormSelect';
 import { StoreLayout } from '../components/layout/layout';
 import { RequireAuth, useUser } from '../hooks/useUser';
+import { supabase } from '../utils/supabase-client';
 
 SettingsPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -33,6 +36,7 @@ export default function SettingsPage() {
 
     const { user, userData, fetchUserData, updateUserData } = useUser();
 
+    const [uploading, setUploading] = useState(false);
     const [updating, setUpdating] = useState(false);
 
     const [name, setName] = useState(userData?.name ?? '');
@@ -42,6 +46,11 @@ export default function SettingsPage() {
     );
     const [birthday, setBirthday] = useState(userData?.birthday ?? '');
     const [gender, setGender] = useState(userData?.gender ?? '');
+    const [avatarUrl, setAvatarUrl] = useState(userData?.avatar_url ?? '');
+
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+    };
 
     const handleUserDataFetch = useCallback(async () => {
         await fetchUserData();
@@ -73,15 +82,6 @@ export default function SettingsPage() {
             if (!userId) throw 'User ID not found.';
             if (!userEmail) throw 'User email is required.';
 
-            console.log('Updating user data...');
-            console.log(userId, userEmail);
-
-            console.log('Name:', name);
-            console.log('Email:', email);
-            console.log('Phone number:', phoneNumber);
-            console.log('Birthday:', birthday);
-            console.log('Gender:', gender);
-
             const response = await fetch(`/api/users/${userId}`, {
                 method: 'POST',
                 headers: {
@@ -106,6 +106,60 @@ export default function SettingsPage() {
         }
     };
 
+    const downloadImage = (path) => {
+        try {
+            const { publicURL, error } = supabase.storage
+                .from('avatars')
+                .getPublicUrl(path);
+
+            if (error) {
+                throw error;
+            }
+
+            return publicURL;
+        } catch (error) {
+            console.log('Error downloading image: ', error.message);
+        }
+    };
+
+    const uploadAvatar = async (event) => {
+        try {
+            setUploading(true);
+
+            if (!event.target.files || event.target.files.length === 0) {
+                throw new Error('You must select an image to upload.');
+            }
+
+            const file = event.target.files[0];
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Math.random()}.${fileExt}`;
+            const filePath = `${fileName}`;
+
+            let { error: uploadError } = await supabase.storage
+                .from('avatars')
+                .upload(filePath, file);
+
+            if (uploadError) {
+                throw uploadError;
+            }
+
+            const avatarUrl = downloadImage(filePath);
+
+            const { error } = await supabase
+                .from('users')
+                .update({ avatar_url: avatarUrl }, { returning: 'minimal' })
+                .eq('id', user?.id);
+
+            if (error) throw error;
+
+            await updateUserData({ avatarUrl });
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setUploading(false);
+        }
+    };
+
     return (
         <div className="p-4 md:p-8 lg:p-16">
             <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
@@ -113,6 +167,40 @@ export default function SettingsPage() {
                 <Divider />
 
                 <div className="lg:w-2/3 mb-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-8">
+                    <div className="flex flex-col md:flex-row col-span-full mb-8 items-center justify-start space-y-4 md:space-x-8 md:space-y-0">
+                        <Avatar size={140} />
+
+                        <div className="flex flex-col w-full">
+                            <FormLabel
+                                className="mb-0"
+                                id="avatar"
+                                label={
+                                    uploading
+                                        ? 'Uploading...'
+                                        : 'Upload a profile picture'
+                                }
+                            />
+
+                            <input
+                                className="block max-w-md cursor-pointer rounded-lg border border-zinc-300 bg-white transition duration-300 placeholder:text-black hover:border-zinc-400 hover:bg-zinc-200/50 focus:border-transparent focus:outline-none dark:border-zinc-700/50 dark:bg-zinc-900/70 dark:text-white dark:placeholder:text-white dark:hover:border-zinc-700 dark:hover:bg-zinc-800"
+                                aria-describedby="user_avatar_help"
+                                id="avatar"
+                                type="file"
+                                accept="image/*"
+                                onChange={uploadAvatar}
+                                disabled={uploading}
+                            />
+                            <div
+                                className="mt-1 text-sm text-zinc-500 dark:text-zinc-300"
+                                id="avatar-description"
+                            >
+                                Your avatar is a way for people to recognize
+                                you.
+                            </div>
+                        </div>
+                    </div>
+                    <Divider className="col-span-full" />
+
                     <FormInput
                         id="name"
                         label="Name"
