@@ -108,7 +108,7 @@ export default function SettingsPage() {
 
     return (
         <div className="p-4 md:p-8 lg:p-16">
-            <div className="bg-white dark:bg-zinc-800 rounded-lg p-8">
+            <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
                 <Title label="Profile" />
                 <Divider />
 
