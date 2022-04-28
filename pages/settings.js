@@ -265,10 +265,24 @@ export default function SettingsPage() {
             </div>
 
             <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
+                <Title label="Account" />
+                <Divider />
+
+                <div className="mb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    <OutlinedButton
+                        label="Change password"
+                        href="/reset-password"
+                    />
+
+                    <OutlinedButton label="Log out" onClick={handleLogout} />
+                </div>
+            </div>
+
+            <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
                 <Title label="Theme" />
                 <Divider />
 
-                <div className="mb-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-8">
+                <div className="mb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     <button
                         onClick={setLightMode}
                         className="group flex flex-1 justify-between rounded-lg border-2 border-blue-600 p-4 shadow transition duration-300 dark:border-zinc-600 dark:hover:border-white dark:hover:bg-zinc-800"
