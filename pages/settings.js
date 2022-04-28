@@ -1,9 +1,13 @@
-import { BadgeCheckIcon } from '@heroicons/react/outline';
+import { BadgeCheckIcon, PlusIcon } from '@heroicons/react/outline';
+import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import AddressCard from '../components/address/AddressCard';
+import Button from '../components/buttons/Button';
 import OutlinedButton from '../components/buttons/OutlinedButton';
 import Avatar from '../components/common/Avatar';
 import Divider from '../components/common/Divider';
+import LoadingIndicator from '../components/common/LoadingIndicator';
 import Title from '../components/common/Title';
 import FormInput from '../components/form/FormInput';
 import FormLabel from '../components/form/FormLabel';
@@ -39,6 +43,7 @@ export default function SettingsPage() {
     const { user, userData, fetchUserData, updateUserData } = useUser();
     const { darkMode, updateTheme } = useTheme();
 
+    const [loadingAddress, setLoadingAddress] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [updating, setUpdating] = useState(false);
 
@@ -49,7 +54,7 @@ export default function SettingsPage() {
     );
     const [birthday, setBirthday] = useState(userData?.birthday ?? '');
     const [gender, setGender] = useState(userData?.gender ?? '');
-    const [avatarUrl, setAvatarUrl] = useState(userData?.avatar_url ?? '');
+    const [addresses, setAddresses] = useState([]);
 
     const handleLogout = async () => {
         await supabase.auth.signOut();
@@ -66,12 +71,21 @@ export default function SettingsPage() {
         setPhoneNumber(userData?.phone_number ?? '');
         setBirthday(userData?.birthday ?? '');
         setGender(userData?.gender ?? '');
-        setAvatarUrl(userData?.avatar_url ?? '');
     }, [fetchUserData, userData]);
 
     useEffect(() => {
         handleUserDataFetch();
     }, [userData, handleUserDataFetch]);
+
+    const validateAddress = (address) => {
+        return (
+            address?.name ||
+            address?.country ||
+            address?.province ||
+            address?.city ||
+            address?.streetInfo
+        );
+    };
 
     const updateProfile = async () => {
         if (!user || !userData) {
@@ -88,20 +102,23 @@ export default function SettingsPage() {
             if (!userId) throw 'User ID not found.';
             if (!userEmail) throw 'User email is required.';
 
-            const response = await fetch(`/api/users/${userId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name,
-                    phoneNumber,
-                    birthday,
-                    gender,
-                }),
-            });
+            const validAddresses = addresses.filter(validateAddress);
+            console.log(validAddresses);
 
-            if (!response.ok) throw error;
+            // const response = await fetch(`/api/users/${userId}`, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({
+            //         name,
+            //         phoneNumber,
+            //         birthday,
+            //         gender,
+            //     }),
+            // });
+
+            // if (!response.ok) throw error;
 
             updateUserData({ name, phoneNumber, birthday, gender });
             toast.success('Your profile has been updated.');
@@ -177,6 +194,53 @@ export default function SettingsPage() {
         localStorage.setItem('pbu-dark-mode', 'true');
         updateTheme(true);
     };
+
+    const addAddress = () => {
+        setAddresses((prevAddresses) => [
+            ...prevAddresses,
+            {
+                id: Math.random().toString(),
+                name: '',
+                country: '',
+                province: '',
+                city: '',
+                streetInfo: '',
+            },
+        ]);
+    };
+
+    useEffect(() => {
+        const fetchAddresses = async () => {
+            if (!user) return;
+            setLoadingAddress(true);
+
+            try {
+                const { data } = await supabase
+                    .from('addresses')
+                    .select('*')
+                    .eq('user_id', user?.id);
+
+                const addresses = data?.map((address) => {
+                    return {
+                        id: address.id,
+                        name: address.name,
+                        country: address.country,
+                        province: address.province,
+                        city: address.city,
+                        streetInfo: address.street_info,
+                    };
+                });
+
+                setAddresses(addresses);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoadingAddress(false);
+            }
+        };
+
+        fetchAddresses();
+    }, [user]);
 
     return (
         <div className="p-4 md:p-8 lg:p-16 space-y-8">
@@ -255,16 +319,57 @@ export default function SettingsPage() {
                         options={genderOptions}
                         disabled={!userData}
                     />
+                    <Divider className="mt-8 col-span-full" />
+
+                    <div className="col-span-full">
+                        <div className="flex items-center space-x-2">
+                            <div className="font-semibold">Address</div>
+                            {loadingAddress || (
+                                <button
+                                    className="p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
+                                    onClick={addAddress}
+                                >
+                                    <PlusIcon className="w-4 h-4" />
+                                </button>
+                            )}
+                        </div>
+
+                        {loadingAddress ? (
+                            <div className="mt-6">
+                                <LoadingIndicator svgClassName="h-8 w-8" />
+                            </div>
+                        ) : (
+                            <div className="text-left">
+                                {addresses && addresses.length > 0 ? (
+                                    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {addresses?.map((address) => (
+                                            <AddressCard
+                                                key={address.id}
+                                                address={address}
+                                                setter={setAddresses}
+                                            />
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <div className="text-sm text-zinc-500 dark:text-zinc-300">
+                                            You have no addresses.
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                    <Divider className="mt-8 col-span-full" />
                 </div>
 
-                <div className="flex justify-end">
-                    <OutlinedButton
-                        loading={updating}
-                        label="Save profile"
-                        loadingLabel="Saving"
-                        onClick={updateProfile}
-                    />
-                </div>
+                <OutlinedButton
+                    loading={updating}
+                    label="Save profile"
+                    loadingLabel="Saving"
+                    className="max-w-sm"
+                    onClick={updateProfile}
+                />
             </div>
 
             <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
