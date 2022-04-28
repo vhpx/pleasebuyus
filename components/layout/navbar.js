@@ -4,6 +4,7 @@ import {
     SearchIcon,
     XIcon,
 } from '@heroicons/react/outline';
+import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { useTheme } from '../../hooks/useTheme';
 import { useUser } from '../../hooks/useUser';
@@ -24,6 +25,8 @@ export function StoreNavBar() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    const router = useRouter();
+
     const { user, userData } = useUser();
     const { darkMode, updateTheme } = useTheme();
 
@@ -34,7 +37,7 @@ export function StoreNavBar() {
 
     const navigateTo = (path) => {
         closeMenu();
-        window.location.href = path;
+        router.push(path);
     };
 
     return (
