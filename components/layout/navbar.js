@@ -57,21 +57,28 @@ export function StoreNavBar() {
 
                     <div className="flex flex-col px-8 py-4 space-y-2 text-center">
                         <BetterLink
-                            className="px-4 py-2 rounded-lg font-semibold bg-zinc-200/20 dark:bg-zinc-700/40"
+                            className="px-4 py-2 rounded-lg font-semibold bg-blue-300/20 text-blue-600 dark:text-white dark:bg-zinc-700/40"
+                            onClick={() => navigateTo('/')}
+                        >
+                            Browse items
+                        </BetterLink>
+
+                        <BetterLink
+                            className="px-4 py-2 rounded-lg font-semibold bg-blue-300/20 text-blue-600 dark:text-white dark:bg-zinc-700/40"
                             onClick={() => navigateTo('/history')}
                         >
                             Purchase History
                         </BetterLink>
 
                         <BetterLink
-                            className="px-4 py-2 rounded-lg font-semibold bg-zinc-200/20 dark:bg-zinc-700/40"
+                            className="px-4 py-2 rounded-lg font-semibold bg-blue-300/20 text-blue-600 dark:text-white dark:bg-zinc-700/40"
                             onClick={() => navigateTo('/outlets')}
                         >
                             Outlets
                         </BetterLink>
 
                         <BetterLink
-                            className="px-4 py-2 rounded-lg font-semibold bg-zinc-200/20 dark:bg-zinc-700/40"
+                            className="px-4 py-2 rounded-lg font-semibold bg-blue-300/20 text-blue-600 dark:text-white dark:bg-zinc-700/40"
                             onClick={() => navigateTo('/settings')}
                         >
                             Settings
