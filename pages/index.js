@@ -2,6 +2,7 @@ import { MinusIcon, PlusIcon } from '@heroicons/react/outline';
 import Card from '../components/common/Card';
 import Container from '../components/common/Container';
 import { StoreLayout } from '../components/layout/layout';
+import Title from '../components/typography/Title';
 import { useCart } from '../hooks/useCart';
 import { formatCurrency } from '../utils/currency-format';
 
@@ -44,9 +45,8 @@ export default function Home() {
 
     return (
         <Container>
-            <div className="col-span-full text-2xl font-bold dark:text-white">
-                Electronics
-            </div>
+            <Title label='Electronics' />
+            <Title label='Household' />
             <div className="col-span-full mb-4 text-xl font-semibold dark:text-white">
                 Computers and accessories
             </div>
@@ -70,12 +70,12 @@ export default function Home() {
                             {items.findIndex((i) => i.id === item.id) === -1 ? (
                                 <button
                                     onClick={() => addItem(item)}
-                                    className="rounded-lg bg-blue-500 px-4 py-1 text-white"
+                                    className="rounded-full bg-blue-500 px-4 py-1 text-white"
                                 >
                                     Add to cart
                                 </button>
                             ) : (
-                                <div className="flex items-center rounded-lg border bg-zinc-100 dark:border-zinc-500 dark:bg-zinc-700">
+                                <div className="flex items-center rounded-full border bg-zinc-100 dark:border-zinc-500 dark:bg-zinc-700">
                                     <button
                                         onClick={() =>
                                             removeItem(item.id, item.name)
