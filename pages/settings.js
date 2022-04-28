@@ -56,14 +56,17 @@ export default function SettingsPage() {
     };
 
     const handleUserDataFetch = useCallback(async () => {
-        await fetchUserData();
-        if (!userData) return;
+        if (!userData) {
+            await fetchUserData();
+            return;
+        }
 
         setName(userData?.name ?? '');
         setEmail(userData?.email ?? '');
         setPhoneNumber(userData?.phone_number ?? '');
         setBirthday(userData?.birthday ?? '');
         setGender(userData?.gender ?? '');
+        setAvatarUrl(userData?.avatar_url ?? '');
     }, [fetchUserData, userData]);
 
     useEffect(() => {
