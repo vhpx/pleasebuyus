@@ -20,19 +20,19 @@ export default function CheckoutPage() {
                     <div className="grid grid-cols-4">
                         <div className="col-span-1 text text-left font-bold text-xl text-black mb-1 pt-4 pb-1">
                             {' '}
-                            Apply today, Shop Now.{' '}
+                            Items image here.{' '}
                         </div>
                         <div className="col-span-1 text text-left text-l text-blue-700 hover:text-indigo-600 duration-300 mb-1 pt-4 pb-1">
                             {' '}
-                            Apply today, Shop Now.{' '}
+                            Description here.{' '}
                         </div>
                         <div className="col-span-1 text text-left font-bold text-xl text-black mb-1 pt-4 pb-1">
                             {' '}
-                            Apply today, Shop Now.{' '}
+                            Add or remove items.{' '}
                         </div>
                         <div className="col-span-1 text text-left font-bold text-xl text-black mb-1 pt-4 pb-1">
                             {' '}
-                            Apply today, Shop Now.{' '}
+                            Price here.{' '}
                         </div>
                     </div>
 
@@ -42,10 +42,12 @@ export default function CheckoutPage() {
                 <div className="flex flex-col mb-4 item-center justify-center h-64 m-10 w-auto bg-white dark:bg-zinc-800 rounded shadow-lg px-8 pt-6 pb-8">
                     <div className="text text-left font-bold text-xl text-black mb-1 pt-4 pb-1">
                         {' '}
-                        Saved Item.{' '}
+                        Wishlist Items.{' '}
                     </div>
                     <div className="mt-2 mb-1 h-[1px] w-full bg-zinc-300 dark:bg-zinc-700" />
                 </div>
+
+                
             </div>
 
             <div className="col-span-1 flex flex-col mb-4 item-center justify-center m-2 w-auto max-w-md bg-white dark:bg-zinc-800 rounded shadow-lg px-8 pt-6 pb-8">
