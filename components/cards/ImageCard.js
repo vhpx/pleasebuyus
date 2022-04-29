@@ -1,17 +1,19 @@
+import Card from '../common/Card';
+
 export default function ImageCard({ name, desc, src, alt }) {
     return (
-        <div className="h-80 border border-zinc-300 dark:border-zinc-700/70 rounded-lg">
-            <div className=" h-3/4 rounded-t-lg">
+        <Card className="p-0 mb-7">
+            <div className="h-48 rounded-t-lg">
                 <img
                     src={src}
                     alt={alt ?? 'an image'}
                     className="h-full w-full rounded-t-lg"
                 />
             </div>
-            <div className=" h-1/4 rounded-b-lg m-3">
+            <div className="rounded-b-lg m-3">
                 <div className="font-semibold text-xl">{name ?? 'Unnamed'}</div>
                 <div className="text-sm">{desc}</div>
             </div>
-        </div>
+        </Card>
     );
 }
