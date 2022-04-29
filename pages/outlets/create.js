@@ -12,7 +12,7 @@ OutletCreationPage.getLayout = (page) => {
 export default function OutletCreationPage() {
     return (
         <div className="p-4 md:p-8 lg:p-16">
-            <div className="bg-white dark:bg-zinc-800 rounded-lg p-8">
+            <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
                 <Title label="Create your outlet" />
                 <Divider />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">

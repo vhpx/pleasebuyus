@@ -22,7 +22,7 @@ OutletsPage.getLayout = (page) => {
 export default function OutletsPage() {
     return (
         <div className="p-4 md:p-8 lg:p-16 ">
-            <div className="bg-white dark:bg-zinc-800 p-8 rounded-lg">
+            <div className="bg-white dark:bg-zinc-800/50 p-8 rounded-lg">
                 <div className="flex">
                     <Title label="List of outlets" />
                     <button className="p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300 ml-2">
