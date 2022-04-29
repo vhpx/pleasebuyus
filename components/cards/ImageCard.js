@@ -1,9 +1,9 @@
 export default function ImageCard({ name, desc, src, alt }) {
     return (
-        <div className="h-80 border border-black rounded-lg">
+        <div className="h-80 border border-zinc-300 dark:border-zinc-700/70 rounded-lg">
             <div className=" h-3/4 rounded-t-lg">
                 <img
-                    src={src} 
+                    src={src}
                     alt={alt ?? 'an image'}
                     className="h-full w-full rounded-t-lg"
                 />
