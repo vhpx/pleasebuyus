@@ -105,20 +105,20 @@ export default function SettingsPage() {
             const validAddresses = addresses.filter(validateAddress);
             console.log(validAddresses);
 
-            // const response = await fetch(`/api/users/${userId}`, {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({
-            //         name,
-            //         phoneNumber,
-            //         birthday,
-            //         gender,
-            //     }),
-            // });
+            const response = await fetch(`/api/users/${userId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name,
+                    phoneNumber,
+                    birthday,
+                    gender,
+                }),
+            });
 
-            // if (!response.ok) throw error;
+            if (!response.ok) throw error;
 
             updateUserData({ name, phoneNumber, birthday, gender });
             toast.success('Your profile has been updated.');
