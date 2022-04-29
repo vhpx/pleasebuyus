@@ -340,7 +340,7 @@ export default function SettingsPage() {
                             </div>
                         ) : (
                             <div className="text-left">
-                                {!addresses && addresses.length > 0 ? (
+                                {addresses && addresses.length > 0 ? (
                                     <div className="my-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                                         {addresses?.map((address) => (
                                             <AddressCard
