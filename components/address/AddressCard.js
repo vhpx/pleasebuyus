@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useUser } from '../../hooks/useUser';
 import { supabase } from '../../utils/supabase-client';
+import Card from '../common/Card';
 import Divider from '../common/Divider';
 import LoadingIndicator from '../common/LoadingIndicator';
 import FormInput from '../form/FormInput';
@@ -172,7 +173,7 @@ export default function AddressCard({ address: currentAddress, setter }) {
     };
 
     return (
-        <div className="w-full min-h-[8rem] flex flex-col justify-between p-4 border dark:border-zinc-700/70 rounded-lg">
+        <Card className="w-full min-h-[8rem] flex flex-col justify-between p-4 border dark:border-zinc-700/70 rounded-lg">
             {isEditing ? (
                 <>
                     <FormInput
@@ -268,6 +269,6 @@ export default function AddressCard({ address: currentAddress, setter }) {
                     </div>
                 </>
             )}
-        </div>
+        </Card>
     );
 }

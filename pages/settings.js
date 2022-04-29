@@ -340,8 +340,8 @@ export default function SettingsPage() {
                             </div>
                         ) : (
                             <div className="text-left">
-                                {addresses && addresses.length > 0 ? (
-                                    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {!addresses && addresses.length > 0 ? (
+                                    <div className="my-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                                         {addresses?.map((address) => (
                                             <AddressCard
                                                 key={address.id}
@@ -352,7 +352,7 @@ export default function SettingsPage() {
                                     </div>
                                 ) : (
                                     <div>
-                                        <div className="text-sm text-zinc-500 dark:text-zinc-300">
+                                        <div className="mt-2 mb-4 text-sm text-zinc-500 dark:text-zinc-300">
                                             You have no addresses.
                                         </div>
                                     </div>
