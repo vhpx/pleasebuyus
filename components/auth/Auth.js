@@ -4,7 +4,6 @@ import {
     LockClosedIcon,
 } from '@heroicons/react/outline';
 import { ChevronLeftIcon } from '@heroicons/react/solid';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { setServerSideCookie } from '../../hooks/useUser';
@@ -21,7 +20,6 @@ export default function Auth({ signUp }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const router = useRouter();
     const redirectUrl = '/dashboard';
 
     const handleAuth = async () => {
@@ -45,9 +43,6 @@ export default function Auth({ signUp }) {
 
             supabase.auth.setSession(refresh_token);
             setServerSideCookie('SIGNED_IN', session);
-
-            if (session) router.push('/');
-            else setLoading(false);
         } catch (error) {
             toast.error(error.error_description || error.message);
             setLoading(false);
