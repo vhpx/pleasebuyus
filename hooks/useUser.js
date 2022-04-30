@@ -1,6 +1,7 @@
-import { useEffect, useState, createContext, useContext } from 'react';
-import { supabase } from '../utils/supabase-client';
 import { useRouter } from 'next/router';
+import { createContext, useContext, useEffect, useState } from 'react';
+
+import { supabase } from '@utils/supabase-client';
 
 const UserContext = createContext();
 
@@ -52,9 +53,9 @@ export const UserProvider = (props) => {
 
         const { data: authListener } = supabase.auth.onAuthStateChange(
             async (event, session) => {
-                setServerSideCookie(event, session);
                 setSession(session);
                 setUser(session?.user);
+                setServerSideCookie(event, session);
 
                 if (event === 'PASSWORD_RECOVERY') setPasswordRecovery(true);
 
@@ -83,6 +84,7 @@ export const UserProvider = (props) => {
         updateUserData,
         onPasswordUpdated,
     };
+
     return <UserContext.Provider value={values} {...props} />;
 };
 
@@ -123,9 +125,10 @@ export const setServerSideCookie = (event, session) =>
 
 export const useUser = () => {
     const context = useContext(UserContext);
-    if (context === undefined) {
-        throw new Error(`useUser must be used within a UserProvider.`);
-    }
+
+    if (context === undefined)
+        throw new Error(`useUser() must be used within a UserProvider.`);
+
     return context;
 };
 
