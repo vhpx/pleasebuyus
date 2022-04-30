@@ -27,7 +27,7 @@ export default function CartDropdown({ loggedIn, whiteText }) {
             </Popover.Button>
 
             <Popover.Panel className="absolute right-0 top-[3.5rem] z-10">
-                <div className="my-1 flex w-80 flex-col rounded-lg bg-white/50 p-4 shadow backdrop-blur dark:bg-zinc-700/50 md:w-96">
+                <div className="my-1 flex w-72 flex-col rounded-lg bg-white/50 p-4 shadow backdrop-blur dark:bg-zinc-700/50 md:w-[30rem]">
                     {items && items.length > 0 ? (
                         <>
                             {items.map((item) => (

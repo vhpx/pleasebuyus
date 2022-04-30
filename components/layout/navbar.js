@@ -88,14 +88,29 @@ export function StoreNavBar() {
                         </BetterLink>
                     </div>
 
-                    <div className="relative flex items-center justify-center px-2.5 py-4">
-                        <Avatar size={30} />
-                        {displayName && (
-                            <div className="ml-2 text-sm font-semibold md:block">
-                                {displayName}
-                            </div>
-                        )}
-                    </div>
+                    {user ? (
+                        <div className="relative flex items-center justify-center px-2.5 py-4">
+                            <Avatar size={30} />
+                            {displayName && (
+                                <div className="ml-2 text-sm font-semibold md:block">
+                                    {displayName}
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        <div className="m-4 flex flex-col space-y-2">
+                            <BetterLink href="/signup">
+                                <div className="flex items-center text-white border-transparent justify-center space-x-2 rounded-lg border px-4 py-2 transition duration-150 hover:border-zinc-300 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-100 dark:hover:text-zinc-100">
+                                    <div className="font-semibold">Sign up</div>
+                                </div>
+                            </BetterLink>
+                            <BetterLink href="/login">
+                                <div className="flex items-center text-white border-transparent justify-center space-x-2 rounded-lg border px-4 py-2 transition duration-150 hover:border-zinc-300 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-100 dark:hover:text-zinc-100">
+                                    <div className="font-semibold">Login</div>
+                                </div>
+                            </BetterLink>
+                        </div>
+                    )}
                 </div>
             )}
 
@@ -137,7 +152,7 @@ export function StoreNavBar() {
                     />
                 ) : (
                     <BetterLink href="/login">
-                        <div className="flex items-center text-white border-transparent justify-center space-x-2 rounded-lg border px-4 py-2 transition duration-150 hover:border-zinc-300 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-100 dark:hover:text-zinc-100">
+                        <div className="hidden md:flex items-center text-white border-transparent justify-center space-x-2 rounded-lg border px-4 py-2 transition duration-150 hover:border-zinc-300 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-100 dark:hover:text-zinc-100">
                             <LoginIcon className="h-5 w-5" />
                             <div className="font-semibold">Login</div>
                         </div>
