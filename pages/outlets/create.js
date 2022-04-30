@@ -2,7 +2,6 @@ import OutlinedButton from '../../components/buttons/OutlinedButton';
 import Divider from '../../components/common/Divider';
 import Title from '../../components/common/Title';
 import FormInput from '../../components/form/FormInput';
-import FormLabel from '../../components/form/FormLabel';
 import { StoreLayout } from '../../components/layout/layout';
 
 OutletCreationPage.getLayout = (page) => {
