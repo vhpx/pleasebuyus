@@ -66,7 +66,7 @@ export default function OutletsPage() {
                             />
                         ))
                     ) : (
-                        <div className="col-span-full flex flex-col space-y-2 items-center">
+                        <div className="col-span-full flex flex-col space-y-4 items-center">
                             <p className="text-center text-zinc-600 dark:text-zinc-400">
                                 You don&apos;t have any outlets yet.
                             </p>
