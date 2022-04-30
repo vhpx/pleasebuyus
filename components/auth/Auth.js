@@ -63,7 +63,7 @@ export default function Auth({ signUp }) {
                 </BetterLink>
             )}
 
-            <div className="rounded-lg border bg-white px-4 py-4 shadow dark:border-transparent dark:bg-zinc-800/60 dark:text-zinc-200 md:m-16 md:px-16">
+            <div className="m-4 rounded-lg border bg-white px-4 py-4 shadow dark:border-transparent dark:bg-zinc-800/60 dark:text-zinc-200 md:m-16 md:px-16">
                 {confirmEmailSent ? (
                     <div className="flex flex-col items-center space-y-8">
                         <div className="text-center text-3xl font-bold">
@@ -76,7 +76,7 @@ export default function Auth({ signUp }) {
                     </div>
                 ) : (
                     <div>
-                        <h1 className="mb-8 flex items-center justify-center border-b py-2 text-lg font-bold md:text-xl">
+                        <h1 className="mb-8 flex items-center justify-center border-b dark:border-zinc-500/70 py-2 text-lg font-bold md:text-xl">
                             <div>
                                 {signUp ? 'Sign up to ' : 'Sign in to '}
                                 <BetterLink
@@ -206,9 +206,9 @@ export default function Auth({ signUp }) {
             {confirmEmailSent || (
                 <BetterLink
                     href={signUp ? '/login' : '/signup'}
-                    className="mx-8 my-4 rounded-lg border bg-white px-6 py-4 shadow transition duration-300 hover:shadow-xl dark:border-transparent dark:bg-zinc-800/60 dark:text-zinc-200 dark:hover:bg-zinc-800 md:absolute md:bottom-0 md:right-0 md:my-16"
+                    className="text-center mx-8 my-4 rounded-lg border bg-white px-6 py-4 shadow transition duration-300 hover:shadow-xl dark:border-transparent dark:bg-zinc-800/60 dark:text-zinc-200 dark:hover:bg-zinc-800 md:absolute md:bottom-0 md:right-0 md:my-16"
                 >
-                    <div className="text-zinc-600 dark:text-zinc-200">
+                    <div className="w-full text-zinc-600 dark:text-zinc-200">
                         {signUp
                             ? 'Already have an account?'
                             : "Don't have an account?"}
