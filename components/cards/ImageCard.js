@@ -1,11 +1,12 @@
 import Card from '../common/Card';
 
-export default function ImageCard({ name, desc, src, alt }) {
+export default function ImageCard({ name, desc, imageUrl, alt }) {
     return (
         <Card className="p-0 mb-7">
             <div className="h-48 rounded-t-lg">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                    src={src}
+                    src={imageUrl}
                     alt={alt ?? 'an image'}
                     className="h-full w-full rounded-t-lg"
                 />
