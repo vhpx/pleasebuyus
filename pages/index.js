@@ -45,8 +45,7 @@ export default function Home() {
 
     return (
         <Container>
-            <Title label='Electronics' />
-            <Title label='Household' />
+            <Title label="Electronics" />
             <div className="col-span-full mb-4 text-xl font-semibold dark:text-white">
                 Computers and accessories
             </div>
@@ -70,7 +69,7 @@ export default function Home() {
                             {items.findIndex((i) => i.id === item.id) === -1 ? (
                                 <button
                                     onClick={() => addItem(item)}
-                                    className="rounded-full bg-blue-500 px-4 py-1 text-white"
+                                    className="rounded-full border-2 border-blue-500/70 dark:border-blue-300 hover:border-blue-500 hover:bg-blue-500 dark:hover:bg-blue-300 text-blue-700/70 dark:text-blue-300 dark:hover:text-black hover:text-white font-semibold px-4 py-1 transition duration-300"
                                 >
                                     Add to cart
                                 </button>
