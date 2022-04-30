@@ -69,21 +69,21 @@ export default function Home() {
                             {items.findIndex((i) => i.id === item.id) === -1 ? (
                                 <button
                                     onClick={() => addItem(item)}
-                                    className="rounded-full border-2 border-blue-500/70 dark:border-blue-300 hover:border-blue-500 hover:bg-blue-500 dark:hover:bg-blue-300 text-blue-700/70 dark:text-blue-300 dark:hover:text-black hover:text-white font-semibold px-4 py-1 transition duration-300"
+                                    className="rounded-full border-2 border-zinc-500/70 dark:border-zinc-700 hover:border-blue-500 hover:bg-blue-500 dark:hover:bg-white/10 text-zinc-700/70 dark:text-zinc-300 dark:hover:text-white hover:text-white font-semibold px-4 py-1 transition duration-300"
                                 >
                                     Add to cart
                                 </button>
                             ) : (
-                                <div className="flex items-center rounded-full border bg-zinc-100 dark:border-zinc-500 dark:bg-zinc-700">
+                                <div className="flex py-[1px] items-center rounded-full border bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800">
                                     <button
                                         onClick={() =>
                                             removeItem(item.id, item.name)
                                         }
-                                        className="p-2"
+                                        className="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-full transition duration-300"
                                     >
                                         <MinusIcon className="h-4 w-4 font-semibold" />
                                     </button>
-                                    <div className="px-2 font-semibold">
+                                    <div className="px-2 min-w-[3rem] text-center font-semibold">
                                         {
                                             items.find((i) => i.id === item.id)
                                                 .quantity
@@ -91,7 +91,7 @@ export default function Home() {
                                     </div>
                                     <button
                                         onClick={() => addItem(item)}
-                                        className="p-2"
+                                        className="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-full transition duration-300"
                                     >
                                         <PlusIcon className="h-4 w-4 font-semibold" />
                                     </button>
