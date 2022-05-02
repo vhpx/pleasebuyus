@@ -17,7 +17,12 @@ function MyApp({ Component, pageProps }) {
     const getLayout = Component.getLayout || ((page) => page);
 
     return (
-        <MantineProvider theme={{ colorScheme: currentTheme }}>
+        <MantineProvider
+            theme={{
+                colorScheme: currentTheme,
+                defaultRadius: 'md',
+            }}
+        >
             <ModalsProvider>
                 <ThemeProvider setMantineTheme={setCurrentTheme}>
                     <UserProvider>
