@@ -43,7 +43,9 @@ export default function SettingsPage() {
     const { user, userData, fetchUserData, updateUserData } = useUser();
     const { darkMode, updateTheme } = useTheme();
 
-    const [loadingAddress, setLoadingAddress] = useState(false);
+    const [loadingAddresses, setLoadingAddresses] = useState(false);
+    const [loadingCards, setLoadingCards] = useState(false);
+
     const [uploading, setUploading] = useState(false);
     const [updating, setUpdating] = useState(false);
 
@@ -54,7 +56,9 @@ export default function SettingsPage() {
     );
     const [birthday, setBirthday] = useState(userData?.birthday ?? '');
     const [gender, setGender] = useState(userData?.gender ?? '');
+
     const [addresses, setAddresses] = useState([]);
+    const [cards, setCards] = useState([]);
 
     const handleLogout = async () => {
         await supabase.auth.signOut();
@@ -212,7 +216,7 @@ export default function SettingsPage() {
     useEffect(() => {
         const fetchAddresses = async () => {
             if (!user) return;
-            setLoadingAddress(true);
+            setLoadingAddresses(true);
 
             try {
                 const { data } = await supabase
@@ -235,7 +239,7 @@ export default function SettingsPage() {
             } catch (error) {
                 toast.error(error.message);
             } finally {
-                setLoadingAddress(false);
+                setLoadingAddresses(false);
             }
         };
 
@@ -319,12 +323,14 @@ export default function SettingsPage() {
                         options={genderOptions}
                         disabled={!userData}
                     />
-                    <Divider className="mt-8 col-span-full" />
+
+                    <div className="h-2 col-span-full" />
+                    <Divider className="col-span-full" />
 
                     <div className="col-span-full">
                         <div className="flex items-center space-x-2">
                             <div className="font-semibold">Address</div>
-                            {loadingAddress || (
+                            {loadingAddresses || (
                                 <button
                                     className="p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
                                     onClick={addAddress}
@@ -334,7 +340,7 @@ export default function SettingsPage() {
                             )}
                         </div>
 
-                        {loadingAddress ? (
+                        {loadingAddresses ? (
                             <div className="mt-6">
                                 <LoadingIndicator svgClassName="h-8 w-8" />
                             </div>
@@ -360,6 +366,45 @@ export default function SettingsPage() {
                             </div>
                         )}
                     </div>
+
+                    <Divider className="mt-8 col-span-full" />
+
+                    <div className="col-span-full">
+                        <div className="flex items-center space-x-2">
+                            <div className="font-semibold">Cards</div>
+                            {loadingCards || (
+                                <button
+                                    className="p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
+                                    onClick={addAddress}
+                                >
+                                    <PlusIcon className="w-4 h-4" />
+                                </button>
+                            )}
+                        </div>
+
+                        {loadingCards ? (
+                            <div className="mt-6">
+                                <LoadingIndicator svgClassName="h-8 w-8" />
+                            </div>
+                        ) : (
+                            <div className="text-left">
+                                {cards && cards.length > 0 ? (
+                                    <div className="my-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {cards?.map((card) => (
+                                            <div key={card.id}></div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <div className="mt-2 mb-4 text-sm text-zinc-500 dark:text-zinc-300">
+                                            You have no cards.
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+
                     <Divider className="mt-8 col-span-full" />
                 </div>
 
