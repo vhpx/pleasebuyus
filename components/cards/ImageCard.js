@@ -9,6 +9,7 @@ export default function ImageCard({ name, desc, imageUrl, alt }) {
                     src={imageUrl}
                     alt={alt ?? 'an image'}
                     className="h-full w-full rounded-t-lg"
+                    style={{ objectFit: 'cover' }}
                 />
             </div>
             <div className="rounded-b-lg m-3">
