@@ -80,7 +80,7 @@ export default function OutletCreationPage() {
                         <Card>Category 5</Card>
                     </div>
                     <div className="text-right">Filter and sort</div>
-                    <div className="grid grid-cols-5 gap-x-5">
+                    <div className="grid grid-cols-4 gap-x-12 gap-y-6">
                         <ItemCard
                             name="MSI GF63 Thin and Light"
                             price="$1,999.00"
