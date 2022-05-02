@@ -11,6 +11,10 @@
   "dependencies": {
     "@headlessui/react": "^1.6.0",
     "@heroicons/react": "^1.0.6",
+    "@mantine/core": "^4.2.2",
+    "@mantine/hooks": "^4.2.2",
+    "@mantine/modals": "^4.2.2",
+    "@mantine/next": "^4.2.2",
     "@supabase/supabase-js": "^1.31.1",
     "next": "12.1.0",
     "react": "17.0.2",
