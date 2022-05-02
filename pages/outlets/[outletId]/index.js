@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../../../utils/supabase-client';
 import ImageCard from '../../../components/cards/ImageCard';
 import BetterLink from '../../../components/link/BetterLink';
+import { useUser } from '../../../hooks/useUser';
 
 DetailedOutletPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -14,6 +15,8 @@ DetailedOutletPage.getLayout = (page) => {
 
 export default function DetailedOutletPage() {
     const router = useRouter();
+    const { user } = useUser();
+
     const { outletId } = router.query;
 
     const [outlet, setOutlet] = useState(null);
@@ -61,12 +64,14 @@ export default function DetailedOutletPage() {
                     </div>
                 </div>
 
-                <BetterLink
-                    href={`/outlets/${outlet?.id}/settings`}
-                    className="flex items-center font-semibold space-x-2 px-4 py-1 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
-                >
-                    Settings
-                </BetterLink>
+                {user?.id && outlet?.id && user.id === outlet?.id && (
+                    <BetterLink
+                        href={`/outlets/${outlet?.id}/settings`}
+                        className="flex items-center font-semibold space-x-2 px-4 py-1 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
+                    >
+                        Settings
+                    </BetterLink>
+                )}
             </div>
 
             <div className="grid grid-cols-5 space-x-4">
@@ -111,7 +116,7 @@ export default function DetailedOutletPage() {
                     <Card>Category 5</Card>
                 </div>
                 <div className="text-right">Filter and sort</div>
-                <div className="grid grid-cols-5 gap-x-5">
+                <div className="grid grid-cols-5 gap-4">
                     <ItemCard
                         name="MSI GF63 Thin and Light"
                         price="$1,999.00"
