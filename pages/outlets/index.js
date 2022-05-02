@@ -11,6 +11,7 @@ import { supabase } from '../../utils/supabase-client';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import LoadingIndicator from '../../components/common/LoadingIndicator';
+import BetterLink from '../../components/link/BetterLink';
 
 OutletsPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -165,12 +166,16 @@ export default function OutletsPage() {
                         </div>
                     ) : myOutlets && myOutlets.length > 0 ? (
                         myOutlets.map((outlet) => (
-                            <ImageCard
+                            <BetterLink
                                 key={outlet.id}
-                                name={outlet.name || 'Unnamed outlet'}
-                                desc={outlet.address || 'Unknown address'}
-                                imageUrl={outlet.imageUrl}
-                            />
+                                href={`/outlets/${outlet.id}`}
+                            >
+                                <ImageCard
+                                    name={outlet.name || 'Unnamed outlet'}
+                                    desc={outlet.address || 'Unknown address'}
+                                    imageUrl={outlet.imageUrl}
+                                />
+                            </BetterLink>
                         ))
                     ) : (
                         <div className="col-span-full flex flex-col space-y-4 items-center">
@@ -201,12 +206,16 @@ export default function OutletsPage() {
                         </div>
                     ) : otherOutlets && otherOutlets.length > 0 ? (
                         otherOutlets.map((outlet) => (
-                            <ImageCard
-                                key={outlet.name}
-                                name={outlet.name}
-                                desc={outlet.address}
-                                imageUrl={outlet.imageUrl}
-                            />
+                            <BetterLink
+                                key={outlet.id}
+                                href={`/outlets/${outlet.id}`}
+                            >
+                                <ImageCard
+                                    name={outlet.name || 'Unnamed outlet'}
+                                    desc={outlet.address || 'Unknown address'}
+                                    imageUrl={outlet.imageUrl}
+                                />
+                            </BetterLink>
                         ))
                     ) : (
                         <div className="col-span-full flex flex-col space-y-4 items-center">
