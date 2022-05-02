@@ -68,16 +68,23 @@ export function StoreNavBar() {
 
                         <BetterLink
                             className="px-4 py-2 rounded-lg font-semibold bg-blue-300/20 text-blue-600 dark:text-white dark:bg-zinc-700/40"
-                            onClick={() => navigateTo('/history')}
+                            onClick={() => navigateTo('/outlets')}
                         >
-                            Purchase History
+                            Outlets
                         </BetterLink>
 
                         <BetterLink
                             className="px-4 py-2 rounded-lg font-semibold bg-blue-300/20 text-blue-600 dark:text-white dark:bg-zinc-700/40"
-                            onClick={() => navigateTo('/outlets')}
+                            onClick={() => navigateTo('/membership')}
                         >
-                            Outlets
+                            Membership
+                        </BetterLink>
+
+                        <BetterLink
+                            className="px-4 py-2 rounded-lg font-semibold bg-blue-300/20 text-blue-600 dark:text-white dark:bg-zinc-700/40"
+                            onClick={() => navigateTo('/history')}
+                        >
+                            Purchase History
                         </BetterLink>
 
                         <BetterLink
