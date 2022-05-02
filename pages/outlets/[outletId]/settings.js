@@ -13,6 +13,7 @@ import FormInput from '../../../components/form/FormInput';
 import { StoreLayout } from '../../../components/layout/layout';
 import BetterLink from '../../../components/link/BetterLink';
 import { supabase } from '../../../utils/supabase-client';
+import { RequireAuth } from '../../../hooks/useUser';
 
 OutletSettingsPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -47,6 +48,8 @@ export async function getServerSideProps({ query, req }) {
 }
 
 export default function OutletSettingsPage({ outlet }) {
+    RequireAuth();
+
     const router = useRouter();
     const { outletId } = router.query;
 
