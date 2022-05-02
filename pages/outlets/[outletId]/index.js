@@ -34,7 +34,6 @@ export default function DetailedOutletPage() {
                     .maybeSingle();
 
                 if (error) throw error;
-                console.log(outletData);
 
                 setOutlet(outletData);
                 setLoading(false);
@@ -64,7 +63,7 @@ export default function DetailedOutletPage() {
                     </div>
                 </div>
 
-                {user?.id && outlet?.id && user.id === outlet?.id && (
+                {user?.id && outlet?.id && user.id === outlet?.owner_id && (
                     <BetterLink
                         href={`/outlets/${outlet?.id}/settings`}
                         className="flex items-center font-semibold space-x-2 px-4 py-1 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"

@@ -18,13 +18,39 @@ OutletSettingsPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
 };
 
-export default function OutletSettingsPage() {
+export async function getServerSideProps({ query, req }) {
+    const { outletId } = query;
+
+    const { user } = await supabase.auth.api.getUserByCookie(req);
+    if (!user) return { redirect: { destination: '/login', permanent: false } };
+
+    try {
+        const { data: outletData, error } = await supabase
+            .from('outlets')
+            .select('*')
+            .eq('id', outletId)
+            .single();
+
+        if (error || !outletData) throw error;
+        if (outletData.owner_id !== user.id)
+            return {
+                redirect: {
+                    destination: `/outlets/${outletId}`,
+                    permanent: false,
+                },
+            };
+
+        return { props: { outlet: outletData } };
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export default function OutletSettingsPage({ outlet }) {
     const router = useRouter();
     const { outletId } = router.query;
 
-    const [loadingOutlet, setLoadingOutlet] = useState(true);
     const [savingOutlet, setSavingOutlet] = useState(false);
-    const [outlet, setOutlet] = useState(null);
 
     const [loadingItems, setLoadingItems] = useState(true);
     const [items, setItems] = useState([]);
@@ -41,28 +67,8 @@ export default function OutletSettingsPage() {
             setLoadingCategories(false);
         }, 1000);
 
-        const fetchOutlet = async () => {
-            try {
-                if (!outletId) return;
-
-                const { data: outletData, error } = await supabase
-                    .from('outlets')
-                    .select('*')
-                    .eq('id', outletId)
-                    .maybeSingle();
-
-                if (error) throw error;
-
-                setOutlet(outletData);
-                setLoadingOutlet(false);
-            } catch (error) {
-                toast.error(error.message);
-            }
-        };
-
-        fetchOutlet();
         timeout;
-    }, [outletId]);
+    }, []);
 
     const handleSaveOutlet = async () => {
         setSavingOutlet(true);
@@ -93,46 +99,38 @@ export default function OutletSettingsPage() {
                 <Title label="Outlet Information"></Title>
                 <Divider />
 
-                {loadingItems ? (
-                    <div className="col-span-full text-center">
-                        <LoadingIndicator svgClassName="w-8 h-8" />
-                    </div>
-                ) : (
-                    <>
-                        <div className="lg:w-2/3 mb-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-8">
-                            <FormInput
-                                label="Name"
-                                value={outlet?.name}
-                                setter={(value) => {
-                                    setOutlet({
-                                        ...outlet,
-                                        name: value,
-                                    });
-                                }}
-                            />
-                            <FormInput
-                                label="Address"
-                                value={outlet?.address}
-                                setter={(value) => {
-                                    setOutlet({
-                                        ...outlet,
-                                        address: value,
-                                    });
-                                }}
-                            />
+                <div className="lg:w-2/3 mb-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-8">
+                    <FormInput
+                        label="Name"
+                        value={outlet?.name}
+                        setter={(value) => {
+                            setOutlet({
+                                ...outlet,
+                                name: value,
+                            });
+                        }}
+                    />
+                    <FormInput
+                        label="Address"
+                        value={outlet?.address}
+                        setter={(value) => {
+                            setOutlet({
+                                ...outlet,
+                                address: value,
+                            });
+                        }}
+                    />
 
-                            <div className="h-4 col-span-full" />
+                    <div className="h-4 col-span-full" />
 
-                            <OutlinedButton
-                                loading={savingOutlet}
-                                label="Save Outlet"
-                                loadingLabel="Saving"
-                                className="max-w-sm"
-                                onClick={handleSaveOutlet}
-                            />
-                        </div>
-                    </>
-                )}
+                    <OutlinedButton
+                        loading={savingOutlet}
+                        label="Save Outlet"
+                        loadingLabel="Saving"
+                        className="max-w-sm"
+                        onClick={handleSaveOutlet}
+                    />
+                </div>
             </div>
 
             <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
