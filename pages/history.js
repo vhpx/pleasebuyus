@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Divider from '../components/common/Divider';
 import Title from '../components/common/Title';
 import { StoreLayout } from '../components/layout/layout';
+import { RequireAuth } from '../hooks/useUser';
 
 PurchaseHistoryPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -11,6 +12,8 @@ PurchaseHistoryPage.getLayout = (page) => {
 const purchases = [];
 
 export default function PurchaseHistoryPage() {
+    RequireAuth();
+
     const router = useRouter();
 
     const navigateToBrowseItems = () => {
