@@ -2,20 +2,28 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 const ThemeContext = createContext();
 
-export const ThemeProvider = ({ children }) => {
+export const ThemeProvider = ({ children, setMantineTheme }) => {
     const [darkMode, setDarkMode] = useState(false);
 
     useEffect(() => {
         const isDarkMode = localStorage.getItem('pbu-dark-mode');
         if (isDarkMode) {
-            setDarkMode(isDarkMode === 'true');
+            const newDarkmode = isDarkMode === 'true';
+            const newTheme = newDarkmode ? 'dark' : 'light';
+
             document.documentElement.className =
                 isDarkMode === 'true' ? 'dark' : '';
+            setMantineTheme(newTheme);
+
+            setDarkMode(newDarkmode);
         }
-    }, [setDarkMode]);
+    }, [setDarkMode, setMantineTheme]);
 
     const updateTheme = (isDarkMode) => {
         document.documentElement.className = isDarkMode ? 'dark' : '';
+        localStorage.setItem('pbu-dark-mode', isDarkMode);
+
+        setMantineTheme(isDarkMode ? 'dark' : 'light');
         setDarkMode(isDarkMode);
     };
 
