@@ -115,7 +115,7 @@ export default function DetailedOutletPage() {
                     <Card>Category 5</Card>
                 </div>
                 <div className="text-right">Filter and sort</div>
-                <div className="grid grid-cols-5 gap-4">
+                <div className="grid grid-cols-4 gap-4">
                     <ItemCard
                         name="MSI GF63 Thin and Light"
                         price="$1,999.00"
