@@ -40,7 +40,7 @@ export default function CartDropdown({ loggedIn, whiteText }) {
                                             <div className="font-semibold line-clamp-1">
                                                 {item.name}
                                             </div>
-                                            <div className="flex-none font-semibold text-blue-500">
+                                            <div className="flex-none font-semibold text-blue-600 dark:text-blue-300">
                                                 {currencyFormatter().format(
                                                     item.price
                                                 )}
