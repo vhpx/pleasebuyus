@@ -2,7 +2,7 @@ import { supabase } from '../../utils/supabase-client';
 
 const handler = async (req, res) => {
     const authUser = await supabase.auth.api.getUserByCookie(req);
-    const userId = authUser?.user?.id;
+    const userId = authUser?.user?.id || req.query.id;
 
     if (!userId) return res.status(401).send('Unauthorized');
 

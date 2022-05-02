@@ -59,7 +59,9 @@ export const UserProvider = (props) => {
                 if (event === 'PASSWORD_RECOVERY') setPasswordRecovery(true);
 
                 if (session?.user) {
-                    const response = await fetch('/api/user');
+                    const response = await fetch(
+                        `/api/user?id=${session.user.id}`
+                    );
                     const userData = await response.json();
 
                     setUserData(userData);
