@@ -7,10 +7,11 @@ export default function ItemCard({
     alt,
     star,
     numSold,
+    hideButton
 }) {
     return (
-        <Card className="h-[27rem] p-0 mb-7 ">
-            <div className="h-56 rounded-t-lg">
+        <Card className="h-[26rem] p-0">
+            <div className="h-52 rounded-t-lg">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                     src={imageUrl}
@@ -20,14 +21,14 @@ export default function ItemCard({
                 />
             </div>
             <div className="rounded-b-lg m-3">
-                <div className="text-xl">{name ?? 'Unnamed'}</div>
+                <div className="text-lg">{name ?? 'Unnamed'}</div>
                 <div className="text-base font-bold text-blue-600 dark:text-blue-300">{price}</div>
                 <div className="text-sm">
                     {star} - {numSold} sold
                 </div>
-                <button className="mt-5 w-full mx-auto text-sm rounded-full border-2 border-zinc-500/70 dark:border-zinc-700 hover:border-blue-500 hover:bg-blue-500 dark:hover:bg-white/10 text-zinc-700/70 dark:text-zinc-300 dark:hover:text-white hover:text-white font-semibold px-4 py-1 transition duration-300">
+                {hideButton||<button className="mt-5 w-full mx-auto text-sm rounded-full border-2 border-zinc-500/70 dark:border-zinc-700 hover:border-blue-500 hover:bg-blue-500 dark:hover:bg-white/10 text-zinc-700/70 dark:text-zinc-300 dark:hover:text-white hover:text-white font-semibold px-4 py-1 transition duration-300">
                     Add to cart
-                </button>
+                </button>}
             </div>
         </Card>
     );
