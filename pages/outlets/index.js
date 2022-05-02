@@ -1,4 +1,4 @@
-import { PlusIcon } from '@heroicons/react/outline';
+import { PencilIcon, PlusIcon } from '@heroicons/react/outline';
 import ImageCard from '../../components/cards/ImageCard';
 import Divider from '../../components/common/Divider';
 import Title from '../../components/common/Title';
@@ -169,12 +169,20 @@ export default function OutletsPage() {
                             <BetterLink
                                 key={outlet.id}
                                 href={`/outlets/${outlet.id}`}
+                                className="relative"
                             >
                                 <ImageCard
                                     name={outlet.name || 'Unnamed outlet'}
                                     desc={outlet.address || 'Unknown address'}
                                     imageUrl={outlet.imageUrl}
                                 />
+
+                                <BetterLink
+                                    href={`/outlets/${outlet.id}/settings`}
+                                    className="absolute top-2 right-2 p-2 rounded-lg bg-white/50 dark:bg-zinc-800/50 hover:bg-white dark:hover:bg-zinc-800 transition duration-300"
+                                >
+                                    <PencilIcon className="w-4 h-4" />
+                                </BetterLink>
                             </BetterLink>
                         ))
                     ) : (

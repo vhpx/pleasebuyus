@@ -1,13 +1,12 @@
 import { useRouter } from 'next/router';
 import ItemCard from '../../../components/cards/ItemCard';
 import Card from '../../../components/common/Card';
-import Divider from '../../../components/common/Divider';
-import Title from '../../../components/common/Title';
 import { StoreLayout } from '../../../components/layout/layout';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import { supabase } from '../../../utils/supabase-client';
 import ImageCard from '../../../components/cards/ImageCard';
+import BetterLink from '../../../components/link/BetterLink';
 
 DetailedOutletPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -46,24 +45,28 @@ export default function DetailedOutletPage() {
 
     return (
         <div className="p-4 md:p-8 lg:p-16 space-y-8">
-            <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
-                <Title label="Detailed Outlet Page" />
-                <Divider />
-
-                <div className="w-3/5 flex items-end">
+            <div className="flex justify-between items-start bg-white dark:bg-zinc-800/50 rounded-lg p-8">
+                <div className="flex items-end">
                     <ImageCard
                         imageUrl={outlet?.image_url}
                         hideContent={true}
                     />
 
-                    <div className="space-y-2">
-                        <div className="text-4xl ml-5 font-semibold">
+                    <div className="ml-5 space-y-2">
+                        <div className="text-4xl font-semibold">
                             {outlet?.name}
                         </div>
 
-                        <div className="text-sm ml-5">{outlet?.address}</div>
+                        <div className="text-sm">{outlet?.address}</div>
                     </div>
                 </div>
+
+                <BetterLink
+                    href={`/outlets/${outlet?.id}/settings`}
+                    className="flex items-center font-semibold space-x-2 px-4 py-1 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
+                >
+                    Settings
+                </BetterLink>
             </div>
 
             <div className="grid grid-cols-5 space-x-4">
