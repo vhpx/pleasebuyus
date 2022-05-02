@@ -34,7 +34,7 @@ export default function OutletEditionPage() {
                         </button>
                     </div>
                     <Divider />
-                    <div className="grid grid-cols-4 gap-x-12 gap-y-6">
+                    <div className="grid grid-cols-4 gap-6">
                         <ItemCard
                             name="MSI GF63 Thin and Light"
                             price="$1,999.00"
