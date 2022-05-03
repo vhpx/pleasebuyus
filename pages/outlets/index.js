@@ -159,7 +159,7 @@ export default function OutletsPage() {
                 </div>
                 <Divider />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {loadingMyOutlets ? (
                         <div className="col-span-full text-center">
                             <LoadingIndicator svgClassName="w-8 h-8" />
@@ -207,7 +207,7 @@ export default function OutletsPage() {
                 <Title label="Discover" />
                 <Divider />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {loadingOtherOutlets ? (
                         <div className="col-span-full text-center">
                             <LoadingIndicator svgClassName="w-8 h-8" />
