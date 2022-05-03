@@ -42,6 +42,7 @@ export default function MembershipPage() {
             benefits: [
                 'Earn 2x rewards points as a Gold user',
                 'Get access to deals such as movie screening, flash sales and more',
+                'Early access to new features',
                 'Priority support',
             ],
         },
@@ -53,6 +54,7 @@ export default function MembershipPage() {
                 'Earn 3x rewards points as a Platinum user',
                 'Get access to deals such as movie screening, flash sales and more',
                 'Get access to exclusive deals and offers',
+                'Discounted shipping',
                 'Early access to new features',
                 'Priority support',
             ],
