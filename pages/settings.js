@@ -1,4 +1,4 @@
-import { BadgeCheckIcon, PlusIcon } from '@heroicons/react/outline';
+import { BadgeCheckIcon, PlusIcon, TrashIcon } from '@heroicons/react/outline';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import AddressCard from '../components/address/AddressCard';
@@ -16,6 +16,8 @@ import { useModals } from '@mantine/modals';
 import { useTheme } from '../hooks/useTheme';
 import { RequireAuth, useUser } from '../hooks/useUser';
 import { supabase } from '../utils/supabase-client';
+import CreateUserCardForm from '../components/forms/CreateUserCardForm';
+import Card from '../components/common/Card';
 
 SettingsPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -221,6 +223,25 @@ export default function SettingsPage() {
             onClose: () => {},
         });
 
+    const openUserCardCreationModal = () =>
+        modals.openModal({
+            title: <div className="font-bold">Add a new card</div>,
+            centered: true,
+            overflow: 'inside',
+            children: (
+                <div className="p-1">
+                    <CreateUserCardForm
+                        user={user}
+                        userData={userData}
+                        closeModal={closeModal}
+                        onCreate={(bank) => openNewCard(bank)}
+                        setter={setCards}
+                    />
+                </div>
+            ),
+            onClose: () => {},
+        });
+
     useEffect(() => {
         const fetchAddresses = async () => {
             if (!user) return;
@@ -275,6 +296,24 @@ export default function SettingsPage() {
 
         fetchCards();
     }, [user]);
+
+    const deleteCard = async (card) => {
+        if (!card) return;
+
+        try {
+            const { error } = await supabase
+                .from('user_cards')
+                .delete()
+                .eq('id', card.id);
+
+            if (error) throw error;
+
+            setCards(cards.filter((c) => c.id !== card.id));
+            toast.success('Card deleted successfully.');
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
 
     return (
         <div className="p-4 md:p-8 lg:p-16 space-y-8">
@@ -409,7 +448,7 @@ export default function SettingsPage() {
                             {loadingCards || (
                                 <button
                                     className="p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
-                                    onClick={openAddressModal}
+                                    onClick={openUserCardCreationModal}
                                 >
                                     <PlusIcon className="w-4 h-4" />
                                 </button>
@@ -423,9 +462,45 @@ export default function SettingsPage() {
                         ) : (
                             <div className="text-left">
                                 {cards && cards.length > 0 ? (
-                                    <div className="my-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="my-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                                         {cards?.map((card) => (
-                                            <div key={card.id}></div>
+                                            <Card
+                                                key={card.id}
+                                                className="flex flex-col"
+                                            >
+                                                <div className="flex items-center justify-between space-x-2">
+                                                    <div className="font-bold text-sm md:text-base">
+                                                        {/* Card number should be:
+                                                         **** **** **** **** */}
+                                                        {card?.card_number
+                                                            ?.replace(
+                                                                /(\d{4})/g,
+                                                                '$1 '
+                                                            )
+                                                            ?.trim()}
+                                                    </div>
+
+                                                    <button
+                                                        className="p-2 self-center text-center flex items-center justify-center font-semibold space-x-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
+                                                        onClick={() =>
+                                                            deleteCard(card)
+                                                        }
+                                                    >
+                                                        <TrashIcon className="w-4 h-4" />
+                                                    </button>
+                                                </div>
+                                                <Divider padding="my-2" />
+
+                                                <div className="flex items-center justify-between">
+                                                    <div className="text-sm font-bold px-4 py-1 rounded-lg bg-blue-500 dark:bg-blue-500/20 text-white dark:text-blue-200">
+                                                        {card.bank_code}
+                                                    </div>
+                                                    <div className="text-sm font-semibold">
+                                                        {userData?.name ||
+                                                            userData?.email}
+                                                    </div>
+                                                </div>
+                                            </Card>
                                         ))}
                                     </div>
                                 ) : (
