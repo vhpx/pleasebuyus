@@ -88,6 +88,39 @@ export default function MembershipPage() {
                                     Platinum
                                 </Card>
                             </div>
+                            <div>
+                                <div className="text-xl">Member</div>
+                                <div>
+                                    Pleasebuy.us is a site dedicated to helping
+                                    people buy things they want. For every
+                                    purchase, earn points to receive discounts
+                                    and exclusive offers. You'll unlock new
+                                    tiers as you go, each with its own set of
+                                    rewards.
+                                </div>
+                                <div className="text-xl">Bronze</div>
+                                <div>
+                                    Get access to random deals such as movie
+                                    screening, flash sales and more
+                                </div>
+                                <div className="text-xl">Silver</div>
+                                <div>
+                                    Earn 1.5x rewards points as a Silver user
+                                </div>
+                                <div className="text-xl">Gold</div>
+                                <div>
+                                    Earn 2x rewards points as a Gold user Get
+                                    access to exclusive deals such as movie
+                                    screening, flash sales and more
+                                </div>
+                                <div className="text-xl">Platinum</div>
+                                <div>
+                                    Earn 3x rewards points as a Platinum user
+                                    Get access to exclusive deals such as movie
+                                    screening, flash sales and more Enjoy
+                                    exclusive offers from Pleasebuy.us partner
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
