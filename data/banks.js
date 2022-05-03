@@ -5,11 +5,6 @@ export const banks = [
         code: 'ACB',
     },
     {
-        name: 'Tien Phong Commercial Joint Stock Bank',
-        short_name: 'TPBank',
-        code: 'TPBank',
-    },
-    {
         name: 'Dong A Commercial Joint Stock Bank',
         short_name: 'Đông Á Bank',
         code: 'DAB',
@@ -17,22 +12,22 @@ export const banks = [
     {
         name: 'Southeast Asia Commercial Joint Stock Bank',
         short_name: 'SeABank',
-        code: 'SeABank',
+        code: 'SB',
     },
     {
         name: 'An Binh Commercial Joint Stock Bank',
         short_name: 'ABBANK',
-        code: 'ABBANK',
+        code: 'ABB',
     },
     {
         name: 'Bac A Commercial Joint Stock Bank',
         short_name: 'BacABank',
-        code: 'BacABank',
+        code: 'BAB',
     },
     {
         name: 'Vietcapital Commercial Joint Stock Bank',
         short_name: 'VietCapitalBank',
-        code: 'VietCapitalBank',
+        code: 'VNCN',
     },
     {
         name: 'Vietnam Maritime Joint – Stock Commercial Bank',
@@ -46,13 +41,13 @@ export const banks = [
     },
     {
         name: 'Kien Long Commercial Joint Stock Bank',
-        short_name: 'KienLongBank',
-        code: 'KienLongBank',
+        short_name: 'Kien Long Bank',
+        code: 'KLB',
     },
     {
         name: 'Nam A Comercial Join Stock Bank',
         short_name: 'Nam A Bank',
-        code: 'Nam A Bank',
+        code: 'NAB',
     },
     {
         name: 'National Citizen Commercial Joint Stock Bank',
@@ -62,17 +57,17 @@ export const banks = [
     {
         name: 'Tien Phong Commercial Joint Stock Bank',
         short_name: 'TPBank',
-        code: 'TPBank',
+        code: 'TPB',
     },
     {
         name: 'Vietnam Prosperity Joint Stock Commercial Bank',
         short_name: 'VPBank',
-        code: 'VPBank',
+        code: 'VPB',
     },
     {
         name: 'Ho Chi Minh City Housing Development Bank',
         short_name: 'HDBank',
-        code: 'HDBank',
+        code: 'HDB',
     },
     {
         name: 'Orient Commercial Joint Stock Bank',
@@ -87,11 +82,11 @@ export const banks = [
     {
         name: 'Vietnam Public Joint Stock Commercial Bank',
         short_name: 'PVcombank',
-        code: 'PVcombank',
+        code: 'PVB',
     },
     {
         name: 'Vietnam International and Commercial Joint Stock Bank',
-        short_name: 'VIBBank',
+        short_name: 'VIB Bank',
         code: 'VIB',
     },
     {
@@ -111,12 +106,12 @@ export const banks = [
     },
     {
         name: 'Vietnam Asia Commercial Joint Stock Bank',
-        short_name: 'VietABank',
+        short_name: 'Viet A Bank',
         code: 'VAB',
     },
     {
         name: 'Bao Viet Joint Stock Commercial Bank',
-        short_name: 'VIBaoVietBankBBank',
+        short_name: 'Bao Viet Bank',
         code: 'BVB',
     },
     {
@@ -126,12 +121,12 @@ export const banks = [
     },
     {
         name: 'Vietnam Joint Stock Commercia lVietnam Export Import Bank',
-        short_name: 'Eximbank',
+        short_name: 'Exim Bank',
         code: 'EIB',
     },
     {
         name: 'Joint stock commercial Lien Viet postal bank',
-        short_name: 'LienVietPostBank',
+        short_name: 'Lien Viet Post Bank',
         code: 'LPB',
     },
     {
@@ -141,32 +136,32 @@ export const banks = [
     },
     {
         name: 'Construction Bank',
-        short_name: 'CB',
+        short_name: 'Construction Bank',
         code: 'CB',
     },
     {
         name: 'Ocean Commercial One Member Limited Liability Bank',
-        short_name: 'Oceanbank',
-        code: 'VOceanbankIB',
+        short_name: 'Ocean Bank',
+        code: 'OIB',
     },
     {
         name: 'Global Petro Commercial Joint Stock Bank',
-        short_name: 'GPBank',
-        code: 'GPBank',
+        short_name: 'GP Bank',
+        code: 'GPB',
     },
     {
         name: 'Vietnam Bank for Agriculture and Rural Development',
         short_name: 'Agribank',
-        code: 'Agribank',
+        code: 'AB',
     },
     {
         name: 'Shinhan Vietnam Bank Limited',
-        short_name: 'SHBVN',
+        short_name: 'Shinhan Bank',
         code: 'SHBVN',
     },
     {
         name: 'The Hongkong and Shanghai Banking Corporation Limited',
-        short_name: 'HSBC',
+        short_name: 'HSBC Bank',
         code: 'HSBC',
     },
     {
@@ -176,7 +171,7 @@ export const banks = [
     },
     {
         name: 'Vietnam Joint Stock Commercial Bank for Industry and Trade',
-        short_name: 'VietinBank',
+        short_name: 'Vietinbank',
         code: 'CTG',
     },
 ];
