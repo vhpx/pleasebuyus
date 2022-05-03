@@ -1,18 +1,22 @@
 import { SparklesIcon } from '@heroicons/react/outline';
 import { CheckCircleIcon, LockClosedIcon } from '@heroicons/react/solid';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import TierCard from '../../components/cards/TierCard';
 import Avatar from '../../components/common/Avatar';
 import Divider from '../../components/common/Divider';
 import Title from '../../components/common/Title';
 import { StoreLayout } from '../../components/layout/layout';
-import { useUser } from '../../hooks/useUser';
+import { RequireAuth, useUser } from '../../hooks/useUser';
+import { supabase } from '../../utils/supabase-client';
 
 MembershipPage.getLayout = (page) => {
     return <StoreLayout hideFooter={true}>{page}</StoreLayout>;
 };
 
 export default function MembershipPage() {
+    RequireAuth();
+
     const { userData } = useUser();
 
     const tiers = [
@@ -54,8 +58,6 @@ export default function MembershipPage() {
             ],
         },
     ];
-
-    const [progressPoints, setProgressPoints] = useState(0);
 
     const getCurrentTier = () => {
         if (progressPoints < 100) return tiers[0];
@@ -110,6 +112,34 @@ export default function MembershipPage() {
     };
 
     const [selectedTier, setSelectedTier] = useState(0);
+
+    const [progressPoints, setProgressPoints] = useState(0);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (!userData) return;
+
+            try {
+                const { data, error } = await supabase
+                    .from('memberships')
+                    .select('*')
+                    .eq('user_id', userData.id)
+                    .single();
+
+                if (error || !data) throw new Error(error);
+
+                setProgressPoints(data.progress_pts);
+                setLoading(false);
+            } catch (error) {
+                toast.error(error.message || 'Something went wrong');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [userData]);
 
     useEffect(() => {
         const getCurrentTier = () => {
@@ -233,9 +263,23 @@ export default function MembershipPage() {
                                 (benefit, index) => (
                                     <div
                                         key={index}
-                                        className={`flex items-center mb-2 text-${tiers[selectedTier].color}-600 dark:text-${tiers[selectedTier].color}-300`}
+                                        className={`${
+                                            selectedTier >
+                                                tiers.indexOf(
+                                                    getCurrentTier()
+                                                ) && 'opacity-50'
+                                        } flex items-center mb-2 text-${
+                                            tiers[selectedTier].color
+                                        }-600 dark:text-${
+                                            tiers[selectedTier].color
+                                        }-300`}
                                     >
-                                        <CheckCircleIcon className="w-4 flex-none h-4 md:w-8 md:h-8 mr-2" />
+                                        {selectedTier <=
+                                        tiers.indexOf(getCurrentTier()) ? (
+                                            <CheckCircleIcon className="w-4 flex-none h-4 md:w-8 md:h-8 mr-2" />
+                                        ) : (
+                                            <LockClosedIcon className="w-4 flex-none h-4 md:w-8 md:h-8 mr-2" />
+                                        )}
                                         <div className="md:text-lg font-semibold">
                                             {benefit}
                                         </div>
