@@ -10,6 +10,7 @@ export default function UserDropdown({
     darkMode,
     updateTheme,
     desktopOnly,
+    bankMode,
 }) {
     const displayName = userData?.['name'];
 
@@ -36,26 +37,46 @@ export default function UserDropdown({
 
             <Popover.Panel className="absolute right-0 top-[3.5rem] z-10">
                 <div className="my-1 flex w-64 flex-col rounded-lg bg-white/50 shadow backdrop-blur dark:bg-zinc-700/50">
-                    <BetterLink
-                        href="/outlets"
-                        className="rounded-t-lg px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
-                    >
-                        Outlets
-                    </BetterLink>
+                    {bankMode ? (
+                        <>
+                            <BetterLink
+                                href="/"
+                                className="rounded-t-lg px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
+                            >
+                                Return to Please Buy Us
+                            </BetterLink>
+                        </>
+                    ) : (
+                        <>
+                            <BetterLink
+                                href="/outlets"
+                                className="rounded-t-lg px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
+                            >
+                                Outlets
+                            </BetterLink>
 
-                    <BetterLink
-                        href="/membership"
-                        className="px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
-                    >
-                        Membership
-                    </BetterLink>
+                            <BetterLink
+                                href="/membership"
+                                className="px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
+                            >
+                                Membership
+                            </BetterLink>
 
-                    <BetterLink
-                        href="/history"
-                        className="px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
-                    >
-                        Purchase History
-                    </BetterLink>
+                            <BetterLink
+                                href="/history"
+                                className="px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
+                            >
+                                Purchase History
+                            </BetterLink>
+
+                            <BetterLink
+                                href="/banks"
+                                className="rounded-t-lg px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
+                            >
+                                Banks
+                            </BetterLink>
+                        </>
+                    )}
 
                     <BlockDarkModeToggle
                         className="font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
