@@ -3,8 +3,6 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import OutlinedButton from '../../../components/buttons/OutlinedButton';
 import ImageCard from '../../../components/cards/ImageCard';
-import ItemCard from '../../../components/cards/ItemCard';
-import Card from '../../../components/common/Card';
 import { toast } from 'react-toastify';
 import Divider from '../../../components/common/Divider';
 import LoadingIndicator from '../../../components/common/LoadingIndicator';
@@ -102,7 +100,7 @@ export default function OutletSettingsPage({ outlet }) {
                 <Title label="Outlet Information"></Title>
                 <Divider />
 
-                <div className="lg:w-2/3 mb-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-8">
+                <div className="lg:w-1/3 mb-8 grid grid-cols-1 gap-x-8">
                     <FormInput
                         label="Name"
                         value={outlet?.name}

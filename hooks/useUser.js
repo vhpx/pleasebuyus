@@ -17,7 +17,10 @@ export const UserProvider = (props) => {
 
     const fetchUserData = async (currentSession) => {
         if (currentSession?.user) {
-            const response = await fetch('/api/user');
+            const response = await fetch(
+                '/api/user?id=' + currentSession.user.id
+            );
+
             const userData = await response.json();
 
             setUserData(userData);
