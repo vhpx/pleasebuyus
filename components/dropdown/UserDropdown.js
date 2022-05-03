@@ -12,7 +12,8 @@ export default function UserDropdown({
     desktopOnly,
     bankMode,
 }) {
-    const displayName = userData?.['name'];
+    const email = userData?.email;
+    const displayName = userData?.name;
 
     const handleLogout = async () => {
         await supabase.auth.signOut();
@@ -24,13 +25,13 @@ export default function UserDropdown({
                 className={`flex items-center justify-center rounded-lg px-4 py-2 transition duration-300 hover:bg-white/10 dark:hover:bg-zinc-800`}
             >
                 <Avatar size={30} />
-                {displayName && (
+                {(email || displayName) && (
                     <div
                         className={`ml-2 hidden text-sm ${
                             whiteText && 'text-white'
                         } font-semibold md:block`}
                     >
-                        {displayName}
+                        {displayName || email}
                     </div>
                 )}
             </Popover.Button>

@@ -290,6 +290,7 @@ export default function SettingsPage() {
                     <FormInput
                         id="name"
                         label="Name"
+                        placeholder="John Doe"
                         value={name}
                         setter={setName}
                         disabled={!userData}
@@ -303,6 +304,7 @@ export default function SettingsPage() {
                     <FormInput
                         id="phone"
                         label="Phone number"
+                        placeholder="+1 (555) 555-5555"
                         value={phoneNumber}
                         setter={setPhoneNumber}
                         disabled={!userData}
