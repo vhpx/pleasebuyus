@@ -169,4 +169,14 @@ export const banks = [
         short_name: 'HSBC',
         code: 'HSBC',
     },
+    {
+        name: 'JSC Bank for Foreign Trade of Vietnam',
+        short_name: 'Vietcombank',
+        code: 'VCB',
+    },
+    {
+        name: 'Vietnam Joint Stock Commercial Bank for Industry and Trade',
+        short_name: 'VietinBank',
+        code: 'CTG',
+    },
 ];
