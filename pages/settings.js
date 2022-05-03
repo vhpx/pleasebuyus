@@ -1,9 +1,7 @@
 import { BadgeCheckIcon, PlusIcon } from '@heroicons/react/outline';
-import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import AddressCard from '../components/address/AddressCard';
-import Button from '../components/buttons/Button';
 import OutlinedButton from '../components/buttons/OutlinedButton';
 import Avatar from '../components/common/Avatar';
 import Divider from '../components/common/Divider';
@@ -12,7 +10,9 @@ import Title from '../components/common/Title';
 import FormInput from '../components/form/FormInput';
 import FormLabel from '../components/form/FormLabel';
 import FormSelect from '../components/form/FormSelect';
+import EditAddressForm from '../components/forms/EditAddressForm';
 import { StoreLayout } from '../components/layout/layout';
+import { useModals } from '@mantine/modals';
 import { useTheme } from '../hooks/useTheme';
 import { RequireAuth, useUser } from '../hooks/useUser';
 import { supabase } from '../utils/supabase-client';
@@ -39,6 +39,9 @@ const genderOptions = [
 
 export default function SettingsPage() {
     RequireAuth();
+
+    const modals = useModals();
+    const closeModal = () => modals.closeModal();
 
     const { user, userData, fetchUserData, updateUserData } = useUser();
     const { darkMode, updateTheme } = useTheme();
@@ -199,19 +202,24 @@ export default function SettingsPage() {
         updateTheme(true);
     };
 
-    const addAddress = () => {
-        setAddresses((prevAddresses) => [
-            ...prevAddresses,
-            {
-                id: Math.random().toString(),
-                name: '',
-                country: '',
-                province: '',
-                city: '',
-                streetInfo: '',
-            },
-        ]);
-    };
+    const openAddressModal = (address) =>
+        modals.openModal({
+            title: <div className="font-bold">Add a new address</div>,
+            centered: true,
+            overflow: 'inside',
+            children: (
+                <div className="p-1">
+                    <EditAddressForm
+                        user={user}
+                        address={address}
+                        closeModal={closeModal}
+                        onCreate={(bank) => openNewCard(bank)}
+                        setter={setAddresses}
+                    />
+                </div>
+            ),
+            onClose: () => {},
+        });
 
     useEffect(() => {
         const fetchAddresses = async () => {
@@ -235,7 +243,7 @@ export default function SettingsPage() {
                     };
                 });
 
-                setAddresses(addresses);
+                setAddresses(addresses ?? []);
             } catch (error) {
                 toast.error(error.message);
             } finally {
@@ -244,6 +252,28 @@ export default function SettingsPage() {
         };
 
         fetchAddresses();
+    }, [user]);
+
+    useEffect(() => {
+        const fetchCards = async () => {
+            if (!user) return;
+            setLoadingCards(true);
+
+            try {
+                const { data } = await supabase
+                    .from('user_cards')
+                    .select('*')
+                    .eq('user_id', user?.id);
+
+                setCards(data ?? []);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoadingCards(false);
+            }
+        };
+
+        fetchCards();
     }, [user]);
 
     return (
@@ -335,7 +365,7 @@ export default function SettingsPage() {
                             {loadingAddresses || (
                                 <button
                                     className="p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
-                                    onClick={addAddress}
+                                    onClick={openAddressModal}
                                 >
                                     <PlusIcon className="w-4 h-4" />
                                 </button>
@@ -354,7 +384,9 @@ export default function SettingsPage() {
                                             <AddressCard
                                                 key={address.id}
                                                 address={address}
-                                                setter={setAddresses}
+                                                onEdit={() =>
+                                                    openAddressModal(address)
+                                                }
                                             />
                                         ))}
                                     </div>
@@ -377,7 +409,7 @@ export default function SettingsPage() {
                             {loadingCards || (
                                 <button
                                     className="p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
-                                    onClick={addAddress}
+                                    onClick={openAddressModal}
                                 >
                                     <PlusIcon className="w-4 h-4" />
                                 </button>
