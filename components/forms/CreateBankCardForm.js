@@ -19,7 +19,10 @@ export default function CreateBankCardForm({
               },
               ...banks.map((bank) => ({
                   value: bank.code,
-                  label: bank.short_name,
+                  label:
+                      bank.short_name == bank.code
+                          ? bank.code
+                          : `${bank.short_name} (${bank.code})`,
               })),
           ]
         : [];
@@ -35,7 +38,7 @@ export default function CreateBankCardForm({
             />
 
             <FormSelect
-                label="Bank Name"
+                label="Bank"
                 id="bank-name"
                 placeholder="Enter outlet address"
                 options={bankOptions}

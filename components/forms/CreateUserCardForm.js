@@ -31,7 +31,10 @@ export default function CreateUserCardForm({
 
                 const options = data.map((bank) => ({
                     value: bank.code,
-                    label: bank.short_name,
+                    label:
+                        bank.short_name == bank.code
+                            ? bank.code
+                            : `${bank.short_name} (${bank.code})`,
                 }));
 
                 setBankOptions(options);
