@@ -1,4 +1,9 @@
-import { LockClosedIcon, PlusIcon, TrashIcon } from '@heroicons/react/outline';
+import {
+    ClipboardCopyIcon,
+    LockClosedIcon,
+    PlusIcon,
+    TrashIcon,
+} from '@heroicons/react/outline';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import Card from '../../components/common/Card';
@@ -179,7 +184,17 @@ export default function BanksPage() {
             children: (
                 <div className="p-1">
                     <div className="text-center">
-                        <div className="text-xl font-bold">{card.PIN}</div>
+                        <div className="flex items-center justify-center space-x-2 mb-2">
+                            <div className="text-xl font-bold">{card.PIN}</div>
+                            <button
+                                className="flex items-center justify-center font-semibold space-x-2 p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
+                                onClick={() => {
+                                    copyToClipboard(card.PIN);
+                                }}
+                            >
+                                <ClipboardCopyIcon className="w-4 h-4" />
+                            </button>
+                        </div>
                         <div className="text-sm">
                             This is your card PIN. Please keep it safe.
                         </div>
@@ -188,6 +203,11 @@ export default function BanksPage() {
             ),
             onClose: () => {},
         });
+
+    const copyToClipboard = (text) => {
+        navigator.clipboard.writeText(text);
+        toast.success('Copied to clipboard');
+    };
 
     return (
         <div className="p-4 md:p-8 lg:p-16 space-y-8">
@@ -212,13 +232,25 @@ export default function BanksPage() {
                         ) : cards && cards.length > 0 ? (
                             cards.map((card) => (
                                 <Card key={card.id} className="flex flex-col">
-                                    <div className="font-bold">
-                                        {/* Card number should be:
-                                         **** **** **** **** */}
-                                        {card.card_number.replace(
-                                            /(\d{4})/g,
-                                            '$1 '
-                                        )}
+                                    <div className="flex items-center space-x-2">
+                                        <div className="font-bold text-sm md:text-base lg:text-lg">
+                                            {/* Card number should be:
+                                             **** **** **** **** */}
+                                            {card.card_number.replace(
+                                                /(\d{4})/g,
+                                                '$1 '
+                                            )}
+                                        </div>
+                                        <button
+                                            className="flex items-center justify-center font-semibold space-x-2 p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
+                                            onClick={() => {
+                                                copyToClipboard(
+                                                    card.card_number
+                                                );
+                                            }}
+                                        >
+                                            <ClipboardCopyIcon className="w-4 h-4" />
+                                        </button>
                                     </div>
                                     <Divider padding="my-2" />
 
@@ -231,9 +263,9 @@ export default function BanksPage() {
                                         </div>
                                     </div>
 
-                                    <div className="flex space-x-2">
+                                    <div className="mt-2 flex items-center justify-center flex-col space-y-2 md:space-y-0 md:flex-row md:space-x-2">
                                         <button
-                                            className="mt-2 w-full max-w-[16rem] self-center text-center flex items-center justify-center font-semibold space-x-2 px-4 py-1 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
+                                            className="w-full max-w-[16rem] self-center text-center flex items-center justify-center font-semibold space-x-2 px-4 py-1 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
                                             onClick={() =>
                                                 openCardPINModal(card)
                                             }
@@ -242,7 +274,7 @@ export default function BanksPage() {
                                             <LockClosedIcon className="w-4 h-4" />
                                         </button>
                                         <button
-                                            className="mt-2 w-full max-w-[16rem] self-center text-center flex items-center justify-center font-semibold space-x-2 px-4 py-1 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
+                                            className="w-full max-w-[16rem] self-center text-center flex items-center justify-center font-semibold space-x-2 px-4 py-1 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
                                             onClick={() => deleteCard(card)}
                                         >
                                             <div>Delete Card</div>
