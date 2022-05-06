@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
 import { useTheme } from '../../hooks/useTheme';
 import { useUser } from '../../hooks/useUser';
 import Avatar from '../common/Avatar';
-import Logo from '../common/Logo';
+import Logo, { BankLogo } from '../common/Logo';
 import CartDropdown from '../dropdown/CartDropdown';
 import UserDropdown from '../dropdown/UserDropdown';
 import BetterLink from '../link/BetterLink';
@@ -213,7 +213,7 @@ export function BankNavBar() {
                 <div className="fixed flex flex-col justify-between inset-0 z-50 bg-white/70 backdrop-blur-lg dark:bg-zinc-900/70 md:hidden md:bg-white md:dark:bg-zinc-900">
                     <div className="relative flex items-center justify-center px-2.5 py-4">
                         <div className="flex space-x-2 items-center">
-                            <Logo />
+                            <BankLogo />
                             <div className="font-semibold text-4xl dark:text-white">
                                 Banks
                             </div>
@@ -275,7 +275,7 @@ export function BankNavBar() {
                     </button>
                 )}
                 <div className="flex space-x-2 items-center">
-                    <Logo />
+                    <BankLogo />
                     <div className="font-semibold text-4xl text-white">
                         Banks
                     </div>
