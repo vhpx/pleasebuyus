@@ -212,12 +212,7 @@ export function BankNavBar() {
             {menuClosed || (
                 <div className="fixed flex flex-col justify-between inset-0 z-50 bg-white/70 backdrop-blur-lg dark:bg-zinc-900/70 md:hidden md:bg-white md:dark:bg-zinc-900">
                     <div className="relative flex items-center justify-center px-2.5 py-4">
-                        <div className="flex space-x-2 items-center">
-                            <BankLogo />
-                            <div className="font-semibold text-4xl dark:text-white">
-                                Banks
-                            </div>
-                        </div>
+                        <BankLogo />
                         <button
                             className="absolute right-4 rounded-full p-2 md:hidden"
                             onClick={closeMenu}
@@ -274,12 +269,7 @@ export function BankNavBar() {
                         <MenuIcon className="h-6 w-6 text-white md:hidden" />
                     </button>
                 )}
-                <div className="flex space-x-2 items-center">
-                    <BankLogo />
-                    <div className="font-semibold text-4xl text-white">
-                        Banks
-                    </div>
-                </div>
+                <BankLogo />
             </div>
 
             <div className="flex items-center space-x-2">
