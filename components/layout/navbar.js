@@ -166,7 +166,7 @@ export function StoreNavBar() {
                     />
                 ) : (
                     <BetterLink href="/login">
-                        <div className="hidden md:flex items-center text-white border-transparent justify-center space-x-2 rounded-lg border px-4 py-2 transition duration-150 hover:border-zinc-300 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-100 dark:hover:text-zinc-100">
+                        <div className="flex space-x-1 text-white items-center justify-center rounded-lg px-4 py-2 transition duration-300 hover:bg-white/10 dark:hover:bg-zinc-800">
                             <LoginIcon className="h-5 w-5" />
                             <div className="font-semibold">Login</div>
                         </div>
@@ -284,7 +284,7 @@ export function BankNavBar() {
                     />
                 ) : (
                     <BetterLink href="/login">
-                        <div className="hidden md:flex items-center text-white border-transparent justify-center space-x-2 rounded-lg border px-4 py-2 transition duration-150 hover:border-zinc-300 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-100 dark:hover:text-zinc-100">
+                        <div className="flex space-x-1 text-white items-center justify-center rounded-lg px-4 py-2 transition duration-300 hover:bg-white/10 dark:hover:bg-zinc-800">
                             <LoginIcon className="h-5 w-5" />
                             <div className="font-semibold">Login</div>
                         </div>
