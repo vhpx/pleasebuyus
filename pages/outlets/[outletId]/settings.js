@@ -245,7 +245,15 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
     return (
         <div className="p-4 md:p-8 lg:p-16 space-y-8">
             <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
-                <Title label="Outlet Information"></Title>
+                <div className="flex">
+                    <Title label="Outlet Information" />
+                    <BetterLink
+                        href={`/outlets/${outletId}`}
+                        className="px-4 py-1 font-semibold bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300 ml-2"
+                    >
+                        View outlet
+                    </BetterLink>
+                </div>
                 <Divider />
 
                 <div className="lg:w-1/3 mb-8 grid grid-cols-1 gap-x-8">
