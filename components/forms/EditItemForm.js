@@ -119,39 +119,25 @@ export default function EditItemForm({
     return (
         <>
             <FormInput
-                label="Address Name"
-                id="address-name"
-                placeholder="e.g. Home, Office"
-                value={addressName}
-                setter={setAddressName}
+                label="Name"
+                id="item-name"
+                placeholder="Enter item name"
+                value={itemName}
+                setter={setItemName}
             />
             <FormInput
-                label="Country"
-                id="country"
-                placeholder="e.g. Vietnam"
-                value={country}
-                setter={setCountry}
+                label="Description"
+                id="item-description"
+                placeholder="Enter item description"
+                value={itemDescription}
+                setter={setItemDescription}
             />
             <FormInput
-                label="Province"
-                id="province"
-                placeholder="Optional"
-                value={province}
-                setter={setProvince}
-            />
-            <FormInput
-                label="City"
-                id="city"
-                placeholder="e.g. Ho Chi Minh"
-                value={city}
-                setter={setCity}
-            />
-            <FormInput
-                label="Street Info"
-                id="street-info"
-                placeholder="e.g. Street 1, Building A"
-                value={streetInfo}
-                setter={setStreetInfo}
+                label="Price"
+                id="item-price"
+                placeholder="Enter item price"
+                value={itemPrice}
+                setter={setItemPrice}
             />
 
             <div className="flex flex-col md:flex-row justify-end space-y-2 md:space-y-0 md:space-x-2 mt-8">
@@ -164,7 +150,7 @@ export default function EditItemForm({
                     Cancel
                 </button>
 
-                {currentAddress?.id != null && isUUID(currentAddress?.id) && (
+                {currentItem?.id != null && (
                     <button
                         className="flex items-center justify-center font-semibold space-x-2 px-4 py-1 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
                         onClick={handleDelete}
@@ -177,9 +163,7 @@ export default function EditItemForm({
                     className="flex items-center justify-center font-semibold space-x-2 px-4 py-1 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
                     onClick={handleSubmit}
                 >
-                    {currentAddress?.id == null || !isUUID(currentAddress?.id)
-                        ? 'Add Address'
-                        : 'Update'}
+                    {currentItem?.id == null ? 'Add Item' : 'Update'}
                 </button>
             </div>
         </>
