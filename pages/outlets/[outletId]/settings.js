@@ -25,7 +25,8 @@ export async function getServerSideProps({ query, req }) {
     const { outletId } = query;
 
     const { user } = await supabase.auth.api.getUserByCookie(req);
-    if (!user) return { redirect: { destination: '/login', permanent: false } };
+    if (!user)
+        return { redirect: { destination: '/logout', permanent: false } };
 
     try {
         const { data: outletData, error } = await supabase
@@ -49,11 +50,13 @@ export async function getServerSideProps({ query, req }) {
     }
 }
 
-export default function OutletSettingsPage({ outlet }) {
+export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
     RequireAuth();
 
     const router = useRouter();
     const { outletId } = router.query;
+
+    const [outlet, setOutlet] = useState(fetchedOutlet);
 
     const [savingOutlet, setSavingOutlet] = useState(false);
     const [uploading, setUploading] = useState(false);
@@ -167,7 +170,7 @@ export default function OutletSettingsPage({ outlet }) {
                 .eq('id', outlet?.id);
 
             if (error) throw error;
-            outlet.avatar_url = avatarUrl;
+            setOutlet((prevState) => ({ ...prevState, avatar_url: avatarUrl }));
         } catch (error) {
             toast.error(error.message);
         } finally {
@@ -252,6 +255,7 @@ export default function OutletSettingsPage({ outlet }) {
                         loadingLabel="Saving"
                         className="max-w-sm"
                         onClick={handleSaveOutlet}
+                        buttonOnly={true}
                     />
                 </div>
             </div>

@@ -397,6 +397,17 @@ export default function SettingsPage() {
                     />
 
                     <div className="h-2 col-span-full" />
+
+                    <OutlinedButton
+                        loading={updating}
+                        label="Save profile"
+                        loadingLabel="Saving"
+                        className="col-span-full max-w-sm"
+                        onClick={updateProfile}
+                        buttonOnly={true}
+                    />
+                    <div className="h-2 col-span-full" />
+
                     <Divider className="col-span-full" />
 
                     <div className="col-span-full">
@@ -514,17 +525,7 @@ export default function SettingsPage() {
                             </div>
                         )}
                     </div>
-
-                    <Divider className="mt-8 col-span-full" />
                 </div>
-
-                <OutlinedButton
-                    loading={updating}
-                    label="Save profile"
-                    loadingLabel="Saving"
-                    className="max-w-sm"
-                    onClick={updateProfile}
-                />
             </div>
 
             <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
