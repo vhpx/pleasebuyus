@@ -6,14 +6,39 @@ import Divider from '../common/Divider';
 import FormInput from '../form/FormInput';
 import FormLabel from '../form/FormLabel';
 import { v4 as uuidv4 } from 'uuid';
+import FormSelect from '../form/FormSelect';
 
 export default function EditProductForm({
+    categories,
+
     user,
     outletId,
     product: currentProduct,
     closeModal,
     setter,
 }) {
+    const [productCategory, setProductCategory] = useState(
+        currentProduct?.category_id || null
+    );
+
+    const categoryOptions = categories
+        ? [
+              {
+                  value: null,
+                  label: 'No category',
+              },
+              ...categories.map((category) => ({
+                  value: category?.id,
+                  label: category?.name,
+              })),
+          ]
+        : [
+              {
+                  value: null,
+                  label: 'No category',
+              },
+          ];
+
     const [uploading, setUploading] = useState(false);
 
     const [productName, setProductName] = useState(currentProduct?.name || '');
@@ -90,6 +115,8 @@ export default function EditProductForm({
     };
 
     const handleSubmit = async () => {
+        if (!categories) return;
+
         try {
             if (!productName) throw new Error('Product name is empty');
             if (!productPrice) throw new Error('Product price is empty');
@@ -114,6 +141,7 @@ export default function EditProductForm({
                         description: productDescription,
                         price: parseFloat(productPrice),
                         avatar_url: productAvatarUrl,
+                        category_id: productCategory,
                         outlet_id: outletId,
                     })
                     .single();
@@ -126,6 +154,7 @@ export default function EditProductForm({
                     description: productDescription,
                     price: parseFloat(productPrice),
                     avatar_url: productAvatarUrl,
+                    category_id: productCategory,
                     outlet_id: outletId,
                 };
 
@@ -143,6 +172,7 @@ export default function EditProductForm({
                     description: productDescription,
                     price: parseFloat(productPrice),
                     avatar_url: productAvatarUrl,
+                    category_id: productCategory,
                 })
                 .eq('outlet_id', outletId)
                 .eq('id', currentProduct?.id)
@@ -156,6 +186,7 @@ export default function EditProductForm({
                 description: productDescription,
                 price: parseFloat(productPrice),
                 avatar_url: productAvatarUrl,
+                category_id: productCategory,
                 outlet_id: outletId,
             };
 
@@ -257,6 +288,17 @@ export default function EditProductForm({
                 placeholder="Enter product price"
                 value={productPrice}
                 setter={setProductPrice}
+            />
+
+            <FormSelect
+                label="Category"
+                id="product-category"
+                options={categoryOptions}
+                value={productCategory}
+                setter={(value) =>
+                    value ? setProductCategory(value) : setProductCategory(null)
+                }
+                required
             />
 
             <div className="flex flex-col md:flex-row justify-end space-y-2 md:space-y-0 md:space-x-2 mt-8">

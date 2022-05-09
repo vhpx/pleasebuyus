@@ -18,6 +18,7 @@ import FormLabel from '../../../components/form/FormLabel';
 import { v4 as uuidv4 } from 'uuid';
 import { useModals } from '@mantine/modals';
 import { formatCurrency } from '../../../utils/currency-format';
+import EditOutletCategoryForm from '../../../components/forms/EditOutletCategoryForm';
 
 OutletSettingsPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -75,16 +76,6 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
     const closeModal = () => modals.closeModal();
 
     useEffect(() => {
-        const timeout = setTimeout(() => {
-            setCategories([]);
-
-            setLoadingCategories(false);
-        }, 1000);
-
-        timeout;
-    }, []);
-
-    useEffect(() => {
         const fetchProducts = async () => {
             try {
                 if (!outletId) throw new Error('Outlet not found');
@@ -103,7 +94,29 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
             }
         };
 
-        fetchProducts();
+        const fetchCategories = async () => {
+            try {
+                if (!outletId) throw new Error('Outlet not found');
+
+                const { data, error } = await supabase
+                    .from('outlet_categories')
+                    .select('*')
+                    .eq('outlet_id', outletId);
+
+                if (error) throw error;
+                setCategories(data);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoadingCategories(false);
+            }
+        };
+
+        const fetchAll = async () => {
+            await Promise.all([fetchProducts(), fetchCategories()]);
+        };
+
+        fetchAll();
     }, [outletId]);
 
     const handleSaveOutlet = async () => {
@@ -143,9 +156,33 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
                     <EditProductForm
                         user={user}
                         outletId={outletId}
+                        categories={categories}
                         product={product}
                         closeModal={closeModal}
                         setter={setProducts}
+                    />
+                </div>
+            ),
+            onClose: () => {},
+        });
+
+    const openOutletCategoryEditModal = (category) =>
+        modals.openModal({
+            title: (
+                <div className="font-bold">
+                    {category ? 'Edit category' : 'Add new category'}
+                </div>
+            ),
+            centered: true,
+            overflow: 'inside',
+            children: (
+                <div className="p-1">
+                    <EditOutletCategoryForm
+                        user={user}
+                        outletId={outletId}
+                        category={category}
+                        closeModal={closeModal}
+                        setter={setCategories}
                     />
                 </div>
             ),
@@ -352,7 +389,10 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
             <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
                 <div className="flex">
                     <Title label="Categories" />
-                    <button className="p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300 ml-2">
+                    <button
+                        className="p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300 ml-2"
+                        onClick={() => openOutletCategoryEditModal()}
+                    >
                         <PlusIcon className="w-4 h-4" />
                     </button>
                 </div>
@@ -364,25 +404,21 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
                             <LoadingIndicator svgClassName="w-8 h-8" />
                         </div>
                     ) : categories && categories.length > 0 ? (
-                        categories.map((outlet) => (
-                            <BetterLink
-                                key={outlet.id}
-                                href={`/outlets/${outlet.id}`}
-                                className="relative"
-                            >
+                        categories.map((category) => (
+                            <div key={category.id} className="relative">
                                 <ImageCard
-                                    name={outlet.name || 'Unnamed outlet'}
-                                    desc={outlet.address || 'Unknown address'}
-                                    imageUrl={outlet.imageUrl}
+                                    name={category.name || 'Unnamed category'}
                                 />
 
-                                <BetterLink
-                                    href={`/outlets/${outlet.id}/settings`}
+                                <button
                                     className="absolute top-2 right-2 p-2 rounded-lg bg-white/50 dark:bg-zinc-800/50 hover:bg-white dark:hover:bg-zinc-800 transition duration-300"
+                                    onClick={() =>
+                                        openOutletCategoryEditModal(category)
+                                    }
                                 >
                                     <PencilIcon className="w-4 h-4" />
-                                </BetterLink>
-                            </BetterLink>
+                                </button>
+                            </div>
                         ))
                     ) : (
                         <div className="col-span-full flex flex-col space-y-4 items-center">
@@ -390,7 +426,10 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
                                 No categories added yet
                             </p>
 
-                            <button className="flex items-center font-semibold space-x-2 p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300">
+                            <button
+                                className="flex items-center font-semibold space-x-2 p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
+                                onClick={() => openOutletCategoryEditModal()}
+                            >
                                 <PlusIcon className="w-4 h-4" />
                                 <div>Add category</div>
                             </button>
