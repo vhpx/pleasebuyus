@@ -11,7 +11,7 @@ DetailedProductPage.getLayout = (page) => {
 export default function DetailedProductPage() {
     return (
         <div>
-            <div className="p-4 md:p-8 lg:p-16 ">
+            <div className="p-4 md:p-8 lg:p-16 space-y-8">
                 <div className="bg-white dark:bg-zinc-800/50 p-8 rounded-lg">
                     <div className="flex p-8">
                         <div className="w-1/3">
