@@ -11,8 +11,8 @@ import FormInput from '../../../components/form/FormInput';
 import { StoreLayout } from '../../../components/layout/layout';
 import BetterLink from '../../../components/link/BetterLink';
 import { supabase } from '../../../utils/supabase-client';
-import { RequireAuth } from '../../../hooks/useUser';
-import EditItemForm from '../../../components/forms/EditItemForm';
+import { RequireAuth, useUser } from '../../../hooks/useUser';
+import EditProductForm from '../../../components/forms/EditProductForm';
 import Avatar from '../../../components/common/Avatar';
 import FormLabel from '../../../components/form/FormLabel';
 import { v4 as uuidv4 } from 'uuid';
@@ -55,6 +55,9 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
     RequireAuth();
 
     const router = useRouter();
+    const { user } = useUser();
+    const modals = useModals();
+
     const { outletId } = router.query;
 
     const [outlet, setOutlet] = useState(fetchedOutlet);
@@ -62,26 +65,45 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
     const [savingOutlet, setSavingOutlet] = useState(false);
     const [uploading, setUploading] = useState(false);
 
-    const [loadingItems, setLoadingItems] = useState(true);
-    const [items, setItems] = useState([]);
+    const [loadingProducts, setLoadingProducts] = useState(true);
+    const [products, setProducts] = useState([]);
 
     const [loadingCategories, setLoadingCategories] = useState(true);
     const [categories, setCategories] = useState([]);
 
-    const modals = useModals();
     const closeModal = () => modals.closeModal();
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            setItems([]);
             setCategories([]);
 
-            setLoadingItems(false);
             setLoadingCategories(false);
         }, 1000);
 
         timeout;
     }, []);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                if (!outletId) throw new Error('Outlet not found');
+
+                const { data, error } = await supabase
+                    .from('products')
+                    .select('*')
+                    .eq('outlet_id', outletId);
+
+                if (error) throw error;
+                setProducts(data);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoadingProducts(false);
+            }
+        };
+
+        fetchProducts();
+    }, [outletId]);
 
     const handleSaveOutlet = async () => {
         setSavingOutlet(true);
@@ -106,21 +128,23 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
         }
     };
 
-    const openItemEditModal = (item) =>
+    const openProductEditModal = (product) =>
         modals.openModal({
             title: (
                 <div className="font-bold">
-                    {item ? 'Edit item' : 'Add new item'}
+                    {product ? 'Edit product' : 'Add new product'}
                 </div>
             ),
             centered: true,
             overflow: 'inside',
             children: (
                 <div className="p-1">
-                    <EditItemForm
-                        item={item}
+                    <EditProductForm
+                        user={user}
+                        outletId={outletId}
+                        product={product}
                         closeModal={closeModal}
-                        setter={setItems}
+                        setter={setProducts}
                     />
                 </div>
             ),
@@ -264,10 +288,10 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
 
             <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
                 <div className="flex">
-                    <Title label="Items" />
+                    <Title label="Products" />
                     <button
                         className="p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300 ml-2"
-                        onClick={() => openItemEditModal()}
+                        onClick={() => openProductEditModal()}
                     >
                         <PlusIcon className="w-4 h-4" />
                     </button>
@@ -275,43 +299,45 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
                 <Divider />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6">
-                    {loadingItems ? (
+                    {loadingProducts ? (
                         <div className="col-span-full text-center">
                             <LoadingIndicator svgClassName="w-8 h-8" />
                         </div>
-                    ) : items && items.length > 0 ? (
-                        items.map((outlet) => (
-                            <BetterLink
-                                key={outlet.id}
-                                href={`/outlets/${outlet.id}`}
-                                className="relative"
-                            >
-                                <ImageCard
-                                    name={outlet.name || 'Unnamed outlet'}
-                                    desc={outlet.address || 'Unknown address'}
-                                    imageUrl={outlet.imageUrl}
-                                />
-
+                    ) : products && products.length > 0 ? (
+                        products.map((product) => (
+                            <div className="relative" key={product.id}>
                                 <BetterLink
-                                    href={`/outlets/${outlet.id}/settings`}
+                                    href={`/outlets/${outletId}/products/${product.id}`}
+                                >
+                                    <ImageCard
+                                        name={product.name || 'Unnamed product'}
+                                        desc={product.description || ''}
+                                        imageUrl={product.avatar_url}
+                                    />
+                                </BetterLink>
+
+                                <button
                                     className="absolute top-2 right-2 p-2 rounded-lg bg-white/50 dark:bg-zinc-800/50 hover:bg-white dark:hover:bg-zinc-800 transition duration-300"
+                                    onClick={() =>
+                                        openProductEditModal(product)
+                                    }
                                 >
                                     <PencilIcon className="w-4 h-4" />
-                                </BetterLink>
-                            </BetterLink>
+                                </button>
+                            </div>
                         ))
                     ) : (
                         <div className="col-span-full flex flex-col space-y-4 items-center">
                             <p className="text-center text-zinc-600 dark:text-zinc-400">
-                                No items added yet
+                                No products added yet
                             </p>
 
                             <button
                                 className="flex items-center font-semibold space-x-2 p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
-                                onClick={() => openItemEditModal()}
+                                onClick={() => openProductEditModal()}
                             >
                                 <PlusIcon className="w-4 h-4" />
-                                <div>Add item</div>
+                                <div>Add product</div>
                             </button>
                         </div>
                     )}

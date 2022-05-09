@@ -92,7 +92,7 @@ export default function EditAddressForm({
                 )
             );
 
-            toast.success('Address saved');
+            toast.success('Address updated successfully');
             closeModal();
         } catch (error) {
             toast.error(error.message);
@@ -117,7 +117,7 @@ export default function EditAddressForm({
                 prev?.filter((address) => address.id !== currentAddress.id)
             );
 
-            toast.success('Address deleted');
+            toast.success('Address deleted successfully');
             closeModal();
         } catch (error) {
             toast.error(error.message);
