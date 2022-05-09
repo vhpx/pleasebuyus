@@ -174,7 +174,7 @@ export default function OutletsPage() {
                                 <ImageCard
                                     name={outlet.name || 'Unnamed outlet'}
                                     desc={outlet.address || 'Unknown address'}
-                                    imageUrl={outlet.imageUrl}
+                                    imageUrl={outlet.avatar_url}
                                 />
 
                                 <BetterLink
@@ -221,7 +221,7 @@ export default function OutletsPage() {
                                 <ImageCard
                                     name={outlet.name || 'Unnamed outlet'}
                                     desc={outlet.address || 'Unknown address'}
-                                    imageUrl={outlet.imageUrl}
+                                    imageUrl={outlet.avatar_url}
                                 />
                             </BetterLink>
                         ))

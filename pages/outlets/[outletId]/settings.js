@@ -12,6 +12,10 @@ import { StoreLayout } from '../../../components/layout/layout';
 import BetterLink from '../../../components/link/BetterLink';
 import { supabase } from '../../../utils/supabase-client';
 import { RequireAuth } from '../../../hooks/useUser';
+import EditItemForm from '../../../components/forms/EditItemForm';
+import Avatar from '../../../components/common/Avatar';
+import FormLabel from '../../../components/form/FormLabel';
+import { v4 as uuidv4 } from 'uuid';
 
 OutletSettingsPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -52,6 +56,7 @@ export default function OutletSettingsPage({ outlet }) {
     const { outletId } = router.query;
 
     const [savingOutlet, setSavingOutlet] = useState(false);
+    const [uploading, setUploading] = useState(false);
 
     const [loadingItems, setLoadingItems] = useState(true);
     const [items, setItems] = useState([]);
@@ -94,6 +99,82 @@ export default function OutletSettingsPage({ outlet }) {
         }
     };
 
+    const openUserCardCreationModal = (item) =>
+        modals.openModal({
+            title: (
+                <div className="font-bold">
+                    {item ? 'Edit item' : 'Add new item'}
+                </div>
+            ),
+            centered: true,
+            overflow: 'inside',
+            children: (
+                <div className="p-1">
+                    <EditItemForm
+                        user={user}
+                        userData={userData}
+                        closeModal={closeModal}
+                        onCreate={(bank) => openNewCard(bank)}
+                        setter={setCards}
+                    />
+                </div>
+            ),
+            onClose: () => {},
+        });
+
+    const downloadImage = (path) => {
+        try {
+            const { publicURL, error } = supabase.storage
+                .from('avatars')
+                .getPublicUrl(path);
+
+            if (error) {
+                throw error;
+            }
+
+            return publicURL;
+        } catch (error) {
+            console.log('Error downloading image: ', error.message);
+        }
+    };
+
+    const uploadAvatar = async (event) => {
+        try {
+            setUploading(true);
+
+            if (!event.target.files || event.target.files.length === 0) {
+                throw new Error('You must select an image to upload.');
+            }
+
+            const file = event.target.files[0];
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${uuidv4()}.${fileExt}`;
+            const filePath = `${fileName}`;
+
+            let { error: uploadError } = await supabase.storage
+                .from('avatars')
+                .upload(filePath, file);
+
+            if (uploadError) {
+                throw uploadError;
+            }
+
+            const avatarUrl = downloadImage(filePath);
+
+            const { error } = await supabase
+                .from('outlets')
+                .update({ avatar_url: avatarUrl }, { returning: 'minimal' })
+                .eq('id', outlet?.id);
+
+            if (error) throw error;
+            outlet.avatar_url = avatarUrl;
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setUploading(false);
+        }
+    };
+
     return (
         <div className="p-4 md:p-8 lg:p-16 space-y-8">
             <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
@@ -101,6 +182,47 @@ export default function OutletSettingsPage({ outlet }) {
                 <Divider />
 
                 <div className="lg:w-1/3 mb-8 grid grid-cols-1 gap-x-8">
+                    <div className="flex flex-col md:flex-row col-span-full mb-8 items-center justify-start space-y-4 md:space-x-8 md:space-y-0">
+                        <div className="flex-0">
+                            <Avatar
+                                url={outlet.avatar_url}
+                                size={140}
+                                hideDefault={true}
+                                alt={outlet.name}
+                            />
+                        </div>
+
+                        <div className="flex flex-col w-full">
+                            <FormLabel
+                                className="mb-0"
+                                id="avatar"
+                                label={
+                                    uploading
+                                        ? 'Uploading...'
+                                        : 'Upload an avatar for your outlet'
+                                }
+                            />
+
+                            <input
+                                className="block max-w-md cursor-pointer rounded-lg border border-zinc-300 bg-white transition duration-300 placeholder:text-black hover:border-zinc-400 hover:bg-zinc-200/50 focus:border-transparent focus:outline-none dark:border-zinc-700/50 dark:bg-zinc-900/70 dark:text-white dark:placeholder:text-white dark:hover:border-zinc-700 dark:hover:bg-zinc-800"
+                                aria-describedby="user_avatar_help"
+                                id="avatar"
+                                type="file"
+                                accept="image/*"
+                                onChange={uploadAvatar}
+                                disabled={uploading}
+                            />
+                            <div
+                                className="mt-1 text-sm text-zinc-500 dark:text-zinc-300"
+                                id="avatar-description"
+                            >
+                                Your outlet avatar is a way to identify your
+                                outlet.
+                            </div>
+                        </div>
+                    </div>
+                    <Divider className="col-span-full" />
+
                     <FormInput
                         label="Name"
                         value={outlet?.name}
@@ -137,7 +259,10 @@ export default function OutletSettingsPage({ outlet }) {
             <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
                 <div className="flex">
                     <Title label="Items"></Title>
-                    <button className="p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300 ml-2">
+                    <button
+                        className="p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300 ml-2"
+                        onClick={() => {}}
+                    >
                         <PlusIcon className="w-4 h-4" />
                     </button>
                 </div>
@@ -175,7 +300,10 @@ export default function OutletSettingsPage({ outlet }) {
                                 No items added yet
                             </p>
 
-                            <button className="flex items-center font-semibold space-x-2 p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300">
+                            <button
+                                className="flex items-center font-semibold space-x-2 p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
+                                onClick={() => {}}
+                            >
                                 <PlusIcon className="w-4 h-4" />
                                 <div>Add item</div>
                             </button>

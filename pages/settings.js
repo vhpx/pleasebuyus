@@ -18,6 +18,7 @@ import { RequireAuth, useUser } from '../hooks/useUser';
 import { supabase } from '../utils/supabase-client';
 import CreateUserCardForm from '../components/forms/CreateUserCardForm';
 import Card from '../components/common/Card';
+import { v4 as uuidv4 } from 'uuid';
 
 SettingsPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -164,7 +165,7 @@ export default function SettingsPage() {
 
             const file = event.target.files[0];
             const fileExt = file.name.split('.').pop();
-            const fileName = `${Math.random()}.${fileExt}`;
+            const fileName = `${uuidv4()}.${fileExt}`;
             const filePath = `${fileName}`;
 
             let { error: uploadError } = await supabase.storage

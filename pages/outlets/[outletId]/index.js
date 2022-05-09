@@ -50,7 +50,7 @@ export default function DetailedOutletPage() {
             <div className="flex justify-between items-start bg-white dark:bg-zinc-800/50 rounded-lg p-8">
                 <div className="flex items-end">
                     <ImageCard
-                        imageUrl={outlet?.image_url}
+                        imageUrl={outlet?.avatar_url}
                         hideContent={true}
                     />
 
