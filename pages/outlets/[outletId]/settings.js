@@ -16,6 +16,7 @@ import EditItemForm from '../../../components/forms/EditItemForm';
 import Avatar from '../../../components/common/Avatar';
 import FormLabel from '../../../components/form/FormLabel';
 import { v4 as uuidv4 } from 'uuid';
+import { useModals } from '@mantine/modals';
 
 OutletSettingsPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -67,6 +68,9 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
     const [loadingCategories, setLoadingCategories] = useState(true);
     const [categories, setCategories] = useState([]);
 
+    const modals = useModals();
+    const closeModal = () => modals.closeModal();
+
     useEffect(() => {
         const timeout = setTimeout(() => {
             setItems([]);
@@ -102,7 +106,7 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
         }
     };
 
-    const openUserCardCreationModal = (item) =>
+    const openItemEditModal = (item) =>
         modals.openModal({
             title: (
                 <div className="font-bold">
@@ -114,11 +118,9 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
             children: (
                 <div className="p-1">
                     <EditItemForm
-                        user={user}
-                        userData={userData}
+                        item={item}
                         closeModal={closeModal}
-                        onCreate={(bank) => openNewCard(bank)}
-                        setter={setCards}
+                        setter={setItems}
                     />
                 </div>
             ),
@@ -262,10 +264,10 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
 
             <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
                 <div className="flex">
-                    <Title label="Items"></Title>
+                    <Title label="Items" />
                     <button
                         className="p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300 ml-2"
-                        onClick={() => {}}
+                        onClick={() => openItemEditModal()}
                     >
                         <PlusIcon className="w-4 h-4" />
                     </button>
@@ -306,7 +308,7 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
 
                             <button
                                 className="flex items-center font-semibold space-x-2 p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
-                                onClick={() => {}}
+                                onClick={() => openItemEditModal()}
                             >
                                 <PlusIcon className="w-4 h-4" />
                                 <div>Add item</div>
@@ -318,7 +320,7 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
 
             <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
                 <div className="flex">
-                    <Title label="Categories"></Title>
+                    <Title label="Categories" />
                     <button className="p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300 ml-2">
                         <PlusIcon className="w-4 h-4" />
                     </button>
