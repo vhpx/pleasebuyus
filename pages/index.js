@@ -1,74 +1,65 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/outline';
+import { useEffect, useState } from 'react';
 import Card from '../components/common/Card';
 import Container from '../components/common/Container';
 import { StoreLayout } from '../components/layout/layout';
 import Title from '../components/typography/Title';
 import { useCart } from '../hooks/useCart';
 import { formatCurrency } from '../utils/currency-format';
+import { supabase } from '../utils/supabase-client';
+import { toast } from 'react-toastify';
+import Divider from '../components/common/Divider';
 
 Home.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
 };
 
 export default function Home() {
-    const items_data = [
-        {
-            id: 1,
-            name: 'Asus Rog Strix G513IH-HN006 15.6',
-            description:
-                'R7-4800H/16GB/512GB SSD/GTX 1650 4GB Gaming Laptop Black',
-            price: 1349.99,
-        },
-        {
-            id: 2,
-            name: 'MSI GF63 Thin and Light',
-            description: 'MSI GF63 Thin and Light',
-            price: 1999,
-        },
-        {
-            id: 3,
-            name: 'Laptop Acer Aspire 7 A715 75G 58U4',
-            description:
-                'NVIDIA GeForce GTX 1650 4GB GDDR6 + Intel UHD Graphics',
-            price: 899.49,
-        },
-        {
-            id: 4,
-            name: 'Laptop gaming Acer Nitro 5 Eagle AN515 57 54MV',
-            description:
-                'NVIDIA® GeForce RTX™ 3050 4GB GDDR6 + Intel® Core i5-11400H upto 4.50 GHz, 6 cores 12 threads',
-            price: 1099,
-        },
-    ];
+    const [products, setProducts] = useState([]);
 
-    const { items, addItem, removeItem } = useCart();
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('products')
+                    .select('*');
+
+                if (error) throw error;
+                setProducts(data);
+            } catch (error) {
+                toast.error(error.message);
+            }
+        };
+        fetchProducts();
+    }, []);
+
+    const { items: cartItems, addItem, removeItem } = useCart();
 
     return (
         <Container>
-            <Title label="Electronics" />
-            <div className="col-span-full mb-4 text-xl font-semibold dark:text-white">
-                Computers and accessories
-            </div>
+            <Title label="All products" />
+            <Divider />
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                {items_data.map((item) => (
+                {products.map((product) => (
                     <Card
-                        key={item.id}
+                        key={product.id}
                         className="flex flex-col justify-between"
                     >
                         <div className="mb-2">
-                            <div className="font-semibold">{item.name}</div>
-                            <div>{item.description}</div>
+                            <div className="font-semibold">{product.name}</div>
+                            <div>{product.description}</div>
                         </div>
 
                         <div className="flex w-full items-end justify-between">
                             <div className="font-semibold text-blue-600 dark:text-blue-300">
-                                {formatCurrency(item.price)}
+                                {formatCurrency(product.price)}
                             </div>
 
-                            {items.findIndex((i) => i.id === item.id) === -1 ? (
+                            {cartItems.findIndex((i) => i.id === product.id) ===
+                            -1 ? (
                                 <button
-                                    onClick={() => addItem(item)}
+                                    onClick={() => addItem(product)}
                                     className="rounded-full border-2 border-zinc-500/70 dark:border-zinc-700 hover:border-blue-500 hover:bg-blue-500 dark:hover:bg-white/10 text-zinc-700/70 dark:text-zinc-300 dark:hover:text-white hover:text-white font-semibold px-4 py-1 transition duration-300"
                                 >
                                     Add to cart
@@ -77,7 +68,7 @@ export default function Home() {
                                 <div className="flex py-[1px] items-center rounded-full border bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800">
                                     <button
                                         onClick={() =>
-                                            removeItem(item.id, item.name)
+                                            removeItem(product.id, product.name)
                                         }
                                         className="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-full transition duration-300"
                                     >
@@ -85,12 +76,13 @@ export default function Home() {
                                     </button>
                                     <div className="px-2 min-w-[3rem] text-center font-semibold">
                                         {
-                                            items.find((i) => i.id === item.id)
-                                                .quantity
+                                            cartItems.find(
+                                                (i) => i.id === product.id
+                                            ).quantity
                                         }
                                     </div>
                                     <button
-                                        onClick={() => addItem(item)}
+                                        onClick={() => addItem(product)}
                                         className="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-full transition duration-300"
                                     >
                                         <PlusIcon className="h-4 w-4 font-semibold" />
