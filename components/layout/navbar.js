@@ -12,6 +12,7 @@ import Avatar from '../common/Avatar';
 import Logo, { BankLogo } from '../common/Logo';
 import CartDropdown from '../dropdown/CartDropdown';
 import UserDropdown from '../dropdown/UserDropdown';
+import WishlistDropdown from '../dropdown/WishlistDropdown';
 import BetterLink from '../link/BetterLink';
 
 export function StoreNavBar() {
@@ -154,6 +155,7 @@ export function StoreNavBar() {
             </div>
 
             <div className="flex items-center space-x-2">
+                <WishlistDropdown loggedIn={!!user} whiteText={true} />
                 <CartDropdown loggedIn={!!user} whiteText={true} />
 
                 {user ? (
