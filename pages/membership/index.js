@@ -126,7 +126,7 @@ export default function MembershipPage() {
                 const { data, error } = await supabase
                     .from('memberships')
                     .select('*')
-                    .eq('user_id', userData.id)
+                    .eq('user_id', userData?.id)
                     .single();
 
                 if (error || !data) throw new Error(error);
@@ -165,9 +165,9 @@ export default function MembershipPage() {
                         <div className="lg:pr-4">
                             <div className="flex items-center mb-8">
                                 <Avatar
-                                    url={userData.avatar_url}
+                                    url={userData?.avatar_url}
                                     alt={
-                                        (userData.name || userData.email) +
+                                        (userData?.name || userData?.email) +
                                         "'s avatar"
                                     }
                                     size={100}

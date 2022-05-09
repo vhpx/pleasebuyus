@@ -56,7 +56,7 @@ export default function BanksPage() {
                 const { data, error } = await supabase
                     .from('bank_cards')
                     .select('*')
-                    .eq('owner_id', userData.id);
+                    .eq('owner_id', userData?.id);
 
                 if (error) throw error;
 
@@ -102,7 +102,7 @@ export default function BanksPage() {
                     bank_code: bank,
                     card_number: cardNumber,
                     PIN: cardPin,
-                    owner_id: userData.id,
+                    owner_id: userData?.id,
                 })
                 .single();
 
@@ -131,7 +131,7 @@ export default function BanksPage() {
             const { data, error } = await supabase
                 .from('bank_cards')
                 .delete()
-                .eq('owner_id', userData.id)
+                .eq('owner_id', userData?.id)
                 .eq('bank_code', card.bank_code)
                 .eq('card_number', card.card_number)
                 .single();
