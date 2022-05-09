@@ -18,6 +18,7 @@ import { RequireAuth, useUser } from '../hooks/useUser';
 import { supabase } from '../utils/supabase-client';
 import CreateUserCardForm from '../components/forms/CreateUserCardForm';
 import Card from '../components/common/Card';
+import { v4 as uuidv4 } from 'uuid';
 
 SettingsPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -164,7 +165,7 @@ export default function SettingsPage() {
 
             const file = event.target.files[0];
             const fileExt = file.name.split('.').pop();
-            const fileName = `${Math.random()}.${fileExt}`;
+            const fileName = `${uuidv4()}.${fileExt}`;
             const filePath = `${fileName}`;
 
             let { error: uploadError } = await supabase.storage
@@ -323,7 +324,14 @@ export default function SettingsPage() {
 
                 <div className="lg:w-2/3 mb-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-8">
                     <div className="flex flex-col md:flex-row col-span-full mb-8 items-center justify-start space-y-4 md:space-x-8 md:space-y-0">
-                        <Avatar size={140} />
+                        <Avatar
+                            url={userData?.avatar_url}
+                            alt={
+                                (userData?.name || userData?.email) +
+                                "'s avatar"
+                            }
+                            size={140}
+                        />
 
                         <div className="flex flex-col w-full">
                             <FormLabel
@@ -396,6 +404,17 @@ export default function SettingsPage() {
                     />
 
                     <div className="h-2 col-span-full" />
+
+                    <OutlinedButton
+                        loading={updating}
+                        label="Save profile"
+                        loadingLabel="Saving"
+                        className="col-span-full max-w-sm"
+                        onClick={updateProfile}
+                        buttonOnly={true}
+                    />
+                    <div className="h-2 col-span-full" />
+
                     <Divider className="col-span-full" />
 
                     <div className="col-span-full">
@@ -462,7 +481,7 @@ export default function SettingsPage() {
                         ) : (
                             <div className="text-left">
                                 {cards && cards.length > 0 ? (
-                                    <div className="my-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                                    <div className="my-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                         {cards?.map((card) => (
                                             <Card
                                                 key={card.id}
@@ -513,17 +532,7 @@ export default function SettingsPage() {
                             </div>
                         )}
                     </div>
-
-                    <Divider className="mt-8 col-span-full" />
                 </div>
-
-                <OutlinedButton
-                    loading={updating}
-                    label="Save profile"
-                    loadingLabel="Saving"
-                    className="max-w-sm"
-                    onClick={updateProfile}
-                />
             </div>
 
             <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">

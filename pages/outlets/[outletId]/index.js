@@ -22,6 +22,10 @@ export default function DetailedOutletPage() {
     const [outlet, setOutlet] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    const [loadingCategories, setLoadingCategories] = useState(true);
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('all');
+
     useEffect(() => {
         const fetchOutlet = async () => {
             try {
@@ -42,7 +46,35 @@ export default function DetailedOutletPage() {
             }
         };
 
-        fetchOutlet();
+        const fetchCategories = async () => {
+            try {
+                if (!outletId) throw new Error('Outlet not found');
+
+                const { data, error } = await supabase
+                    .from('outlet_categories')
+                    .select('*')
+                    .eq('outlet_id', outletId);
+
+                if (error) throw error;
+                setCategories([
+                    {
+                        id: 'all',
+                        name: 'All',
+                    },
+                    ...data,
+                ]);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoadingCategories(false);
+            }
+        };
+
+        const fetchAll = async () => {
+            await Promise.all([fetchOutlet(), fetchCategories()]);
+        };
+
+        fetchAll();
     }, [outletId]);
 
     return (
@@ -50,7 +82,7 @@ export default function DetailedOutletPage() {
             <div className="flex justify-between items-start bg-white dark:bg-zinc-800/50 rounded-lg p-8">
                 <div className="flex items-end">
                     <ImageCard
-                        imageUrl={outlet?.image_url}
+                        imageUrl={outlet?.avatar_url}
                         hideContent={true}
                     />
 
@@ -73,47 +105,17 @@ export default function DetailedOutletPage() {
                 )}
             </div>
 
-            <div className="grid grid-cols-5 space-x-4">
-                <Card>Voucher</Card>
-                <Card>Voucher</Card>
-                <Card>Voucher</Card>
-                <Card>Voucher</Card>
-                <Card>Voucher</Card>
-            </div>
-
-            <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
-                <div className="flex space-x-10">
-                    <img
-                        className="w-1/2 rounded-lg"
-                        src="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4wqHR?ver=1b58"
-                    />
-                    <div>
-                        Lorem ipsum labore et dolore magna aliqua. Ut enim ad
-                        minim veniam consequat. Duis aute irure dolor in
-                        pariatur. Excepteur sint occaecat cupidatat non
-                        proident, sunt in culpa qui officia deserunt mollit anim
-                        id est laborum. Lorem ipsum dolor sit amet, consectetur
-                        adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua. <br></br> Ut enim ad
-                        minim veniam, quis nostrud exercitation ullamco laboris
-                        nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                        dolor in reprehenderit in voluptate velit esse cillum
-                        dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                        cupidatat non proident, sunt in culpa qui officia
-                        deserunt mollit anim id est laborum.
-                    </div>
-                </div>
-            </div>
-
             <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
                 <div className="flex space-x-1">
-                    <Card>All</Card>
-                    <Card>Category 1</Card>
-                    <Card>Category 2</Card>
-                    <Card>Category 3</Card>
-                    <Card>Category 4</Card>
-                    <Card>Category 5</Card>
+                    {categories.map((category) => (
+                        <Card key={category.id}>
+                            <div className="text-sm font-semibold">
+                                {category.name}
+                            </div>
+                        </Card>
+                    ))}
                 </div>
+
                 <div className="text-right">Filter and sort</div>
                 <div className="grid grid-cols-4 gap-4">
                     <ItemCard

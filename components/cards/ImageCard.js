@@ -13,7 +13,7 @@ export default function ImageCard({ hideContent, name, desc, imageUrl, alt }) {
                     <img
                         src={imageUrl}
                         alt={alt ?? 'an image'}
-                        className={`h-full w-full ${
+                        className={`h-full w-full aspect-square ${
                             hideContent ? 'rounded-lg' : 'rounded-t-lg'
                         }`}
                         style={{ objectFit: 'cover' }}

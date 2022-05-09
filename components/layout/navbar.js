@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
 import { useTheme } from '../../hooks/useTheme';
 import { useUser } from '../../hooks/useUser';
 import Avatar from '../common/Avatar';
-import Logo from '../common/Logo';
+import Logo, { BankLogo } from '../common/Logo';
 import CartDropdown from '../dropdown/CartDropdown';
 import UserDropdown from '../dropdown/UserDropdown';
 import BetterLink from '../link/BetterLink';
@@ -166,7 +166,7 @@ export function StoreNavBar() {
                     />
                 ) : (
                     <BetterLink href="/login">
-                        <div className="hidden md:flex items-center text-white border-transparent justify-center space-x-2 rounded-lg border px-4 py-2 transition duration-150 hover:border-zinc-300 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-100 dark:hover:text-zinc-100">
+                        <div className="flex space-x-1 text-white items-center justify-center rounded-lg px-4 py-2 transition duration-300 hover:bg-white/10 dark:hover:bg-zinc-800">
                             <LoginIcon className="h-5 w-5" />
                             <div className="font-semibold">Login</div>
                         </div>
@@ -212,12 +212,7 @@ export function BankNavBar() {
             {menuClosed || (
                 <div className="fixed flex flex-col justify-between inset-0 z-50 bg-white/70 backdrop-blur-lg dark:bg-zinc-900/70 md:hidden md:bg-white md:dark:bg-zinc-900">
                     <div className="relative flex items-center justify-center px-2.5 py-4">
-                        <div className="flex space-x-2 items-center">
-                            <Logo />
-                            <div className="font-semibold text-4xl dark:text-white">
-                                Banks
-                            </div>
-                        </div>
+                        <BankLogo />
                         <button
                             className="absolute right-4 rounded-full p-2 md:hidden"
                             onClick={closeMenu}
@@ -274,12 +269,7 @@ export function BankNavBar() {
                         <MenuIcon className="h-6 w-6 text-white md:hidden" />
                     </button>
                 )}
-                <div className="flex space-x-2 items-center">
-                    <Logo />
-                    <div className="font-semibold text-4xl text-white">
-                        Banks
-                    </div>
-                </div>
+                <BankLogo />
             </div>
 
             <div className="flex items-center space-x-2">
@@ -294,7 +284,7 @@ export function BankNavBar() {
                     />
                 ) : (
                     <BetterLink href="/login">
-                        <div className="hidden md:flex items-center text-white border-transparent justify-center space-x-2 rounded-lg border px-4 py-2 transition duration-150 hover:border-zinc-300 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-100 dark:hover:text-zinc-100">
+                        <div className="flex space-x-1 text-white items-center justify-center rounded-lg px-4 py-2 transition duration-300 hover:bg-white/10 dark:hover:bg-zinc-800">
                             <LoginIcon className="h-5 w-5" />
                             <div className="font-semibold">Login</div>
                         </div>

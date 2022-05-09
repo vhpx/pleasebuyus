@@ -126,7 +126,7 @@ export default function MembershipPage() {
                 const { data, error } = await supabase
                     .from('memberships')
                     .select('*')
-                    .eq('user_id', userData.id)
+                    .eq('user_id', userData?.id)
                     .single();
 
                 if (error || !data) throw new Error(error);
@@ -164,7 +164,14 @@ export default function MembershipPage() {
                     <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-8">
                         <div className="lg:pr-4">
                             <div className="flex items-center mb-8">
-                                <Avatar size={100} />
+                                <Avatar
+                                    url={userData?.avatar_url}
+                                    alt={
+                                        (userData?.name || userData?.email) +
+                                        "'s avatar"
+                                    }
+                                    size={100}
+                                />
                                 <div className="ml-4">
                                     <div className="text-lg md:text-2xl font-bold">
                                         {userData?.name || userData?.email}

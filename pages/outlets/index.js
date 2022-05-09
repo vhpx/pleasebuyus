@@ -174,12 +174,12 @@ export default function OutletsPage() {
                                 <ImageCard
                                     name={outlet.name || 'Unnamed outlet'}
                                     desc={outlet.address || 'Unknown address'}
-                                    imageUrl={outlet.imageUrl}
+                                    imageUrl={outlet.avatar_url}
                                 />
 
                                 <BetterLink
                                     href={`/outlets/${outlet.id}/settings`}
-                                    className="absolute top-2 right-2 p-2 rounded-lg bg-white/50 dark:bg-zinc-800/50 hover:bg-white dark:hover:bg-zinc-800 transition duration-300"
+                                    className="absolute top-2 right-2 p-2 rounded-lg hover:text-blue-700 bg-white/50 hover:bg-blue-100 dark:text-zinc-300 dark:bg-zinc-800/70 dark:hover:bg-zinc-700/70 dark:hover:text-white transition duration-300"
                                 >
                                     <PencilIcon className="w-4 h-4" />
                                 </BetterLink>
@@ -221,7 +221,7 @@ export default function OutletsPage() {
                                 <ImageCard
                                     name={outlet.name || 'Unnamed outlet'}
                                     desc={outlet.address || 'Unknown address'}
-                                    imageUrl={outlet.imageUrl}
+                                    imageUrl={outlet.avatar_url}
                                 />
                             </BetterLink>
                         ))
