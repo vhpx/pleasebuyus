@@ -1,23 +1,15 @@
 import Image from 'next/image';
-import { useUser } from '../../hooks/useUser';
 import DefaultAvatar from './DefaultAvatar';
 
 export default function Avatar({ size = 40, url, hideDefault, alt }) {
     const defaultCss = 'rounded-lg';
 
-    const { userData } = useUser();
-
-    const avatarUrl = url ?? (hideDefault ? '' : userData?.['avatar_url']);
-    const displayName = url
-        ? alt
-        : userData?.['display_name'] ?? 'Profile avatar';
-
     return (
         <>
-            {avatarUrl ? (
+            {url ? (
                 <Image
-                    src={avatarUrl}
-                    alt={displayName}
+                    src={url}
+                    alt={alt ?? 'Avatar'}
                     width={size}
                     height={size}
                     className={defaultCss}
