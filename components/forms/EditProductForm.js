@@ -112,7 +112,7 @@ export default function EditProductForm({
                     .insert({
                         name: productName,
                         description: productDescription,
-                        price: parseInt(productPrice),
+                        price: parseFloat(productPrice),
                         avatar_url: productAvatarUrl,
                         outlet_id: outletId,
                     })
@@ -124,7 +124,7 @@ export default function EditProductForm({
                     id: data?.id,
                     name: productName,
                     description: productDescription,
-                    price: parseInt(productPrice),
+                    price: parseFloat(productPrice),
                     avatar_url: productAvatarUrl,
                     outlet_id: outletId,
                 };
@@ -141,7 +141,7 @@ export default function EditProductForm({
                 .update({
                     name: productName,
                     description: productDescription,
-                    price: parseInt(productPrice),
+                    price: parseFloat(productPrice),
                     avatar_url: productAvatarUrl,
                 })
                 .eq('outlet_id', outletId)
@@ -154,7 +154,7 @@ export default function EditProductForm({
                 id: currentProduct?.id || data?.id,
                 name: productName,
                 description: productDescription,
-                price: parseInt(productPrice),
+                price: parseFloat(productPrice),
                 avatar_url: productAvatarUrl,
                 outlet_id: outletId,
             };
