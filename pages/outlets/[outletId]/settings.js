@@ -17,6 +17,7 @@ import Avatar from '../../../components/common/Avatar';
 import FormLabel from '../../../components/form/FormLabel';
 import { v4 as uuidv4 } from 'uuid';
 import { useModals } from '@mantine/modals';
+import { formatCurrency } from '../../../utils/currency-format';
 
 OutletSettingsPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -311,7 +312,11 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
                                 >
                                     <ImageCard
                                         name={product.name || 'Unnamed product'}
-                                        desc={product.description || ''}
+                                        desc={
+                                            formatCurrency(product.price) ||
+                                            product.description ||
+                                            ''
+                                        }
                                         imageUrl={product.avatar_url}
                                     />
                                 </BetterLink>
