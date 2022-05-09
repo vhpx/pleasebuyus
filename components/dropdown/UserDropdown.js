@@ -25,8 +25,8 @@ export default function UserDropdown({
                 className={`flex items-center justify-center rounded-lg px-4 py-2 transition duration-300 hover:bg-white/10 dark:hover:bg-zinc-800`}
             >
                 <Avatar
-                    url={userData.avatar_url}
-                    alt={(userData.name || userData.email) + "'s avatar"}
+                    url={userData?.avatar_url}
+                    alt={(userData?.name || userData?.email) + "'s avatar"}
                     size={30}
                 />
                 {(email || displayName) && (

@@ -325,9 +325,10 @@ export default function SettingsPage() {
                 <div className="lg:w-2/3 mb-8 grid grid-cols-1 md:grid-cols-2 md:gap-x-8">
                     <div className="flex flex-col md:flex-row col-span-full mb-8 items-center justify-start space-y-4 md:space-x-8 md:space-y-0">
                         <Avatar
-                            url={userData.avatar_url}
+                            url={userData?.avatar_url}
                             alt={
-                                (userData.name || userData.email) + "'s avatar"
+                                (userData?.name || userData?.email) +
+                                "'s avatar"
                             }
                             size={140}
                         />
