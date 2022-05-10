@@ -256,7 +256,7 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
                 </div>
                 <Divider />
 
-                <div className="lg:w-1/3 mb-8 grid grid-cols-1 gap-x-8">
+                <div className="lg:w-1/3 mb-8 grid grid-cols-1 gap-8">
                     <div className="flex flex-col md:flex-row col-span-full mb-8 items-center justify-start space-y-4 md:space-x-8 md:space-y-0">
                         <div className="flex-0">
                             <Avatar
@@ -344,7 +344,7 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
                 </div>
                 <Divider />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {loadingProducts ? (
                         <div className="col-span-full text-center">
                             <LoadingIndicator svgClassName="w-8 h-8" />
@@ -406,7 +406,7 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
                 </div>
                 <Divider />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {loadingCategories ? (
                         <div className="col-span-full text-center">
                             <LoadingIndicator svgClassName="w-8 h-8" />
