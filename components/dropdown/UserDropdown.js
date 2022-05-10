@@ -1,8 +1,8 @@
 import { Popover } from '@headlessui/react';
 import { supabase } from '../../utils/supabase-client';
-import BetterLink from '../link/BetterLink';
 import Avatar from '../common/Avatar';
 import { BlockDarkModeToggle } from '../buttons/DarkModeToggle';
+import { useRouter } from 'next/router';
 
 export default function UserDropdown({
     whiteText,
@@ -12,6 +12,13 @@ export default function UserDropdown({
     desktopOnly,
     bankMode,
 }) {
+    const router = useRouter();
+
+    const navigateTo = (path, onNavigate) => {
+        router.push(path);
+        if (onNavigate) onNavigate();
+    };
+
     const email = userData?.email;
     const displayName = userData?.name;
 
@@ -41,68 +48,76 @@ export default function UserDropdown({
             </Popover.Button>
 
             <Popover.Panel className="absolute right-0 top-[3.5rem] z-10">
-                <div className="my-1 flex w-64 flex-col rounded-lg bg-white/50 shadow backdrop-blur dark:bg-zinc-700/50">
-                    {bankMode ? (
-                        <>
-                            <BetterLink
-                                href="/"
-                                className="rounded-t-lg px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
-                            >
-                                Return to Please Buy Us
-                            </BetterLink>
-                        </>
-                    ) : (
-                        <>
-                            <BetterLink
-                                href="/outlets"
-                                className="rounded-t-lg px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
-                            >
-                                Outlets
-                            </BetterLink>
+                {({ close }) => (
+                    <div className="my-1 flex w-64 flex-col rounded-lg bg-white/50 shadow backdrop-blur dark:bg-zinc-700/50">
+                        {bankMode ? (
+                            <>
+                                <button
+                                    className="text-left rounded-t-lg px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
+                                    onClick={() => navigateTo('/', close)}
+                                >
+                                    Return to Please Buy Us
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <button
+                                    className="text-left rounded-t-lg px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
+                                    onClick={() =>
+                                        navigateTo('/outlets', close)
+                                    }
+                                >
+                                    Outlets
+                                </button>
 
-                            <BetterLink
-                                href="/membership"
-                                className="px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
-                            >
-                                Membership
-                            </BetterLink>
+                                <button
+                                    className="text-left px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
+                                    onClick={() =>
+                                        navigateTo('/membership', close)
+                                    }
+                                >
+                                    Membership
+                                </button>
 
-                            <BetterLink
-                                href="/history"
-                                className="px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
-                            >
-                                Purchase History
-                            </BetterLink>
+                                <button
+                                    className="text-left px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
+                                    onClick={() =>
+                                        navigateTo('/history', close)
+                                    }
+                                >
+                                    Purchase History
+                                </button>
 
-                            <BetterLink
-                                href="/banks"
-                                className="rounded-t-lg px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
-                            >
-                                Banks
-                            </BetterLink>
-                        </>
-                    )}
+                                <button
+                                    className="text-left rounded-t-lg px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
+                                    onClick={() => navigateTo('/banks', close)}
+                                >
+                                    Banks
+                                </button>
+                            </>
+                        )}
 
-                    <BlockDarkModeToggle
-                        className="font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
-                        darkMode={darkMode}
-                        updateTheme={updateTheme}
-                    />
+                        <BlockDarkModeToggle
+                            className="font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
+                            darkMode={darkMode}
+                            updateTheme={updateTheme}
+                        />
 
-                    <BetterLink
-                        href="/settings"
-                        className="px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
-                    >
-                        Settings
-                    </BetterLink>
+                        <button
+                            className="text-left px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
+                            onClick={() => navigateTo('/settings', close)}
+                        >
+                            Settings
+                        </button>
 
-                    <BetterLink
-                        onClick={handleLogout}
-                        className="rounded-b-lg px-4 py-2 font-semibold hover:bg-red-500 hover:text-white dark:hover:bg-red-500/70"
-                    >
-                        Log out
-                    </BetterLink>
-                </div>
+                        <button
+                            onClick={handleLogout}
+                            className="text-left rounded-b-lg px-4 py-2 font-semibold hover:bg-red-500 hover:text-white dark:hover:bg-red-500/70"
+                        >
+                            Log out
+                        </button>
+                    </div>
+                )}
             </Popover.Panel>
         </Popover>
     );
