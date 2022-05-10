@@ -9,6 +9,7 @@ import ImageCard from '../../../components/cards/ImageCard';
 import BetterLink from '../../../components/link/BetterLink';
 import { useUser } from '../../../hooks/useUser';
 import ProductCard from '../../../components/cards/ProductCard';
+import LoadingIndicator from '../../../components/common/LoadingIndicator';
 
 DetailedOutletPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -104,6 +105,42 @@ export default function DetailedOutletPage() {
         fetchAll();
     }, [outletId]);
 
+    const fetchProducts = async (categoryId) => {
+        try {
+            if (!outletId) return;
+            setProducts([]);
+
+            if (categoryId === 'all') {
+                const { data, error } = await supabase
+                    .from('products')
+                    .select('*')
+                    .eq('outlet_id', outletId);
+
+                if (error) throw error;
+                setProducts(data);
+            } else {
+                const { data, error } = await supabase
+                    .from('products')
+                    .select('*')
+                    .eq('outlet_id', outletId)
+                    .eq('category_id', categoryId);
+
+                if (error) throw error;
+                setProducts(data);
+            }
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setLoadingProducts(false);
+        }
+    };
+
+    const handleCategoryChange = async (categoryId) => {
+        setSelectedCategory(categoryId);
+        setLoadingProducts(true);
+        await fetchProducts(categoryId);
+    };
+
     return (
         <div className="p-4 md:p-8 lg:p-16 space-y-8">
             <div className="flex justify-between items-start bg-white dark:bg-zinc-800/50 rounded-lg p-8">
@@ -135,7 +172,7 @@ export default function DetailedOutletPage() {
             <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
                 <div className="flex space-x-2">
                     {categories.map((category) => (
-                        <div
+                        <button
                             className={`px-4 py-2 cursor-pointer rounded-lg border dark:border-zinc-700 hover:bg-blue-500 hover:text-white dark:hover:bg-zinc-700/70 transition duration-300
                             ${
                                 selectedCategory === category.id &&
@@ -143,19 +180,29 @@ export default function DetailedOutletPage() {
                             }
                             `}
                             key={category.id}
+                            onClick={() => handleCategoryChange(category.id)}
                         >
                             <div className="text-sm font-semibold">
                                 {category.name}
                             </div>
-                        </div>
+                        </button>
                     ))}
                 </div>
 
                 <div className="mt-4 grid grid-cols-4 gap-4">
-                    {products &&
+                    {loadingProducts ? (
+                        <div className="w-full text-center col-span-full">
+                            <LoadingIndicator svgClassName="h-8 w-8" />
+                        </div>
+                    ) : products && products.length > 0 ? (
                         products.map((product) => (
                             <ProductCard product={product} key={product.id} />
-                        ))}
+                        ))
+                    ) : (
+                        <p className="text-zinc-600 dark:text-zinc-400">
+                            No products found
+                        </p>
+                    )}
                 </div>
             </div>
         </div>
