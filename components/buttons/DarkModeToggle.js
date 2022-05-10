@@ -14,7 +14,7 @@ export default function DarkModeToggle({
             className={`flex items-center justify-between space-x-4 ${className}`}
         >
             {hideLabel || (
-                <div className="font-semibold dark:text-zinc-400">Light</div>
+                <div className="font-semibold dark:text-zinc-300">Light</div>
             )}
             <button
                 type="button"
@@ -53,7 +53,7 @@ export function BlockDarkModeToggle({ darkMode, updateTheme, className }) {
             onClick={toggleDarkMode}
             className={`flex items-center justify-between px-4 py-2 ${className}`}
         >
-            <div className="font-semibold dark:text-zinc-400">Light</div>
+            <div className="font-semibold dark:text-zinc-300">Light</div>
             <button
                 type="button"
                 aria-pressed="false"
