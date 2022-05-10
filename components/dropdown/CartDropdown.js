@@ -7,6 +7,7 @@ import {
 import { useRouter } from 'next/router';
 import { useCart } from '../../hooks/useCart';
 import { currencyFormatter } from '../../utils/currency-format';
+import AmountAdjuster from '../buttons/AmountAdjuster';
 
 export default function CartDropdown({ loggedIn, whiteText }) {
     const { items, addItem, removeItem, clearCart, getTotalItems, getTotal } =
@@ -58,36 +59,21 @@ export default function CartDropdown({ loggedIn, whiteText }) {
                                                 <div className="text-sm text-zinc-600 line-clamp-2 dark:text-zinc-200">
                                                     {product.description}
                                                 </div>
-                                                <div className="flex w-fit items-center rounded-full border bg-white/50 dark:border-zinc-500 dark:bg-zinc-700/50">
-                                                    <button
-                                                        onClick={() =>
-                                                            removeItem(
-                                                                product.id,
-                                                                product.name
-                                                            )
-                                                        }
-                                                        className="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-full transition duration-300"
-                                                    >
-                                                        <MinusIcon className="h-4 w-4 font-semibold" />
-                                                    </button>
-                                                    <div className="px-2 min-w-[2rem] text-center font-semibold">
-                                                        {
-                                                            items.find(
-                                                                (i) =>
-                                                                    i.id ===
-                                                                    product.id
-                                                            ).quantity
-                                                        }
-                                                    </div>
-                                                    <button
-                                                        onClick={() =>
-                                                            addItem(product)
-                                                        }
-                                                        className="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-full transition duration-300"
-                                                    >
-                                                        <PlusIcon className="h-4 w-4 font-semibold" />
-                                                    </button>
-                                                </div>
+                                                <AmountAdjuster
+                                                    amount={
+                                                        items.find(
+                                                            (i) =>
+                                                                i.id ===
+                                                                product.id
+                                                        )?.quantity
+                                                    }
+                                                    onDecrement={() =>
+                                                        removeItem(product.id)
+                                                    }
+                                                    onIncrement={() =>
+                                                        addItem(product)
+                                                    }
+                                                />
                                             </div>
                                         </div>
                                     </div>

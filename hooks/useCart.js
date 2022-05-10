@@ -38,12 +38,9 @@ export const CartProvider = (props) => {
         else newItems[itemIndex].quantity++;
 
         setItems(newItems);
-        // toast.success(`${item.name} added to cart`, {
-        //     position: toast.POSITION.BOTTOM_RIGHT,
-        // });
     };
 
-    const removeItem = (itemId, itemName) => {
+    const removeItem = (itemId) => {
         const newItems = [...items];
         const itemIndex = newItems.findIndex((i) => i.id === itemId);
 
@@ -54,21 +51,10 @@ export const CartProvider = (props) => {
         }
 
         setItems(newItems);
-        // toast.error(`${itemName ?? 'An item'} has been removed from cart`, {
-        //     position: toast.POSITION.BOTTOM_LEFT,
-        // });
     };
 
-    const removeAllItems = (itemId, itemName) => {
+    const removeAllItems = (itemId) => {
         setItems((prevItems) => prevItems.filter((i) => i.id !== itemId));
-        // toast.error(
-        //     `${
-        //         itemName ?? 'All items of this type'
-        //     } have been removed from cart`,
-        //     {
-        //         position: toast.POSITION.BOTTOM_LEFT,
-        //     }
-        // );
     };
 
     const clearCart = () => {

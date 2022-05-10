@@ -9,6 +9,8 @@ import { formatCurrency } from '../utils/currency-format';
 import { supabase } from '../utils/supabase-client';
 import { toast } from 'react-toastify';
 import Divider from '../components/common/Divider';
+import AddToCartButton from '../components/buttons/AddToCartButton';
+import AmountAdjuster from '../components/buttons/AmountAdjuster';
 
 Home.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -67,36 +69,19 @@ export default function Home() {
 
                             {cartItems.findIndex((i) => i.id === product.id) ===
                             -1 ? (
-                                <button
+                                <AddToCartButton
                                     onClick={() => addItem(product)}
-                                    className="rounded-full border-2 border-zinc-500/70 dark:border-zinc-700 hover:border-blue-500 hover:bg-blue-500 dark:hover:bg-white/10 text-zinc-700/70 dark:text-zinc-300 dark:hover:text-white hover:text-white font-semibold px-4 py-1 transition duration-300"
-                                >
-                                    Add to cart
-                                </button>
+                                />
                             ) : (
-                                <div className="flex py-[1px] items-center rounded-full border bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800">
-                                    <button
-                                        onClick={() =>
-                                            removeItem(product.id, product.name)
-                                        }
-                                        className="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-full transition duration-300"
-                                    >
-                                        <MinusIcon className="h-4 w-4 font-semibold" />
-                                    </button>
-                                    <div className="px-2 min-w-[2rem] text-center font-semibold">
-                                        {
-                                            cartItems.find(
-                                                (i) => i.id === product.id
-                                            ).quantity
-                                        }
-                                    </div>
-                                    <button
-                                        onClick={() => addItem(product)}
-                                        className="p-2 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-full transition duration-300"
-                                    >
-                                        <PlusIcon className="h-4 w-4 font-semibold" />
-                                    </button>
-                                </div>
+                                <AmountAdjuster
+                                    amount={
+                                        cartItems.find(
+                                            (i) => i.id === product.id
+                                        )?.quantity
+                                    }
+                                    onDecrement={() => removeItem(product.id)}
+                                    onIncrement={() => addItem(product)}
+                                />
                             )}
                         </div>
                     </Card>
