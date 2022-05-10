@@ -136,7 +136,7 @@ export default function DetailedProductPage() {
                                             setAmount(Math.max(0, amount - 1))
                                         }
                                         onIncrement={() =>
-                                            setAmount(Math.min(amount + 1, 99))
+                                            setAmount(Math.min(amount + 1, 10))
                                         }
                                     />
 

@@ -36,10 +36,25 @@ export const CartProvider = (props) => {
         const newItems = [...items];
         const itemIndex = newItems.findIndex((i) => i.id === item.id);
 
-        if (itemIndex === -1) newItems.push({ ...item, quantity });
-        else newItems[itemIndex].quantity += quantity;
+        const maxQuantity = 10;
 
-        toast.info(`Added ${quantity} ${item.name} to cart`);
+        if (itemIndex === -1) {
+            newItems.push({
+                ...item,
+                quantity: Math.min(quantity, maxQuantity),
+            });
+
+            toast.info(`Added ${quantity} ${item.name} to cart`);
+        } else {
+            const oldQuantity = newItems[itemIndex].quantity;
+            const newQuantity = Math.min(oldQuantity + quantity, maxQuantity);
+
+            newItems[itemIndex].quantity = newQuantity;
+
+            if (newQuantity !== oldQuantity)
+                toast.info(`Added ${quantity} ${item.name} to cart`);
+        }
+
         setItems(newItems);
     };
 
