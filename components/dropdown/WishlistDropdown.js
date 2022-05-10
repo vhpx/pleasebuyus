@@ -103,7 +103,7 @@ export default function WishlistDropdown({ loggedIn, whiteText }) {
                     ) : (
                         <div className="flex flex-col items-center justify-center">
                             <div className="py-32 text-center text-xl font-semibold text-zinc-600 dark:text-zinc-200">
-                                The cart is empty.
+                                You have no items in your wishlist.
                             </div>
                         </div>
                     )}
