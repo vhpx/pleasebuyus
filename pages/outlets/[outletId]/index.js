@@ -8,6 +8,7 @@ import { supabase } from '../../../utils/supabase-client';
 import ImageCard from '../../../components/cards/ImageCard';
 import BetterLink from '../../../components/link/BetterLink';
 import { useUser } from '../../../hooks/useUser';
+import ProductCard from '../../../components/cards/ProductCard';
 
 DetailedOutletPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -20,11 +21,14 @@ export default function DetailedOutletPage() {
     const { outletId } = router.query;
 
     const [outlet, setOutlet] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loadingOutlet, setLoadingOutlet] = useState(true);
 
     const [loadingCategories, setLoadingCategories] = useState(true);
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('all');
+
+    const [products, setProducts] = useState([]);
+    const [loadingProducts, setLoadingProducts] = useState(true);
 
     useEffect(() => {
         const fetchOutlet = async () => {
@@ -40,15 +44,16 @@ export default function DetailedOutletPage() {
                 if (error) throw error;
 
                 setOutlet(outletData);
-                setLoading(false);
             } catch (error) {
                 toast.error(error.message);
+            } finally {
+                setLoadingOutlet(false);
             }
         };
 
         const fetchCategories = async () => {
             try {
-                if (!outletId) throw new Error('Outlet not found');
+                if (!outletId) return;
 
                 const { data, error } = await supabase
                     .from('outlet_categories')
@@ -70,8 +75,30 @@ export default function DetailedOutletPage() {
             }
         };
 
+        const fetchProducts = async () => {
+            try {
+                if (!outletId) return;
+
+                const { data, error } = await supabase
+                    .from('products')
+                    .select('*')
+                    .eq('outlet_id', outletId);
+
+                if (error) throw error;
+                setProducts(data);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoadingProducts(false);
+            }
+        };
+
         const fetchAll = async () => {
-            await Promise.all([fetchOutlet(), fetchCategories()]);
+            await Promise.all([
+                fetchOutlet(),
+                fetchCategories(),
+                fetchProducts(),
+            ]);
         };
 
         fetchAll();
@@ -106,102 +133,29 @@ export default function DetailedOutletPage() {
             </div>
 
             <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
-                <div className="flex space-x-1">
+                <div className="flex space-x-2">
                     {categories.map((category) => (
-                        <Card key={category.id}>
+                        <div
+                            className={`px-4 py-2 cursor-pointer rounded-lg border dark:border-zinc-700 hover:bg-blue-500 hover:text-white dark:hover:bg-zinc-700/70 transition duration-300
+                            ${
+                                selectedCategory === category.id &&
+                                'bg-blue-500 text-white dark:bg-zinc-700/70'
+                            }
+                            `}
+                            key={category.id}
+                        >
                             <div className="text-sm font-semibold">
                                 {category.name}
                             </div>
-                        </Card>
+                        </div>
                     ))}
                 </div>
 
-                <div className="text-right">Filter and sort</div>
-                <div className="grid grid-cols-4 gap-4">
-                    <ItemCard
-                        name="MSI GF63 Thin and Light"
-                        price="$1,999.00"
-                        star="5 stars"
-                        numSold="30"
-                        imageUrl="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4wqHR?ver=1b58"
-                    ></ItemCard>
-                    <ItemCard
-                        name="Asus Rog Strix G513IH-HN006 15.6"
-                        price="$1,999.00"
-                        star="5 stars"
-                        numSold="30"
-                        imageUrl="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4wqHR?ver=1b58"
-                    ></ItemCard>
-                    <ItemCard
-                        name="Laptop Acer Aspire 7 A715 75G 58U4"
-                        price="$1,999.00"
-                        star="5 stars"
-                        numSold="30"
-                        imageUrl="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4wqHR?ver=1b58"
-                    ></ItemCard>
-                    <ItemCard
-                        name="MSI GF63 Thin and Light"
-                        price="$1,999.00"
-                        star="5 stars"
-                        numSold="30"
-                        imageUrl="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4wqHR?ver=1b58"
-                    ></ItemCard>
-                    <ItemCard
-                        name="Asus Rog Strix G513IH-HN006 15.6"
-                        price="$1,999.00"
-                        star="5 stars"
-                        numSold="30"
-                        imageUrl="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4wqHR?ver=1b58"
-                    ></ItemCard>
-                    <ItemCard
-                        name="Laptop Acer Aspire 7 A715 75G 58U4"
-                        price="$1,999.00"
-                        star="5 stars"
-                        numSold="30"
-                        imageUrl="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4wqHR?ver=1b58"
-                    ></ItemCard>
-                    <ItemCard
-                        name="MSI GF63 Thin and Light"
-                        price="$1,999.00"
-                        star="5 stars"
-                        numSold="30"
-                        imageUrl="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4wqHR?ver=1b58"
-                    ></ItemCard>
-                    <ItemCard
-                        name="Asus Rog Strix G513IH-HN006 15.6"
-                        price="$1,999.00"
-                        star="5 stars"
-                        numSold="30"
-                        imageUrl="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4wqHR?ver=1b58"
-                    ></ItemCard>
-                    <ItemCard
-                        name="Laptop Acer Aspire 7 A715 75G 58U4"
-                        price="$1,999.00"
-                        star="5 stars"
-                        numSold="30"
-                        imageUrl="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4wqHR?ver=1b58"
-                    ></ItemCard>
-                    <ItemCard
-                        name="MSI GF63 Thin and Light"
-                        price="$1,999.00"
-                        star="5 stars"
-                        numSold="30"
-                        imageUrl="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4wqHR?ver=1b58"
-                    ></ItemCard>
-                    <ItemCard
-                        name="Asus Rog Strix G513IH-HN006 15.6"
-                        price="$1,999.00"
-                        star="5 stars"
-                        numSold="30"
-                        imageUrl="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4wqHR?ver=1b58"
-                    ></ItemCard>
-                    <ItemCard
-                        name="Laptop Acer Aspire 7 A715 75G 58U4"
-                        price="$1,999.00"
-                        star="5 stars"
-                        numSold="30"
-                        imageUrl="https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4wqHR?ver=1b58"
-                    ></ItemCard>
+                <div className="mt-4 grid grid-cols-4 gap-4">
+                    {products &&
+                        products.map((product) => (
+                            <ProductCard product={product} key={product.id} />
+                        ))}
                 </div>
             </div>
         </div>
