@@ -13,7 +13,7 @@ export default function ProductCard({ product }) {
             <BetterLink
                 href={`/outlets/${product.outlet_id}/products/${product.id}`}
             >
-                {product?.avatar_url && (
+                {product?.avatar_url ? (
                     <div className="aspect-square rounded-lg">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
@@ -24,6 +24,8 @@ export default function ProductCard({ product }) {
                             width={400}
                         />
                     </div>
+                ) : (
+                    <div className="aspect-square w-full bg-gradient-to-br from-green-300 via-blue-500 to-purple-600 dark:from-green-300/70 dark:via-blue-500/70 dark:to-purple-600/70 rounded-lg" />
                 )}
 
                 <div className="mb-2">
