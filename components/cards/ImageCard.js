@@ -1,10 +1,17 @@
 import Card from '../common/Card';
 
-export default function ImageCard({ hideContent, name, desc, imageUrl, alt }) {
+export default function ImageCard({
+    hideContent,
+    sizing = 'h-48',
+    name,
+    desc,
+    imageUrl,
+    alt,
+}) {
     return (
         <Card className="p-0">
             <div
-                className={`h-48 min-w-[12rem] w-full ${
+                className={`${sizing} min-w-[12rem] w-full ${
                     hideContent ? 'rounded-lg' : 'rounded-t-lg'
                 }`}
             >
