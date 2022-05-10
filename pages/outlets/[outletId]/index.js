@@ -173,10 +173,11 @@ export default function DetailedOutletPage() {
                 <div className="flex space-x-2">
                     {categories.map((category) => (
                         <button
-                            className={`px-4 py-2 cursor-pointer rounded-lg border dark:border-zinc-700 hover:bg-blue-500 hover:text-white dark:hover:bg-zinc-700/70 transition duration-300
+                            className={`px-4 py-2 cursor-pointer rounded-lg border dark:border-zinc-700 transition duration-300
                             ${
-                                selectedCategory === category.id &&
-                                'bg-blue-500 text-white dark:bg-zinc-700/70'
+                                selectedCategory === category.id
+                                    ? 'bg-blue-500 text-white dark:bg-zinc-700/70'
+                                    : 'hover:bg-blue-500 hover:text-white dark:hover:bg-zinc-800/70'
                             }
                             `}
                             key={category.id}
@@ -200,7 +201,7 @@ export default function DetailedOutletPage() {
                         ))
                     ) : (
                         <p className="text-zinc-600 dark:text-zinc-400">
-                            No products found
+                            No products found.
                         </p>
                     )}
                 </div>
