@@ -156,7 +156,9 @@ export default function DetailedProductPage() {
                 <div className="bg-white dark:bg-zinc-800/50 p-8 rounded-lg">
                     <Title label="Description" />
                     <Divider />
-                    <div>{product?.description}</div>
+                    <div>
+                        {product?.description || 'No description available'}
+                    </div>
                 </div>
 
                 <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">

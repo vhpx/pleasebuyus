@@ -20,6 +20,7 @@ export default function DetailedOutletPage() {
     const { user } = useUser();
 
     const { outletId } = router.query;
+    const [loadingSettings, setLoadingSettings] = useState(false);
 
     const [outlet, setOutlet] = useState(null);
     const [loadingOutlet, setLoadingOutlet] = useState(true);
@@ -160,12 +161,16 @@ export default function DetailedOutletPage() {
                 </div>
 
                 {user?.id && outlet?.id && user.id === outlet?.owner_id && (
-                    <BetterLink
-                        href={`/outlets/${outlet?.id}/settings`}
+                    <button
                         className="flex items-center font-semibold space-x-2 px-4 py-1 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
+                        onClick={() => {
+                            if (loadingSettings) return;
+                            setLoadingSettings(true);
+                            router.push(`/outlets/${outlet?.id}/settings`);
+                        }}
                     >
-                        Settings
-                    </BetterLink>
+                        {loadingSettings ? 'Loading...' : 'Settings'}
+                    </button>
                 )}
             </div>
 
