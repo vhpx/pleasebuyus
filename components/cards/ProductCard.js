@@ -13,14 +13,18 @@ export default function ProductCard({ product }) {
             <BetterLink
                 href={`/outlets/${product.outlet_id}/products/${product.id}`}
             >
-                <div className="aspect-video rounded-lg">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                        className="rounded-lg mb-2"
-                        src={product.avatar_url}
-                        alt={product.name}
-                    />
-                </div>
+                {product?.avatar_url && (
+                    <div className="aspect-video rounded-lg">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            className="aspect-video rounded-lg mb-2"
+                            src={product.avatar_url}
+                            alt={product.name}
+                            height={400}
+                            width={400}
+                        />
+                    </div>
+                )}
 
                 <div className="mb-2">
                     <div className="font-semibold">{product.name}</div>
