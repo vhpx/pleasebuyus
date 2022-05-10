@@ -258,7 +258,7 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
 
                 <div className="lg:w-1/3 mb-8 grid grid-cols-1 gap-8">
                     <div className="flex flex-col md:flex-row col-span-full mb-8 items-center justify-start space-y-4 md:space-x-8 md:space-y-0">
-                        <div className="flex-0">
+                        <div className="flex-none">
                             <Avatar
                                 url={outlet.avatar_url}
                                 size={140}
