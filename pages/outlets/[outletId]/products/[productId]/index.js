@@ -97,14 +97,16 @@ export default function DetailedProductPage() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 p-8 pt-0">
-                        <div className="md:mr-8 aspect-video">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                                className="rounded-lg"
-                                src={product?.avatar_url}
-                                alt={product?.name}
-                            />
-                        </div>
+                        {product?.avatar_url && (
+                            <div className="md:mr-8 aspect-video">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                    className="rounded-lg"
+                                    src={product?.avatar_url}
+                                    alt={product?.name}
+                                />
+                            </div>
+                        )}
 
                         <div className="md:col-span-2 flex flex-col justify-between w-full">
                             <div>
