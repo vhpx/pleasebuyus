@@ -14,10 +14,10 @@ export default function ProductCard({ product }) {
                 href={`/outlets/${product.outlet_id}/products/${product.id}`}
             >
                 {product?.avatar_url && (
-                    <div className="aspect-video rounded-lg">
+                    <div className="aspect-square rounded-lg">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                            className="aspect-video rounded-lg mb-2"
+                            className="aspect-square rounded-lg mb-2"
                             src={product.avatar_url}
                             alt={product.name}
                             height={400}
