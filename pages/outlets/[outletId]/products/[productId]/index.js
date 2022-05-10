@@ -29,6 +29,8 @@ export default function DetailedProductPage() {
     const [outlet, setOutlet] = useState(null);
     const [product, setProduct] = useState(null);
 
+    const [amount, setAmount] = useState(0);
+
     useEffect(() => {
         const fetchOutlet = async () => {
             if (!outletId) return;
@@ -118,7 +120,7 @@ export default function DetailedProductPage() {
                             <div className="mt-8 flex">
                                 <HeartIcon className="w-8 hover:cursor-pointer" />
 
-                                <div className="ml-8 grid grid-cols-1 md:grid-cols-2 gap-4 min-w-[8rem] lg:min-w-[16rem]">
+                                <div className="ml-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 min-w-[8rem] lg:min-w-[16rem]">
                                     <button
                                         className="rounded-full border-2 border-zinc-500/70 dark:border-zinc-700 hover:border-blue-500 hover:bg-blue-500 dark:hover:bg-white/10 text-zinc-700/70 dark:text-zinc-300 dark:hover:text-white hover:text-white font-semibold px-4 py-1 transition duration-300"
                                         onClick={buyNow}
@@ -126,25 +128,23 @@ export default function DetailedProductPage() {
                                         Buy & Checkout
                                     </button>
 
-                                    {products.findIndex(
-                                        (i) => i.id === product?.id
-                                    ) === -1 ? (
-                                        <AddToCartButton
-                                            onClick={() => addItem(product)}
-                                        />
-                                    ) : (
-                                        <AmountAdjuster
-                                            amount={
-                                                products.find(
-                                                    (i) => i.id === product?.id
-                                                )?.quantity
-                                            }
-                                            onDecrement={() =>
-                                                removeItem(product?.id)
-                                            }
-                                            onIncrement={() => addItem(product)}
-                                        />
-                                    )}
+                                    <AmountAdjuster
+                                        amount={amount}
+                                        onDecrement={() =>
+                                            setAmount(Math.max(0, amount - 1))
+                                        }
+                                        onIncrement={() =>
+                                            setAmount(Math.min(amount + 1, 99))
+                                        }
+                                    />
+
+                                    <AddToCartButton
+                                        className="col-span-full lg:col-span-1"
+                                        onClick={() => {
+                                            addItem(product, amount);
+                                            setAmount(0);
+                                        }}
+                                    />
                                 </div>
                             </div>
                         </div>

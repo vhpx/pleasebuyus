@@ -5,7 +5,7 @@ import AmountAdjuster from '../buttons/AmountAdjuster';
 import Card from '../common/Card';
 import BetterLink from '../link/BetterLink';
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, showAddToCart }) {
     const { items: products, addItem, removeItem } = useCart();
 
     return (
@@ -39,17 +39,19 @@ export default function ProductCard({ product }) {
                     {formatCurrency(product.price)}
                 </div>
 
-                {products.findIndex((i) => i.id === product.id) === -1 ? (
-                    <AddToCartButton onClick={() => addItem(product)} />
-                ) : (
-                    <AmountAdjuster
-                        amount={
-                            products.find((i) => i.id === product.id)?.quantity
-                        }
-                        onDecrement={() => removeItem(product.id)}
-                        onIncrement={() => addItem(product)}
-                    />
-                )}
+                {showAddToCart &&
+                    (products.findIndex((i) => i.id === product.id) === -1 ? (
+                        <AddToCartButton onClick={() => addItem(product)} />
+                    ) : (
+                        <AmountAdjuster
+                            amount={
+                                products.find((i) => i.id === product.id)
+                                    ?.quantity
+                            }
+                            onDecrement={() => removeItem(product.id)}
+                            onIncrement={() => addItem(product)}
+                        />
+                    ))}
             </div>
         </Card>
     );

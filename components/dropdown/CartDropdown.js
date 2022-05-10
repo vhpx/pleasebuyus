@@ -30,7 +30,7 @@ export default function CartDropdown({ loggedIn, whiteText }) {
                     className={`h-5 w-5 ${whiteText && 'text-white'}`}
                 />
                 <div className={`font-semibold ${whiteText && 'text-white'}`}>
-                    Cart
+                    Cart ({getTotalItems() > 10 ? '10+' : getTotalItems()})
                 </div>
             </Popover.Button>
 

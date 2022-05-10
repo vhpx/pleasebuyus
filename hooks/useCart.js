@@ -30,19 +30,24 @@ export const CartProvider = (props) => {
         return items.reduce((total, item) => total + item.quantity, 0);
     };
 
-    const addItem = (item) => {
+    const addItem = (item, quantity = 1) => {
+        if (quantity <= 0) return;
+
         const newItems = [...items];
         const itemIndex = newItems.findIndex((i) => i.id === item.id);
 
-        if (itemIndex === -1) newItems.push({ ...item, quantity: 1 });
-        else newItems[itemIndex].quantity++;
+        if (itemIndex === -1) newItems.push({ ...item, quantity });
+        else newItems[itemIndex].quantity += quantity;
 
+        toast.info(`Added ${quantity} ${item.name} to cart`);
         setItems(newItems);
     };
 
     const removeItem = (itemId) => {
         const newItems = [...items];
         const itemIndex = newItems.findIndex((i) => i.id === itemId);
+
+        if (itemIndex === -1) return;
 
         if (newItems[itemIndex].quantity === 1) {
             newItems.splice(itemIndex, 1);
