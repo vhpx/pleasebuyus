@@ -46,6 +46,15 @@ export default function Home() {
                         key={product.id}
                         className="flex flex-col justify-between"
                     >
+                        <div className="aspect-video rounded-lg">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                className="rounded-lg mb-2"
+                                src={product.avatar_url}
+                                alt={product.name}
+                            />
+                        </div>
+
                         <div className="mb-2">
                             <div className="font-semibold">{product.name}</div>
                             <div>{product.description}</div>
@@ -74,7 +83,7 @@ export default function Home() {
                                     >
                                         <MinusIcon className="h-4 w-4 font-semibold" />
                                     </button>
-                                    <div className="px-2 min-w-[3rem] text-center font-semibold">
+                                    <div className="px-2 min-w-[2rem] text-center font-semibold">
                                         {
                                             cartItems.find(
                                                 (i) => i.id === product.id
