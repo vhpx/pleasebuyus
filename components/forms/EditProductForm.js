@@ -16,6 +16,7 @@ export default function EditProductForm({
     product: currentProduct,
     closeModal,
     setter,
+    singleSetter,
 }) {
     const [productCategory, setProductCategory] = useState(
         currentProduct?.category_id || null
@@ -99,14 +100,21 @@ export default function EditProductForm({
 
             if (error) throw error;
             setProductAvatarUrl(avatarUrl);
-            setter((prevState) =>
-                prevState.map((product) => {
-                    if (product.id === currentProduct.id) {
-                        return { ...product, avatar_url: avatarUrl };
-                    }
-                    return product;
-                })
-            );
+
+            if (singleSetter)
+                singleSetter((prevProduct) => ({
+                    ...prevProduct,
+                    avatar_url: avatarUrl,
+                }));
+            else
+                setter((prevProducts) =>
+                    prevProducts.map((product) => {
+                        if (product.id === currentProduct.id) {
+                            return { ...product, avatar_url: avatarUrl };
+                        }
+                        return product;
+                    })
+                );
         } catch (error) {
             toast.error(error.message);
         } finally {
@@ -158,7 +166,12 @@ export default function EditProductForm({
                     outlet_id: outletId,
                 };
 
-                setter((prev) => [...prev, newProduct]);
+                if (singleSetter)
+                    singleSetter((prevProduct) => ({
+                        ...prevProduct,
+                        ...newProduct,
+                    }));
+                else setter((prev) => [...prev, newProduct]);
 
                 toast.success('Product added successfully');
                 closeModal();
@@ -190,11 +203,17 @@ export default function EditProductForm({
                 outlet_id: outletId,
             };
 
-            setter((prev) =>
-                prev?.map((product) =>
-                    product.id === currentProduct.id ? newProduct : product
-                )
-            );
+            if (singleSetter)
+                singleSetter((prevProduct) => ({
+                    ...prevProduct,
+                    ...newProduct,
+                }));
+            else
+                setter((prev) =>
+                    prev?.map((product) =>
+                        product.id === currentProduct.id ? newProduct : product
+                    )
+                );
 
             toast.success('Product updated successfully');
             closeModal();
@@ -217,9 +236,11 @@ export default function EditProductForm({
 
             if (error) throw error;
 
-            setter((prev) =>
-                prev?.filter((product) => product.id !== currentProduct.id)
-            );
+            if (singleSetter) singleSetter(null);
+            else
+                setter((prev) =>
+                    prev?.filter((product) => product.id !== currentProduct.id)
+                );
 
             toast.success('Product deleted successfully');
             closeModal();
