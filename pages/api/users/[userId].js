@@ -12,14 +12,21 @@ const handler = async (req, res) => {
     switch (req.method) {
         case 'POST':
             try {
+                const newData = {
+                    name,
+                    phoneNumber,
+                    birthday,
+                    gender,
+                };
+
+                if (!name) delete newData.name;
+                if (!phoneNumber) delete newData.phoneNumber;
+                if (!birthday) delete newData.birthday;
+                if (!gender) delete newData.gender;
+
                 const { data, error } = await supabase
                     .from('users')
-                    .update({
-                        name,
-                        phone_number: phoneNumber,
-                        birthday,
-                        gender,
-                    })
+                    .update(newData)
                     .eq('id', userId)
                     .single();
 

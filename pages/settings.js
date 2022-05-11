@@ -87,16 +87,6 @@ export default function SettingsPage() {
         handleUserDataFetch();
     }, [userData, handleUserDataFetch]);
 
-    const validateAddress = (address) => {
-        return (
-            address?.name ||
-            address?.country ||
-            address?.province ||
-            address?.city ||
-            address?.streetInfo
-        );
-    };
-
     const updateProfile = async () => {
         if (!user || !userData) {
             toast.info('Please wait while we load your data.');
@@ -112,24 +102,35 @@ export default function SettingsPage() {
             if (!userId) throw 'User ID not found.';
             if (!userEmail) throw 'User email is required.';
 
-            const validAddresses = addresses.filter(validateAddress);
+            const data = {
+                name,
+                phoneNumber,
+                birthday,
+                gender,
+            };
+
+            if (!name) delete data.name;
+            if (!phoneNumber) delete data.phoneNumber;
+            if (!birthday) delete data.birthday;
+            if (!gender) delete data.gender;
 
             const response = await fetch(`/api/users/${userId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    name,
-                    phoneNumber,
-                    birthday,
-                    gender,
-                }),
+                body: JSON.stringify(data),
             });
 
             if (!response.ok) throw error;
 
-            updateUserData({ name, phoneNumber, birthday, gender });
+            updateUserData((prevUserData) => ({
+                name: data?.name ?? prevUserData.name,
+                phoneNumber: data?.phoneNumber ?? prevUserData.phoneNumber,
+                birthday: data?.birthday ?? prevUserData.birthday,
+                gender: data?.gender ?? prevUserData.gender,
+            }));
+
             toast.success('Your profile has been updated.');
         } catch (e) {
             toast.error(e ?? e?.message ?? 'An error has occurred.');
