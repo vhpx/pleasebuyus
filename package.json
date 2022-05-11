@@ -17,8 +17,8 @@
         "@mantine/next": "4.2.4",
         "@supabase/supabase-js": "1.35.3",
         "next": "12.1.6",
-        "react": "17.0.2",
-        "react-dom": "17.0.2",
+        "react": "18.1.0",
+        "react-dom": "18.1.0",
         "react-toastify": "9.0.1",
         "uuid": "8.3.2"
     },
