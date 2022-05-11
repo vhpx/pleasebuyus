@@ -273,10 +273,6 @@ export default function SettingsPage() {
             }
         };
 
-        fetchAddresses();
-    }, [user]);
-
-    useEffect(() => {
         const fetchCards = async () => {
             if (!user) return;
             setLoadingCards(true);
@@ -295,7 +291,11 @@ export default function SettingsPage() {
             }
         };
 
-        fetchCards();
+        const fetchAll = async () => {
+            await Promise.all([fetchAddresses(), fetchCards()]);
+        };
+
+        fetchAll();
     }, [user]);
 
     const deleteCard = async (card) => {

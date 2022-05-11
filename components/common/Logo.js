@@ -14,14 +14,14 @@ export default function Logo() {
     );
 }
 
-export function BankLogo() {
+export function BankLogo({ width = 100, height = 60 }) {
     return (
-        <BetterLink href={'/'}>
+        <BetterLink href={'/banks'}>
             <Image
                 src="/images/pleasebank.png"
                 alt="Please Bank us logo"
-                width={100}
-                height={60}
+                width={width}
+                height={height}
             />
         </BetterLink>
     );

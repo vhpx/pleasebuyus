@@ -1,4 +1,8 @@
-import { PlusIcon } from '@heroicons/react/outline';
+import {
+    CreditCardIcon,
+    LocationMarkerIcon,
+    PlusIcon,
+} from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -6,12 +10,17 @@ import ImageCard from '../../components/cards/ImageCard';
 import Divider from '../../components/common/Divider';
 import LoadingIndicator from '../../components/common/LoadingIndicator';
 import Title from '../../components/common/Title';
+import CreateUserCardForm from '../../components/forms/CreateUserCardForm';
+import EditAddressForm from '../../components/forms/EditAddressForm';
 import { StoreLayout } from '../../components/layout/layout';
 import BetterLink from '../../components/link/BetterLink';
 import { useCart } from '../../hooks/useCart';
 import { useUser } from '../../hooks/useUser';
 import { formatCurrency } from '../../utils/currency-format';
 import { supabase } from '../../utils/supabase-client';
+import { useModals } from '@mantine/modals';
+import FormSelect from '../../components/form/FormSelect';
+import { BankLogo } from '../../components/common/Logo';
 
 CheckoutPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -20,11 +29,105 @@ CheckoutPage.getLayout = (page) => {
 export default function CheckoutPage() {
     const router = useRouter();
     const { user } = useUser();
+    const modals = useModals();
+
     const { products, getTotalProducts, getTotal } = useCart();
+
+    const closeModal = () => modals.closeModal();
 
     const [wishlistedProducts, setWishlistedProducts] = useState([]);
     const [loadingWishlistedProducts, setLoadingWishlistedProducts] =
         useState(true);
+
+    const [addresses, setAddresses] = useState([]);
+    const [cards, setCards] = useState([]);
+
+    const openAddressModal = (address) =>
+        modals.openModal({
+            title: <div className="font-bold">Add a new address</div>,
+            centered: true,
+            overflow: 'inside',
+            children: (
+                <div className="p-1">
+                    <EditAddressForm
+                        user={user}
+                        address={address}
+                        closeModal={closeModal}
+                        onCreate={(bank) => openNewCard(bank)}
+                        setter={setAddresses}
+                    />
+                </div>
+            ),
+            onClose: () => {},
+        });
+
+    const openUserCardCreationModal = () =>
+        modals.openModal({
+            title: <div className="font-bold">Add a new card</div>,
+            centered: true,
+            overflow: 'inside',
+            children: (
+                <div className="p-1">
+                    <CreateUserCardForm
+                        user={user}
+                        userData={userData}
+                        closeModal={closeModal}
+                        onCreate={(bank) => openNewCard(bank)}
+                        setter={setCards}
+                    />
+                </div>
+            ),
+            onClose: () => {},
+        });
+
+    useEffect(() => {
+        const fetchAddresses = async () => {
+            if (!user) return;
+
+            try {
+                const { data } = await supabase
+                    .from('addresses')
+                    .select('*')
+                    .eq('user_id', user?.id);
+
+                const addresses = data?.map((address) => {
+                    return {
+                        id: address.id,
+                        name: address.name,
+                        country: address.country,
+                        province: address.province,
+                        city: address.city,
+                        streetInfo: address.street_info,
+                    };
+                });
+
+                setAddresses(addresses ?? []);
+            } catch (error) {
+                toast.error(error.message);
+            }
+        };
+
+        const fetchCards = async () => {
+            if (!user) return;
+
+            try {
+                const { data } = await supabase
+                    .from('user_cards')
+                    .select('*')
+                    .eq('user_id', user?.id);
+
+                setCards(data ?? []);
+            } catch (error) {
+                toast.error(error.message);
+            }
+        };
+
+        const fetchAll = async () => {
+            await Promise.all([fetchAddresses(), fetchCards()]);
+        };
+
+        fetchAll();
+    }, [user]);
 
     useEffect(() => {
         const fetchWishlistedProducts = async () => {
@@ -153,6 +256,50 @@ export default function CheckoutPage() {
                         {formatCurrency(getTotal())}
                     </Title>
                 </div>
+                <Divider />
+
+                <div className="mb-8">
+                    <FormSelect
+                        label="Payment method"
+                        value="pleasebank"
+                        options={[
+                            { label: 'Please Bank', value: 'pleasebank' },
+                        ]}
+                    >
+                        <BankLogo width={50} height={30} />
+                    </FormSelect>
+
+                    <FormSelect
+                        label="Card"
+                        options={
+                            cards?.length > 0
+                                ? cards?.map((card) => ({
+                                      label: `${card?.card_number
+                                          ?.replace(/(\d{4})/g, '$1 ')
+                                          ?.trim()} (${card.bank_code})`,
+                                      value: card.id,
+                                  }))
+                                : [{ label: 'No cards', value: null }]
+                        }
+                    >
+                        <CreditCardIcon className="w-4 h-4" />
+                    </FormSelect>
+
+                    <FormSelect
+                        label="Shipping address"
+                        options={
+                            addresses?.length > 0
+                                ? addresses?.map((address) => ({
+                                      label: `${address.name} - ${address.streetInfo} - ${address.city} - ${address.country}`,
+                                      value: address.id,
+                                  }))
+                                : [{ label: 'No addresses', value: null }]
+                        }
+                    >
+                        <LocationMarkerIcon className="w-4 h-4" />
+                    </FormSelect>
+                </div>
+                <Divider />
 
                 <div className="mt-4 space-y-2">
                     <button
