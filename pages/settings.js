@@ -124,12 +124,12 @@ export default function SettingsPage() {
 
             if (!response.ok) throw error;
 
-            updateUserData((prevUserData) => ({
-                name: data?.name ?? prevUserData.name,
-                phoneNumber: data?.phoneNumber ?? prevUserData.phoneNumber,
-                birthday: data?.birthday ?? prevUserData.birthday,
-                gender: data?.gender ?? prevUserData.gender,
-            }));
+            updateUserData({
+                name: data?.name ?? userData?.name,
+                phoneNumber: data?.phoneNumber ?? userData?.phone_number,
+                birthday: data?.birthday ?? userData?.birthday,
+                gender: data?.gender ?? userData?.gender,
+            });
 
             toast.success('Your profile has been updated.');
         } catch (e) {
