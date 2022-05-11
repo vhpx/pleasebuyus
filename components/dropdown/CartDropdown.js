@@ -91,7 +91,7 @@ export default function CartDropdown({ loggedIn, whiteText }) {
                                 </div>
                                 <div className="mt-4 grid grid-cols-3 justify-between space-x-2">
                                     <button
-                                        className="col-span-1 rounded-lg bg-red-500 px-2 py-1 text-white"
+                                        className="col-span-1 rounded-lg bg-red-300/50 dark:bg-red-300/20 dark:hover:bg-red-400/40 hover:bg-red-300/40 text-red-600 dark:text-red-300 dark:hover:text-red-200 hover:text-red-500 px-2 py-1 font-semibold transition duration-300"
                                         onClick={() => {
                                             clearCart();
                                             close();
@@ -100,7 +100,7 @@ export default function CartDropdown({ loggedIn, whiteText }) {
                                         Empty cart
                                     </button>
                                     <button
-                                        className="col-span-2 rounded-lg bg-blue-500 px-2 py-1 text-white"
+                                        className="col-span-2 rounded-lg bg-blue-300/50 dark:bg-blue-300/20 dark:hover:bg-blue-400/40 hover:bg-blue-300/40 text-blue-600 dark:text-blue-300 dark:hover:text-blue-200 hover:text-blue-500 px-2 py-1 font-semibold transition duration-300"
                                         onClick={() => {
                                             navigateToCheckout();
                                             close();
