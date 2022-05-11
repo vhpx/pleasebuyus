@@ -40,7 +40,7 @@ export default function PurchaseHistoryPage() {
                                 onClick={navigateToBrowseItems}
                             >
                                 <CollectionIcon className="w-4 h-4" />
-                                <div>Browse items</div>
+                                <div>Browse products</div>
                             </button>
                         </div>
                     )}

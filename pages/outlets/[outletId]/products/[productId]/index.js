@@ -79,10 +79,8 @@ export default function DetailedProductPage() {
     }, [outletId, productId]);
 
     const buyNow = () => {
-        const productQuantity =
-            products.find((i) => i.id === product.id)?.quantity || 0;
-
-        if (productQuantity === 0) addProduct(product);
+        addProduct(product, amount || 1);
+        setAmount(0);
 
         router.push(`/checkout`);
     };

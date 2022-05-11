@@ -64,7 +64,7 @@ export function StoreNavBar() {
                             className="px-4 py-2 rounded-lg font-semibold bg-blue-300/20 text-blue-600 dark:text-white dark:bg-zinc-700/40"
                             onClick={() => navigateTo('/')}
                         >
-                            Browse items
+                            Browse products
                         </BetterLink>
 
                         <BetterLink
@@ -138,27 +138,11 @@ export function StoreNavBar() {
                 <Logo />
             </div>
 
-            <div className="hidden w-1/2 md:flex">
-                <span className="inline-flex items-center rounded-l-md border border-zinc-300 bg-white px-3 text-sm text-zinc-600 shadow-sm dark:border-zinc-700 dark:bg-zinc-800/70 dark:text-zinc-400">
-                    <SearchIcon className="h-5 w-5" />
-                </span>
-
-                <input
-                    id="search-input"
-                    name="search"
-                    placeholder="Search everything here"
-                    className={`w-full flex-1 appearance-none rounded-r-lg border border-zinc-300 bg-white py-2 px-4 text-zinc-700 placeholder-zinc-400 shadow-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300`}
-                    onChange={(e) => {
-                        setter && setter(e.target.value);
-                    }}
-                />
-            </div>
-
             <div className="flex items-center space-x-2">
                 {user && (
                     <BetterLink
                         href="/wishlist"
-                        className="flex items-center justify-center space-x-1 rounded-lg px-3 py-[0.725rem] transition duration-300 hover:bg-white/10 dark:hover:bg-zinc-800"
+                        className="hidden md:flex items-center justify-center space-x-1 rounded-lg px-3 py-[0.725rem] transition duration-300 hover:bg-white/10 dark:hover:bg-zinc-800"
                     >
                         <HeartIcon className="h-5 w-5 text-white" />
                         <div className="font-semibold text-white">Wishlist</div>
