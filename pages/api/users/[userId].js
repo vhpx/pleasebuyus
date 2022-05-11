@@ -31,12 +31,10 @@ const handler = async (req, res) => {
 
         case 'GET':
             try {
-                const { username } = req.query;
-
                 const { data, error } = await supabase
                     .from('users')
                     .select('*')
-                    .eq('username', username)
+                    .eq('id', userId)
                     .maybeSingle();
 
                 if (error) throw error;
