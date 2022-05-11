@@ -21,7 +21,7 @@ export default function DetailedProductPage() {
     const router = useRouter();
     const { outletId, productId } = router.query;
 
-    const { items: products, addItem, removeItem } = useCart();
+    const { products, addProduct } = useCart();
 
     const [loadingOutlet, setLoadingOutlet] = useState(true);
     const [loadingProduct, setLoadingProduct] = useState(true);
@@ -82,7 +82,7 @@ export default function DetailedProductPage() {
         const productQuantity =
             products.find((i) => i.id === product.id)?.quantity || 0;
 
-        if (productQuantity === 0) addItem(product);
+        if (productQuantity === 0) addProduct(product);
 
         router.push(`/checkout`);
     };
@@ -143,7 +143,7 @@ export default function DetailedProductPage() {
                                     <AddToCartButton
                                         className="col-span-full lg:col-span-1"
                                         onClick={() => {
-                                            addItem(product, amount);
+                                            addProduct(product, amount);
                                             setAmount(0);
                                         }}
                                     />

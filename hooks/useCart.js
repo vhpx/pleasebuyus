@@ -5,7 +5,7 @@ import { useUser } from './useUser';
 const CartContext = createContext();
 
 export const CartProvider = (props) => {
-    const [items, setItems] = useState([]);
+    const [products, setProducts] = useState([]);
     const [initialized, setInitialized] = useState(false);
 
     const { user } = useUser();
@@ -20,65 +20,67 @@ export const CartProvider = (props) => {
     }, [user, initialized]);
 
     const getTotal = () => {
-        return items.reduce(
-            (total, item) => total + item.price * item.quantity,
+        return products.reduce(
+            (total, product) => total + product.price * product.quantity,
             0
         );
     };
 
-    const getTotalItems = () => {
-        return items.reduce((total, item) => total + item.quantity, 0);
+    const getTotalProducts = () => {
+        return products.reduce((total, product) => total + product.quantity, 0);
     };
 
-    const addItem = (item, quantity = 1) => {
+    const addProduct = (product, quantity = 1) => {
         if (quantity <= 0) return;
 
-        const newItems = [...items];
-        const itemIndex = newItems.findIndex((i) => i.id === item.id);
+        const newProducts = [...products];
+        const productIndex = newProducts.findIndex((i) => i.id === product.id);
 
         const maxQuantity = 10;
 
-        if (itemIndex === -1) {
-            newItems.push({
-                ...item,
+        if (productIndex === -1) {
+            newProducts.push({
+                ...product,
                 quantity: Math.min(quantity, maxQuantity),
             });
 
-            toast.info(`Added ${quantity} ${item.name} to cart`);
+            toast.info(`Added ${quantity} ${product.name} to cart`);
         } else {
-            const oldQuantity = newItems[itemIndex].quantity;
+            const oldQuantity = newProducts[productIndex].quantity;
             const newQuantity = Math.min(oldQuantity + quantity, maxQuantity);
 
-            newItems[itemIndex].quantity = newQuantity;
+            newProducts[productIndex].quantity = newQuantity;
 
             if (newQuantity !== oldQuantity)
-                toast.info(`Added ${quantity} ${item.name} to cart`);
+                toast.info(`Added ${quantity} ${product.name} to cart`);
         }
 
-        setItems(newItems);
+        setProducts(newProducts);
     };
 
-    const removeItem = (itemId) => {
-        const newItems = [...items];
-        const itemIndex = newItems.findIndex((i) => i.id === itemId);
+    const removeProduct = (productId) => {
+        const newProducts = [...products];
+        const productIndex = newProducts.findIndex((i) => i.id === productId);
 
-        if (itemIndex === -1) return;
+        if (productIndex === -1) return;
 
-        if (newItems[itemIndex].quantity === 1) {
-            newItems.splice(itemIndex, 1);
+        if (newProducts[productIndex].quantity === 1) {
+            newProducts.splice(productIndex, 1);
         } else {
-            newItems[itemIndex].quantity--;
+            newProducts[productIndex].quantity--;
         }
 
-        setItems(newItems);
+        setProducts(newProducts);
     };
 
-    const removeAllItems = (itemId) => {
-        setItems((prevItems) => prevItems.filter((i) => i.id !== itemId));
+    const removeAllProducts = (productId) => {
+        setProducts((prevProducts) =>
+            prevProducts.filter((i) => i.id !== productId)
+        );
     };
 
     const clearCart = () => {
-        setItems([]);
+        setProducts([]);
         toast.info('Cart cleared', {
             position: toast.POSITION.BOTTOM_LEFT,
         });
@@ -87,15 +89,15 @@ export const CartProvider = (props) => {
     const values = {
         initialize,
 
-        items,
+        products,
 
-        addItem,
-        removeItem,
-        removeAllItems,
+        addProduct,
+        removeProduct,
+        removeAllProducts,
         clearCart,
 
         getTotal,
-        getTotalItems,
+        getTotalProducts,
     };
 
     return <CartContext.Provider value={values} {...props} />;

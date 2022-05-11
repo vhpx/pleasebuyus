@@ -10,8 +10,14 @@ import { currencyFormatter } from '../../utils/currency-format';
 import AmountAdjuster from '../buttons/AmountAdjuster';
 
 export default function CartDropdown({ loggedIn, whiteText }) {
-    const { items, addItem, removeItem, clearCart, getTotalItems, getTotal } =
-        useCart();
+    const {
+        products,
+        addProduct,
+        removeProduct,
+        clearCart,
+        getTotalProducts,
+        getTotal,
+    } = useCart();
 
     const router = useRouter();
 
@@ -30,16 +36,17 @@ export default function CartDropdown({ loggedIn, whiteText }) {
                     className={`h-5 w-5 ${whiteText && 'text-white'}`}
                 />
                 <div className={`font-semibold ${whiteText && 'text-white'}`}>
-                    Cart ({getTotalItems() > 10 ? '10+' : getTotalItems()})
+                    Cart ({getTotalProducts() > 10 ? '10+' : getTotalProducts()}
+                    )
                 </div>
             </Popover.Button>
 
             <Popover.Panel className="absolute right-0 top-[3.5rem] z-10">
                 {({ close }) => (
                     <div className="my-1 flex w-72 flex-col rounded-lg bg-white/50 p-4 shadow backdrop-blur dark:bg-zinc-700/50 md:w-[30rem]">
-                        {items && items.length > 0 ? (
+                        {products && products.length > 0 ? (
                             <>
-                                {items.map((product) => (
+                                {products.map((product) => (
                                     <div
                                         key={product.id}
                                         className="mb-2 space-y-1 border-b pb-2 dark:border-zinc-500"
@@ -61,17 +68,19 @@ export default function CartDropdown({ loggedIn, whiteText }) {
                                                 </div>
                                                 <AmountAdjuster
                                                     amount={
-                                                        items.find(
+                                                        products.find(
                                                             (i) =>
                                                                 i.id ===
                                                                 product.id
                                                         )?.quantity
                                                     }
                                                     onDecrement={() =>
-                                                        removeItem(product.id)
+                                                        removeProduct(
+                                                            product.id
+                                                        )
                                                     }
                                                     onIncrement={() =>
-                                                        addItem(product)
+                                                        addProduct(product)
                                                     }
                                                 />
                                             </div>
@@ -81,8 +90,8 @@ export default function CartDropdown({ loggedIn, whiteText }) {
 
                                 <div className="flex justify-between font-semibold">
                                     <div>
-                                        {getTotalItems() > 1
-                                            ? `${getTotalItems()} items`
+                                        {getTotalProducts() > 1
+                                            ? `${getTotalProducts()} items`
                                             : '1 item'}
                                     </div>
                                     <div>

@@ -13,7 +13,6 @@ import Avatar from '../common/Avatar';
 import Logo, { BankLogo } from '../common/Logo';
 import CartDropdown from '../dropdown/CartDropdown';
 import UserDropdown from '../dropdown/UserDropdown';
-import WishlistDropdown from '../dropdown/WishlistDropdown';
 import BetterLink from '../link/BetterLink';
 
 export function StoreNavBar() {

@@ -6,7 +6,7 @@ import Card from '../common/Card';
 import BetterLink from '../link/BetterLink';
 
 export default function ProductCard({ product, showAddToCart }) {
-    const { items: products, addItem, removeItem } = useCart();
+    const { products, addProduct, removeProduct } = useCart();
 
     return (
         <Card className="flex flex-col justify-between">
@@ -41,15 +41,15 @@ export default function ProductCard({ product, showAddToCart }) {
 
                 {showAddToCart &&
                     (products.findIndex((i) => i.id === product.id) === -1 ? (
-                        <AddToCartButton onClick={() => addItem(product)} />
+                        <AddToCartButton onClick={() => addProduct(product)} />
                     ) : (
                         <AmountAdjuster
                             amount={
                                 products.find((i) => i.id === product.id)
                                     ?.quantity
                             }
-                            onDecrement={() => removeItem(product.id)}
-                            onIncrement={() => addItem(product)}
+                            onDecrement={() => removeProduct(product.id)}
+                            onIncrement={() => addProduct(product)}
                         />
                     ))}
             </div>
