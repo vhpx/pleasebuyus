@@ -146,7 +146,9 @@ export default function CheckoutPage() {
                         />
                     ))
                 ) : (
-                    <div className="text-center">No products found</div>
+                    <div className="text-xl md:text-2xl font-semibold md:col-span-3 lg:col-span-3 flex items-center justify-center bg-white text-zinc-500 dark:text-zinc-400 dark:bg-zinc-800/50 p-8 rounded-lg">
+                        There are no products in your cart.
+                    </div>
                 )}
             </div>
 
