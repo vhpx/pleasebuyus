@@ -1,4 +1,5 @@
 import {
+    HeartIcon,
     LoginIcon,
     MenuIcon,
     SearchIcon,
@@ -155,7 +156,16 @@ export function StoreNavBar() {
             </div>
 
             <div className="flex items-center space-x-2">
-                <WishlistDropdown loggedIn={!!user} whiteText={true} />
+                {user && (
+                    <BetterLink
+                        href="/wishlist"
+                        className="flex items-center justify-center space-x-1 rounded-lg px-3 py-[0.725rem] transition duration-300 hover:bg-white/10 dark:hover:bg-zinc-800"
+                    >
+                        <HeartIcon className="h-5 w-5 text-white" />
+                        <div className="font-semibold text-white">Wishlist</div>
+                    </BetterLink>
+                )}
+
                 <CartDropdown loggedIn={!!user} whiteText={true} />
 
                 {user ? (
