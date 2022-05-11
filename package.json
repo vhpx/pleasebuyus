@@ -23,7 +23,7 @@
         "uuid": "8.3.2"
     },
     "devDependencies": {
-        "@tailwindcss/line-clamp": "0.3.1",
+        "@tailwindcss/line-clamp": "0.4.0",
         "@types/react": "18.0.9",
         "autoprefixer": "10.4.7",
         "eslint": "8.10.0",
