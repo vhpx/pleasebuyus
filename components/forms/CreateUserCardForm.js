@@ -106,12 +106,7 @@ export default function CreateUserCardForm({
 
             if (error) throw error;
 
-            setter((prev) => {
-                console.log(prev);
-                console.log(data);
-
-                return [...prev, data];
-            });
+            setter((prev) => [...prev, data]);
 
             toast.success('Card added successfully');
             closeModal();

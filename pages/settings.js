@@ -113,7 +113,6 @@ export default function SettingsPage() {
             if (!userEmail) throw 'User email is required.';
 
             const validAddresses = addresses.filter(validateAddress);
-            console.log(validAddresses);
 
             const response = await fetch(`/api/users/${userId}`, {
                 method: 'POST',
