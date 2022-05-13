@@ -49,7 +49,7 @@ export default function UserDropdown({
 
             <Popover.Panel className="absolute right-0 top-[3.5rem] z-10">
                 {({ close }) => (
-                    <div className="my-1 flex w-64 flex-col rounded-lg bg-white/50 shadow backdrop-blur dark:bg-zinc-700/50">
+                    <div className="my-1 flex w-64 flex-col rounded-lg bg-white/80 shadow backdrop-blur dark:bg-zinc-800/80">
                         {bankMode ? (
                             <>
                                 <button

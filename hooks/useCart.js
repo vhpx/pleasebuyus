@@ -90,6 +90,8 @@ export const CartProvider = (props) => {
 
     const clearCart = () => {
         setProducts([]);
+        setSelectedProducts([]);
+
         toast.info('Cart cleared', {
             position: toast.POSITION.BOTTOM_LEFT,
         });
