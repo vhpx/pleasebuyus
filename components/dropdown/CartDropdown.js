@@ -1,9 +1,5 @@
 import { Popover } from '@headlessui/react';
-import {
-    MinusIcon,
-    PlusIcon,
-    ShoppingCartIcon,
-} from '@heroicons/react/outline';
+import { ShoppingCartIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 import { useCart } from '../../hooks/useCart';
 import { currencyFormatter } from '../../utils/currency-format';
@@ -46,7 +42,7 @@ export default function CartDropdown({ loggedIn, whiteText }) {
                     <div className="my-1 flex w-72 flex-col rounded-lg bg-white/80 p-4 shadow backdrop-blur-lg dark:bg-zinc-800/80 md:w-[30rem]">
                         {products && products.length > 0 ? (
                             <>
-                                {products.map((product) => (
+                                {products.slice(0, 3).map((product) => (
                                     <div
                                         key={product.id}
                                         className="mb-2 space-y-1 border-b pb-2 dark:border-zinc-500/50"
@@ -62,10 +58,7 @@ export default function CartDropdown({ loggedIn, whiteText }) {
                                                     )}
                                                 </div>
                                             </div>
-                                            <div className="flex w-full items-center justify-between space-x-4">
-                                                <div className="text-sm text-zinc-600 line-clamp-2 dark:text-zinc-200">
-                                                    {product.description}
-                                                </div>
+                                            <div className="w-fit">
                                                 <AmountAdjuster
                                                     amount={
                                                         products.find(
@@ -88,6 +81,22 @@ export default function CartDropdown({ loggedIn, whiteText }) {
                                     </div>
                                 ))}
 
+                                {router.asPath.includes('checkout') || (
+                                    <button
+                                        className="col-span-1 rounded-lg bg-purple-300/20 dark:bg-purple-300/20 dark:hover:bg-purple-400/40 hover:bg-purple-300/30 text-purple-600 dark:text-purple-300 dark:hover:text-purple-200 px-2 py-1 font-semibold transition duration-300 w-full text-center mb-2"
+                                        onClick={() => {
+                                            navigateToCheckout();
+                                            close();
+                                        }}
+                                    >
+                                        View{' '}
+                                        {products.length > 1
+                                            ? `all ${products.length} products`
+                                            : '1 product'}{' '}
+                                        in cart
+                                    </button>
+                                )}
+
                                 <div className="flex justify-between font-semibold">
                                     <div>
                                         {getTotalProducts() > 1
@@ -100,7 +109,11 @@ export default function CartDropdown({ loggedIn, whiteText }) {
                                 </div>
                                 <div className="mt-4 grid grid-cols-3 justify-between space-x-2">
                                     <button
-                                        className="col-span-1 rounded-lg bg-red-300/20 dark:bg-red-300/20 dark:hover:bg-red-400/40 hover:bg-red-300/30 text-red-600 dark:text-red-300 dark:hover:text-red-200 px-2 py-1 font-semibold transition duration-300"
+                                        className={`${
+                                            router.asPath.includes('checkout')
+                                                ? 'col-span-full'
+                                                : 'col-span-1'
+                                        } rounded-lg bg-red-300/20 dark:bg-red-300/20 dark:hover:bg-red-400/40 hover:bg-red-300/30 text-red-600 dark:text-red-300 dark:hover:text-red-200 px-2 py-1 font-semibold transition duration-300`}
                                         onClick={() => {
                                             clearCart();
                                             close();
@@ -108,15 +121,17 @@ export default function CartDropdown({ loggedIn, whiteText }) {
                                     >
                                         Empty cart
                                     </button>
-                                    <button
-                                        className="col-span-2 rounded-lg bg-blue-300/20 dark:bg-blue-300/20 dark:hover:bg-blue-400/40 hover:bg-blue-300/30 text-blue-600 dark:text-blue-300 dark:hover:text-blue-200 px-2 py-1 font-semibold transition duration-300"
-                                        onClick={() => {
-                                            navigateToCheckout();
-                                            close();
-                                        }}
-                                    >
-                                        Checkout
-                                    </button>
+                                    {router.asPath.includes('checkout') || (
+                                        <button
+                                            className="col-span-2 rounded-lg bg-blue-300/20 dark:bg-blue-300/20 dark:hover:bg-blue-400/40 hover:bg-blue-300/30 text-blue-600 dark:text-blue-300 dark:hover:text-blue-200 px-2 py-1 font-semibold transition duration-300"
+                                            onClick={() => {
+                                                navigateToCheckout();
+                                                close();
+                                            }}
+                                        >
+                                            Checkout
+                                        </button>
+                                    )}
                                 </div>
                             </>
                         ) : (

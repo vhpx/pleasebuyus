@@ -278,7 +278,7 @@ export default function CheckoutPage() {
                         </div>
                     </>
                 ) : (
-                    <div className="md:mt-64 text-center font-semibold text-lg text-zinc-500 dark:text-zinc-400">
+                    <div className="text-center font-semibold text-lg text-zinc-500 dark:text-zinc-400">
                         Please select a product to checkout
                     </div>
                 )}
