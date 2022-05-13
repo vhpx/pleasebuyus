@@ -10,6 +10,13 @@ export const CartProvider = (props) => {
     const [products, setProducts] = useState([]);
     const [selectedProducts, setSelectedProducts] = useState([]);
 
+    const [discount, setDiscount] = useState({
+        value: 0,
+        type: 'percentage',
+    });
+
+    const [checkingOut, setCheckingOut] = useState(false);
+
     const { user } = useUser();
 
     const initialize = () => {
@@ -21,18 +28,33 @@ export const CartProvider = (props) => {
         if (!initialized) return;
     }, [user, initialized]);
 
+    const getSubtotal = (isSelected) => {
+        const selected = isSelected ? selectedProducts : products;
+
+        return selected.reduce((acc, product) => {
+            return acc + product.price * product.quantity;
+        }, 0);
+    };
+
+    const getDiscountValue = () => {
+        if (discount.type === 'percentage')
+            return getSubtotal() * (discount.value / 100);
+
+        return discount.value;
+    };
+
     const getTotal = () => {
-        return products.reduce(
-            (total, product) => total + product.price * product.quantity,
-            0
-        );
+        const subtotal = getSubtotal(false);
+        const discountValue = getDiscountValue();
+
+        return subtotal - discountValue > 0 ? subtotal - discountValue : 0;
     };
 
     const getTotalForSelectedProducts = () => {
-        return selectedProducts.reduce(
-            (total, product) => total + product.price * product.quantity,
-            0
-        );
+        const subtotal = getSubtotal(true);
+        const discountValue = getDiscountValue();
+
+        return subtotal - discountValue > 0 ? subtotal - discountValue : 0;
     };
 
     const getTotalProducts = () => {
@@ -41,6 +63,10 @@ export const CartProvider = (props) => {
 
     const addProduct = (product, quantity = 1) => {
         if (quantity <= 0) return;
+        if (checkingOut) {
+            toast.error('You cannot add products while checking out');
+            return;
+        }
 
         const newProducts = [...products];
         const productIndex = newProducts.findIndex((i) => i.id === product.id);
@@ -68,6 +94,11 @@ export const CartProvider = (props) => {
     };
 
     const removeProduct = (productId) => {
+        if (checkingOut) {
+            toast.error('Cannot remove product while checking out');
+            return;
+        }
+
         const newProducts = [...products];
         const productIndex = newProducts.findIndex((i) => i.id === productId);
 
@@ -83,12 +114,22 @@ export const CartProvider = (props) => {
     };
 
     const removeAllProducts = (productId) => {
+        if (checkingOut) {
+            toast.error('Cannot remove product while checking out');
+            return;
+        }
+
         setProducts((prevProducts) =>
             prevProducts.filter((i) => i.id !== productId)
         );
     };
 
     const clearCart = () => {
+        if (checkingOut) {
+            toast.error('Cannot clear cart while checking out');
+            return;
+        }
+
         setProducts([]);
         setSelectedProducts([]);
 
@@ -98,6 +139,11 @@ export const CartProvider = (props) => {
     };
 
     const selectProductWithId = (productId, outletId) => {
+        if (checkingOut) {
+            toast.error('Cannot select product while checking out');
+            return;
+        }
+
         setSelectedProducts((prevProducts) => [
             ...prevProducts,
             products.find(
@@ -107,6 +153,11 @@ export const CartProvider = (props) => {
     };
 
     const deselectProductWithId = (productId, outletId) => {
+        if (checkingOut) {
+            toast.error('Cannot deselect product while checking out');
+            return;
+        }
+
         setSelectedProducts((prevProducts) =>
             prevProducts.filter(
                 (i) => i.id !== productId || i.outlet_id !== outletId
@@ -128,8 +179,45 @@ export const CartProvider = (props) => {
         );
     };
 
+    const checkOut = async (selectedCard, selectedAddress, selectedCoupon) => {
+        if (checkingOut) {
+            toast.error('You cannot check out while checking out');
+            return;
+        }
+
+        try {
+            setCheckingOut(true);
+
+            if (!selectedProducts.length) {
+                toast.error('No products selected');
+                return;
+            }
+
+            if (!user) {
+                toast.error('You must be logged in to check out');
+                return;
+            }
+
+            if (!selectedCard) {
+                toast.error('You must select a card');
+                return;
+            }
+
+            if (!selectedAddress) {
+                toast.error('You must select an address');
+                return;
+            }
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            setCheckingOut(false);
+        }
+    };
+
     const values = {
         initialize,
+        checkingOut,
+        setDiscount,
 
         products,
         selectedProducts,
@@ -139,6 +227,7 @@ export const CartProvider = (props) => {
         removeAllProducts,
         clearCart,
 
+        getSubtotal,
         getTotal,
         getTotalForSelectedProducts,
         getTotalProducts,

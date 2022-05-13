@@ -173,7 +173,7 @@ export default function OutletProductsCard({ outletId, products }) {
                                         </div>
                                     </button>
 
-                                    <div className="text-right flex flex-col justify-center space-y-2">
+                                    <div className="hidden text-right md:flex flex-col justify-center space-y-2">
                                         <span className="text-sm font-bold">
                                             {formatCurrency(
                                                 product.quantity * product.price

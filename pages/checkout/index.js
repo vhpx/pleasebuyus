@@ -23,8 +23,14 @@ export default function CheckoutPage() {
     const router = useRouter();
     const { user } = useUser();
 
-    const { products, selectedProducts, getTotalForSelectedProducts } =
-        useCart();
+    const {
+        setDiscount,
+        checkingOut,
+        products,
+        selectedProducts,
+        getSubtotal,
+        getTotalForSelectedProducts,
+    } = useCart();
 
     const [wishlistedProducts, setWishlistedProducts] = useState([]);
     const [loadingWishlistedProducts, setLoadingWishlistedProducts] =
@@ -59,8 +65,9 @@ export default function CheckoutPage() {
         setProductsByOutlet(outletProducts);
     }, [products]);
 
-    const [addresses, setAddresses] = useState([]);
     const [cards, setCards] = useState([]);
+    const [addresses, setAddresses] = useState([]);
+    const [coupon, setCoupon] = useState('');
 
     useEffect(() => {
         const fetchAddresses = async () => {
@@ -84,6 +91,7 @@ export default function CheckoutPage() {
                 });
 
                 setAddresses(addresses ?? []);
+                setSelectedAddress(addresses?.[0] ?? null);
             } catch (error) {
                 toast.error(error.message);
             }
@@ -99,6 +107,7 @@ export default function CheckoutPage() {
                     .eq('user_id', user?.id);
 
                 setCards(data ?? []);
+                setSelectedCard(data?.[0] ?? null);
             } catch (error) {
                 toast.error(error.message);
             }
@@ -131,7 +140,56 @@ export default function CheckoutPage() {
         fetchAll();
     }, [user]);
 
-    const [couponCode, setCouponCode] = useState('');
+    const [selectedCard, setSelectedCard] = useState(null);
+    const [selectedAddress, setSelectedAddress] = useState(null);
+    const [selectedCoupon, setSelectedCoupon] = useState(null);
+
+    const checkout = async () => {
+        if (!user) return;
+
+        try {
+            if (!selectedAddress) {
+                if (addresses && addresses.length > 0)
+                    throw new Error('Please select a valid address.');
+                else
+                    throw new Error(
+                        'Please create an address in the settings page before checking out.'
+                    );
+            }
+
+            if (!selectedCard) {
+                if (cards && cards.length > 0)
+                    throw new Error('Please select a valid card.');
+                else
+                    throw new Error(
+                        'Please create a card in the settings page before checking out.'
+                    );
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
+    const applyCoupon = async () => {
+        try {
+            if (!coupon) throw new Error('Please enter a valid coupon.');
+
+            const { data } = await supabase
+                .from('coupons')
+                .select('*')
+                .eq('code', coupon)
+                .maybeSingle();
+
+            if (!data) throw new Error('Coupon does not exist.');
+            setSelectedCoupon(data);
+            setDiscount({
+                value: data?.value || 0,
+                type: data?.use_ratio ? 'percentage' : 'value',
+            });
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-4 p-4 md:p-8 lg:p-16 gap-8">
@@ -151,7 +209,7 @@ export default function CheckoutPage() {
                         />
                     ))
                 ) : (
-                    <div className="text-xl md:text-2xl font-semibold flex items-center justify-center bg-white text-zinc-500 dark:text-zinc-400 dark:bg-zinc-800/50 p-8 rounded-lg">
+                    <div className="text-xl font-semibold flex items-center justify-center bg-white text-zinc-500 dark:text-zinc-400 dark:bg-zinc-800/50 p-8 rounded-lg">
                         There are no products in your cart.
                     </div>
                 )}
@@ -171,9 +229,9 @@ export default function CheckoutPage() {
                                         items)
                                     </span>
                                     <span className="text-sm font-bold">
-                                        {formatCurrency(
-                                            getTotalForSelectedProducts()
-                                        )}
+                                        {getSubtotal() == 0
+                                            ? 'Free'
+                                            : formatCurrency(getSubtotal())}
                                     </span>
                                 </div>
 
@@ -182,7 +240,7 @@ export default function CheckoutPage() {
                                         Shipping fees
                                     </span>
                                     <span className="text-sm font-bold">
-                                        {formatCurrency(0)}
+                                        Free
                                     </span>
                                 </div>
 
@@ -191,9 +249,30 @@ export default function CheckoutPage() {
                                         Estimated Sale Tax
                                     </span>
                                     <span className="text-sm font-bold">
-                                        {formatCurrency(0)}
+                                        Free
                                     </span>
                                 </div>
+
+                                {selectedCoupon && (
+                                    <div className="text-blue-500 dark:text-blue-300 flex flex-row justify-between items-center">
+                                        <span className="text-sm font-semibold">
+                                            Coupon ({selectedCoupon?.code})
+                                        </span>
+
+                                        <span className="text-sm font-bold">
+                                            {formatCurrency(
+                                                -(selectedCoupon?.use_ratio
+                                                    ? (getSubtotal() *
+                                                          selectedCoupon?.value) /
+                                                      100
+                                                    : selectedCoupon?.value >
+                                                      getSubtotal()
+                                                    ? getSubtotal()
+                                                    : selectedCoupon?.value)
+                                            )}
+                                        </span>
+                                    </div>
+                                )}
                             </div>
                             <Divider />
 
@@ -245,6 +324,8 @@ export default function CheckoutPage() {
                                                   },
                                               ]
                                     }
+                                    value={selectedCard?.id}
+                                    setter={setSelectedCard}
                                 >
                                     <CreditCardIcon className="w-4 h-4" />
                                 </FormSelect>
@@ -264,6 +345,8 @@ export default function CheckoutPage() {
                                                   },
                                               ]
                                     }
+                                    value={selectedAddress?.id}
+                                    setter={setSelectedAddress}
                                 >
                                     <LocationMarkerIcon className="w-4 h-4" />
                                 </FormSelect>
@@ -271,18 +354,57 @@ export default function CheckoutPage() {
                                 <FormInput
                                     label="Coupon code"
                                     placeholder="Enter your coupon code"
-                                    value={couponCode}
-                                    setter={(e) =>
-                                        setCouponCode(e.toUpperCase())
-                                    }
+                                    value={coupon}
+                                    disabled={!!selectedCoupon}
+                                    setter={(e) => setCoupon(e.toUpperCase())}
                                 />
+
+                                <div>
+                                    {selectedCoupon && (
+                                        <div className="flex flex-col mt-2 mb-4 items-start">
+                                            <span className="text-sm font-semibold">
+                                                {selectedCoupon.name}
+                                            </span>
+
+                                            <span className="text-blue-500 dark:text-blue-300 text-sm font-bold">
+                                                {'(' +
+                                                    (selectedCoupon?.use_ratio
+                                                        ? `${selectedCoupon?.value}%`
+                                                        : formatCurrency(
+                                                              selectedCoupon?.value
+                                                          )) +
+                                                    ' discount)'}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <button
+                                    className="w-full flex items-center justify-center font-semibold space-x-2 p-2 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
+                                    onClick={
+                                        !!selectedCoupon
+                                            ? () => {
+                                                  setSelectedCoupon(null);
+                                                  setCoupon('');
+                                                  setDiscount({
+                                                      value: 0,
+                                                      use_ratio: false,
+                                                  });
+                                              }
+                                            : applyCoupon
+                                    }
+                                >
+                                    {!!selectedCoupon
+                                        ? 'Remove coupon'
+                                        : 'Apply coupon'}
+                                </button>
                             </div>
                             <Divider />
 
                             <div className="mt-4 space-y-2">
                                 <button
                                     className="w-full rounded-lg bg-yellow-300/20 dark:bg-yellow-300/20 dark:hover:bg-yellow-400/40 hover:bg-yellow-300/30 text-yellow-600 dark:text-yellow-300 dark:hover:text-yellow-200 px-4 py-2 font-semibold transition duration-300"
-                                    onClick={() => {}}
+                                    onClick={checkout}
                                 >
                                     Checkout
                                 </button>
