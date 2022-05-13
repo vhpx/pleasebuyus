@@ -1,8 +1,4 @@
-import {
-    CreditCardIcon,
-    LocationMarkerIcon,
-    PlusIcon,
-} from '@heroicons/react/outline';
+import { CreditCardIcon, LocationMarkerIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -10,7 +6,6 @@ import Divider from '../../components/common/Divider';
 import LoadingIndicator from '../../components/common/LoadingIndicator';
 import Title from '../../components/common/Title';
 import { StoreLayout } from '../../components/layout/layout';
-import BetterLink from '../../components/link/BetterLink';
 import { useCart } from '../../hooks/useCart';
 import { useUser } from '../../hooks/useUser';
 import { formatCurrency } from '../../utils/currency-format';
@@ -18,6 +13,7 @@ import { supabase } from '../../utils/supabase-client';
 import FormSelect from '../../components/form/FormSelect';
 import { BankLogo } from '../../components/common/Logo';
 import OutletProductsCard from '../../components/cards/OutletProductsCard';
+import FormInput from '../../components/form/FormInput';
 
 CheckoutPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -27,7 +23,8 @@ export default function CheckoutPage() {
     const router = useRouter();
     const { user } = useUser();
 
-    const { products, getTotalProducts, getTotal } = useCart();
+    const { products, selectedProducts, getTotalForSelectedProducts } =
+        useCart();
 
     const [wishlistedProducts, setWishlistedProducts] = useState([]);
     const [loadingWishlistedProducts, setLoadingWishlistedProducts] =
@@ -107,14 +104,6 @@ export default function CheckoutPage() {
             }
         };
 
-        const fetchAll = async () => {
-            await Promise.all([fetchAddresses(), fetchCards()]);
-        };
-
-        fetchAll();
-    }, [user]);
-
-    useEffect(() => {
         const fetchWishlistedProducts = async () => {
             if (!user) return;
             try {
@@ -131,8 +120,18 @@ export default function CheckoutPage() {
             setLoadingWishlistedProducts(false);
         };
 
-        fetchWishlistedProducts();
+        const fetchAll = async () => {
+            await Promise.all([
+                fetchAddresses(),
+                fetchCards(),
+                fetchWishlistedProducts(),
+            ]);
+        };
+
+        fetchAll();
     }, [user]);
+
+    const [couponCode, setCouponCode] = useState('');
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-4 p-4 md:p-8 lg:p-16 gap-8">
@@ -153,105 +152,136 @@ export default function CheckoutPage() {
             </div>
 
             <div className="md:col-span-2 lg:col-span-1 bg-white dark:bg-zinc-800/50 p-8 rounded-lg">
-                <Title label="Order summary" />
-                <Divider />
+                {selectedProducts && selectedProducts.length > 0 ? (
+                    <>
+                        <Title label="Order summary" />
+                        <Divider />
 
-                <div>
-                    <div className="flex flex-row justify-between items-center">
-                        <span className="text-sm font-semibold">Subtotal</span>
-                        <span className="text-sm font-bold">
-                            {formatCurrency(getTotal())}
-                        </span>
+                        <div>
+                            <div className="flex flex-row justify-between items-center">
+                                <span className="text-sm font-semibold">
+                                    Subtotal ({selectedProducts?.length} items)
+                                </span>
+                                <span className="text-sm font-bold">
+                                    {formatCurrency(
+                                        getTotalForSelectedProducts()
+                                    )}
+                                </span>
+                            </div>
+
+                            <div className="flex flex-row justify-between items-center">
+                                <span className="text-sm font-semibold">
+                                    Shipping fees
+                                </span>
+                                <span className="text-sm font-bold">
+                                    {formatCurrency(0)}
+                                </span>
+                            </div>
+
+                            <div className="flex flex-row justify-between items-center">
+                                <span className="text-sm font-semibold">
+                                    Estimated Sale Tax
+                                </span>
+                                <span className="text-sm font-bold">
+                                    {formatCurrency(0)}
+                                </span>
+                            </div>
+                        </div>
+                        <Divider />
+
+                        <div className="flex flex-row justify-between items-center">
+                            <Title className="text-sm font-semibold">
+                                Total
+                            </Title>
+                            <Title className="text-sm font-bold">
+                                {formatCurrency(getTotalForSelectedProducts())}
+                            </Title>
+                        </div>
+                        <Divider />
+
+                        <div className="mb-8">
+                            <FormSelect
+                                label="Payment method"
+                                value="pleasebank"
+                                options={[
+                                    {
+                                        label: 'Please Bank',
+                                        value: 'pleasebank',
+                                    },
+                                ]}
+                            >
+                                <BankLogo width={50} height={30} />
+                            </FormSelect>
+
+                            <FormSelect
+                                label="Card"
+                                options={
+                                    cards?.length > 0
+                                        ? cards?.map((card) => ({
+                                              label: `${card?.card_number
+                                                  ?.replace(/(\d{4})/g, '$1 ')
+                                                  ?.trim()} (${
+                                                  card.bank_code
+                                              })`,
+                                              value: card.id,
+                                          }))
+                                        : [{ label: 'No cards', value: null }]
+                                }
+                            >
+                                <CreditCardIcon className="w-4 h-4" />
+                            </FormSelect>
+
+                            <FormSelect
+                                label="Shipping address"
+                                options={
+                                    addresses?.length > 0
+                                        ? addresses?.map((address) => ({
+                                              label: `${address.name} - ${address.streetInfo} - ${address.city} - ${address.country}`,
+                                              value: address.id,
+                                          }))
+                                        : [
+                                              {
+                                                  label: 'No addresses',
+                                                  value: null,
+                                              },
+                                          ]
+                                }
+                            >
+                                <LocationMarkerIcon className="w-4 h-4" />
+                            </FormSelect>
+
+                            <FormInput
+                                label="Coupon code"
+                                placeholder="Enter your coupon code"
+                                value={couponCode}
+                                setter={(e) => setCouponCode(e.toUpperCase())}
+                            />
+                        </div>
+                        <Divider />
+
+                        <div className="mt-4 space-y-2">
+                            <button
+                                className="w-full rounded-lg bg-yellow-300/20 dark:bg-yellow-300/20 dark:hover:bg-yellow-400/40 hover:bg-yellow-300/30 text-yellow-600 dark:text-yellow-300 dark:hover:text-yellow-200 px-4 py-2 font-semibold transition duration-300"
+                                onClick={() => {}}
+                            >
+                                Checkout
+                            </button>
+
+                            <button
+                                className="w-full rounded-lg bg-blue-300/20 dark:bg-blue-300/20 dark:hover:bg-blue-400/40 hover:bg-blue-300/30 text-blue-600 dark:text-blue-300 dark:hover:text-blue-200 px-4 py-2 font-semibold transition duration-300"
+                                onClick={() => {
+                                    router.push('/');
+                                }}
+                            >
+                                Continue shopping
+                            </button>
+                        </div>
+                    </>
+                ) : (
+                    <div className="md:mt-64 text-center font-semibold text-lg text-zinc-500 dark:text-zinc-400">
+                        Please select a product to checkout
                     </div>
-
-                    <div className="flex flex-row justify-between items-center">
-                        <span className="text-sm font-semibold">
-                            Shipping fees
-                        </span>
-                        <span className="text-sm font-bold">
-                            {formatCurrency(0)}
-                        </span>
-                    </div>
-
-                    <div className="flex flex-row justify-between items-center">
-                        <span className="text-sm font-semibold">
-                            Estimated Sale Tax
-                        </span>
-                        <span className="text-sm font-bold">
-                            {formatCurrency(0)}
-                        </span>
-                    </div>
-                </div>
-                <Divider />
-
-                <div className="flex flex-row justify-between items-center">
-                    <Title className="text-sm font-semibold">Total</Title>
-                    <Title className="text-sm font-bold">
-                        {formatCurrency(getTotal())}
-                    </Title>
-                </div>
-                <Divider />
-
-                <div className="mb-8">
-                    <FormSelect
-                        label="Payment method"
-                        value="pleasebank"
-                        options={[
-                            { label: 'Please Bank', value: 'pleasebank' },
-                        ]}
-                    >
-                        <BankLogo width={50} height={30} />
-                    </FormSelect>
-
-                    <FormSelect
-                        label="Card"
-                        options={
-                            cards?.length > 0
-                                ? cards?.map((card) => ({
-                                      label: `${card?.card_number
-                                          ?.replace(/(\d{4})/g, '$1 ')
-                                          ?.trim()} (${card.bank_code})`,
-                                      value: card.id,
-                                  }))
-                                : [{ label: 'No cards', value: null }]
-                        }
-                    >
-                        <CreditCardIcon className="w-4 h-4" />
-                    </FormSelect>
-
-                    <FormSelect
-                        label="Shipping address"
-                        options={
-                            addresses?.length > 0
-                                ? addresses?.map((address) => ({
-                                      label: `${address.name} - ${address.streetInfo} - ${address.city} - ${address.country}`,
-                                      value: address.id,
-                                  }))
-                                : [{ label: 'No addresses', value: null }]
-                        }
-                    >
-                        <LocationMarkerIcon className="w-4 h-4" />
-                    </FormSelect>
-                </div>
-                <Divider />
-
-                <div className="mt-4 space-y-2">
-                    <button
-                        className="w-full rounded-lg bg-yellow-300/20 dark:bg-yellow-300/20 dark:hover:bg-yellow-400/40 hover:bg-yellow-300/30 text-yellow-600 dark:text-yellow-300 dark:hover:text-yellow-200 px-4 py-2 font-semibold transition duration-300"
-                        onClick={() => {}}
-                    >
-                        Checkout
-                    </button>
-
-                    <button
-                        className="w-full rounded-lg bg-blue-300/20 dark:bg-blue-300/20 dark:hover:bg-blue-400/40 hover:bg-blue-300/30 text-blue-600 dark:text-blue-300 dark:hover:text-blue-200 px-4 py-2 font-semibold transition duration-300"
-                        onClick={() => {
-                            router.push('/');
-                        }}
-                    >
-                        Continue shopping
-                    </button>
-                </div>
+                )}
             </div>
 
             <div className="col-span-full bg-white dark:bg-zinc-800/50 p-8 rounded-lg">

@@ -5,8 +5,10 @@ import { useUser } from './useUser';
 const CartContext = createContext();
 
 export const CartProvider = (props) => {
-    const [products, setProducts] = useState([]);
     const [initialized, setInitialized] = useState(false);
+
+    const [products, setProducts] = useState([]);
+    const [selectedProducts, setSelectedProducts] = useState([]);
 
     const { user } = useUser();
 
@@ -21,6 +23,13 @@ export const CartProvider = (props) => {
 
     const getTotal = () => {
         return products.reduce(
+            (total, product) => total + product.price * product.quantity,
+            0
+        );
+    };
+
+    const getTotalForSelectedProducts = () => {
+        return selectedProducts.reduce(
             (total, product) => total + product.price * product.quantity,
             0
         );
@@ -86,10 +95,42 @@ export const CartProvider = (props) => {
         });
     };
 
+    const selectProductWithId = (productId, outletId) => {
+        setSelectedProducts((prevProducts) => [
+            ...prevProducts,
+            products.find(
+                (i) => i.id === productId && i.outlet_id === outletId
+            ),
+        ]);
+    };
+
+    const deselectProductWithId = (productId, outletId) => {
+        setSelectedProducts((prevProducts) =>
+            prevProducts.filter(
+                (i) => i.id !== productId || i.outlet_id !== outletId
+            )
+        );
+    };
+
+    const getSelectedProductsByOutletId = (outletId) => {
+        return selectedProducts.filter((i) => i.outlet_id === outletId && i.id);
+    };
+
+    const isOutletSelected = (outletId) => {
+        return selectedProducts.some((i) => i.outlet_id === outletId && i.id);
+    };
+
+    const isProductSelected = (productId, outletId) => {
+        return selectedProducts.some(
+            (i) => i.id === productId && i.outlet_id === outletId
+        );
+    };
+
     const values = {
         initialize,
 
         products,
+        selectedProducts,
 
         addProduct,
         removeProduct,
@@ -97,7 +138,16 @@ export const CartProvider = (props) => {
         clearCart,
 
         getTotal,
+        getTotalForSelectedProducts,
         getTotalProducts,
+
+        selectProductWithId,
+        deselectProductWithId,
+
+        isOutletSelected,
+        isProductSelected,
+
+        getSelectedProductsByOutletId,
     };
 
     return <CartContext.Provider value={values} {...props} />;

@@ -1,14 +1,23 @@
-import { PlusIcon } from '@heroicons/react/outline';
+import { CheckCircleIcon, PlusIcon } from '@heroicons/react/outline';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { useCart } from '../../hooks/useCart';
 import { formatCurrency } from '../../utils/currency-format';
 import { supabase } from '../../utils/supabase-client';
 import Divider from '../common/Divider';
 import LoadingIndicator from '../common/LoadingIndicator';
-import Title from '../common/Title';
 import BetterLink from '../link/BetterLink';
 
 export default function OutletProductsCard({ outletId, products }) {
+    const {
+        getSelectedProductsByOutletId,
+
+        selectProductWithId,
+        deselectProductWithId,
+
+        isProductSelected,
+    } = useCart();
+
     const [outlet, setOutlet] = useState(null);
     const [loadingOutlet, setLoadingOutlet] = useState(true);
 
@@ -33,6 +42,31 @@ export default function OutletProductsCard({ outletId, products }) {
         fetchOutlet();
     }, [outletId]);
 
+    const handleSelectOutlet = () => {
+        // For each product in products,
+        // select it if it's not already selected
+        products.forEach((product) => {
+            if (!isProductSelected(product.id, outletId))
+                selectProductWithId(product.id, outletId);
+        });
+    };
+
+    const handleDeselectOutlet = () => {
+        // For each product in products,
+        // deselect it if it's selected
+        products.forEach((product) => {
+            if (isProductSelected(product.id, outletId))
+                deselectProductWithId(product.id, outletId);
+        });
+    };
+
+    const allProductsSelected = products.every((product) =>
+        isProductSelected(product.id, outletId)
+    );
+
+    const selectedProductsCount =
+        getSelectedProductsByOutletId(outletId).length;
+
     return (
         <div className="md:col-span-3 lg:col-span-3 bg-white dark:bg-zinc-800/50 p-8 rounded-lg">
             {loadingOutlet ? (
@@ -41,18 +75,68 @@ export default function OutletProductsCard({ outletId, products }) {
                 </div>
             ) : (
                 <div>
-                    <Title
-                        label={`${outlet.name} (${products?.length || 0})`}
-                    />
+                    <button
+                        className="flex items-center hover:bg-blue-50 dark:hover:bg-zinc-800 group p-2 space-x-2 rounded-lg"
+                        onClick={() =>
+                            allProductsSelected
+                                ? handleDeselectOutlet()
+                                : handleSelectOutlet()
+                        }
+                    >
+                        <CheckCircleIcon
+                            className={`w-8 h-8 transition duration-150 ${
+                                allProductsSelected ||
+                                getSelectedProductsByOutletId(outletId)
+                                    .length == products.length
+                                    ? 'text-green-500'
+                                    : 'text-zinc-500/50 dark:text-zinc-500'
+                            }`}
+                        />
+                        <div className="font-bold text-2xl">
+                            {outlet.name}{' '}
+                            <span className="text-zinc-500 dark:text-zinc-400">
+                                (
+                                {(allProductsSelected
+                                    ? products?.length
+                                    : selectedProductsCount) || '0'}
+                                /{products.length})
+                            </span>
+                        </div>
+                    </button>
                     <Divider />
 
                     {products && products.length > 0 ? (
                         products.map((product, index) => (
                             <div key={product.id} className="flex flex-col">
-                                <div className="flex flex-row mb-4 justify-between">
-                                    <BetterLink
-                                        href={`/outlets/${product.outlet_id}/products/${product.id}`}
-                                        className="rounded-lg p-2 hover:bg-blue-50 dark:hover:bg-zinc-800 mr-4 w-full flex items-center space-x-2 transition duration-300"
+                                <div className="flex items-center mb-4 justify-between space-x-4">
+                                    <CheckCircleIcon
+                                        className={`w-8 h-8 transition duration-150 ${
+                                            allProductsSelected ||
+                                            isProductSelected(
+                                                product.id,
+                                                outletId
+                                            )
+                                                ? 'text-green-500'
+                                                : 'text-zinc-500/50 dark:text-zinc-500'
+                                        }`}
+                                    />
+
+                                    <button
+                                        className="rounded-lg p-2 hover:bg-blue-50 dark:hover:bg-zinc-800 w-full flex items-center space-x-2 transition duration-300"
+                                        onClick={() =>
+                                            isProductSelected(
+                                                product.id,
+                                                outletId
+                                            )
+                                                ? deselectProductWithId(
+                                                      product.id,
+                                                      outletId
+                                                  )
+                                                : selectProductWithId(
+                                                      product.id,
+                                                      outletId
+                                                  )
+                                        }
                                     >
                                         <div className="w-20 h-20">
                                             {product?.avatar_url ? (
@@ -70,7 +154,8 @@ export default function OutletProductsCard({ outletId, products }) {
                                                 <div className="aspect-square w-full bg-gradient-to-br from-green-300 via-blue-500 to-purple-600 dark:from-green-300/70 dark:via-blue-500/70 dark:to-purple-600/70 rounded-lg" />
                                             )}
                                         </div>
-                                        <div className="flex flex-col">
+
+                                        <div className="flex flex-col items-start">
                                             <span className="text-sm font-bold">
                                                 {product.name} (x
                                                 {product.quantity})
@@ -78,8 +163,15 @@ export default function OutletProductsCard({ outletId, products }) {
                                             <span className="text-sm font-semibold">
                                                 {formatCurrency(product.price)}
                                             </span>
+
+                                            <BetterLink
+                                                href={`/outlets/${product.outlet_id}/products/${product.id}`}
+                                                className="mt-4 flex items-center font-semibold space-x-2 p-2 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
+                                            >
+                                                View product
+                                            </BetterLink>
                                         </div>
-                                    </BetterLink>
+                                    </button>
 
                                     <div className="text-right flex flex-col justify-center space-y-2">
                                         <span className="text-sm font-bold">
