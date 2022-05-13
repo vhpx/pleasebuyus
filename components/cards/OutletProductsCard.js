@@ -109,18 +109,6 @@ export default function OutletProductsCard({ outletId, products }) {
                         products.map((product, index) => (
                             <div key={product.id} className="flex flex-col">
                                 <div className="flex items-center mb-4 justify-between space-x-4">
-                                    <CheckCircleIcon
-                                        className={`w-8 h-8 transition duration-150 ${
-                                            allProductsSelected ||
-                                            isProductSelected(
-                                                product.id,
-                                                outletId
-                                            )
-                                                ? 'text-green-500'
-                                                : 'text-zinc-500/50 dark:text-zinc-500'
-                                        }`}
-                                    />
-
                                     <button
                                         className="rounded-lg p-2 hover:bg-blue-50 dark:hover:bg-zinc-800 w-full flex items-center space-x-2 transition duration-300"
                                         onClick={() =>
@@ -138,6 +126,18 @@ export default function OutletProductsCard({ outletId, products }) {
                                                   )
                                         }
                                     >
+                                        <CheckCircleIcon
+                                            className={`w-8 h-8 transition duration-150 ${
+                                                allProductsSelected ||
+                                                isProductSelected(
+                                                    product.id,
+                                                    outletId
+                                                )
+                                                    ? 'text-green-500'
+                                                    : 'text-zinc-500/50 dark:text-zinc-500'
+                                            }`}
+                                        />
+
                                         <div className="w-20 h-20">
                                             {product?.avatar_url ? (
                                                 <div className="aspect-square rounded-lg">
