@@ -285,9 +285,10 @@ export const CartProvider = (props) => {
         } finally {
             setCheckingOut(false);
 
-            successfulOutlets.forEach((i) =>
-                products.filter((j) => j.outlet_id === i)
-            );
+            successfulOutlets.forEach((i) => {
+                products.filter((j) => j.outlet_id === i);
+                selectedProducts.filter((j) => j.outlet_id === i);
+            });
 
             const newPath =
                 '/checkout/success?bills=' + successfulOutlets.join(',');
