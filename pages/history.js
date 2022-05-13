@@ -1,23 +1,70 @@
 import { CollectionIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import Divider from '../components/common/Divider';
+import LoadingIndicator from '../components/common/LoadingIndicator';
 import Title from '../components/common/Title';
 import { StoreLayout } from '../components/layout/layout';
-import { RequireAuth } from '../hooks/useUser';
+import { RequireAuth, useUser } from '../hooks/useUser';
+import { formatCurrency } from '../utils/currency-format';
+import { supabase } from '../utils/supabase-client';
 
 PurchaseHistoryPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
 };
 
-const purchases = [];
-
 export default function PurchaseHistoryPage() {
     RequireAuth();
 
     const router = useRouter();
+    const { user } = useUser();
 
     const navigateToBrowseItems = () => {
         router.push('/');
+    };
+
+    const [purchases, setPurchases] = useState([]);
+    const [loadingPurchases, setLoadingPurchases] = useState(true);
+
+    useEffect(() => {
+        const fetchHistory = async () => {
+            try {
+                if (!user)
+                    throw new Error(
+                        'You must be logged in to view your purchase history.'
+                    );
+
+                const { data, error } = await supabase
+                    .from('bills')
+                    .select(
+                        'total, outlets (*), addresses (*), user_cards (*), bill_products (*)'
+                    )
+                    .eq('customer_id', user.id);
+
+                if (error) throw error;
+                setPurchases(data);
+                console.log(data);
+            } catch (error) {
+                toast.error(error);
+            } finally {
+                setLoadingPurchases(false);
+            }
+        };
+
+        fetchHistory();
+    }, [user]);
+
+    const getAddress = (address) => {
+        if (!address) return null;
+
+        const { country, province, city, street_info } = address;
+
+        const infos = [street_info, city, province, country].filter(
+            (info) => info
+        );
+
+        return infos.join(', ');
     };
 
     return (
@@ -26,9 +73,45 @@ export default function PurchaseHistoryPage() {
                 <Title label="Purchase History" />
                 <Divider />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6">
-                    {purchases && purchases.length > 0 ? (
-                        purchases.map((purchase) => <div key={purchase.id} />)
+                <div className="grid grid-cols-1 gap-6">
+                    {loadingPurchases ? (
+                        <div className="w-full text-center col-span-full">
+                            <LoadingIndicator svgClassName="h-8 w-8" />
+                        </div>
+                    ) : purchases && purchases.length > 0 ? (
+                        purchases.map((purchase, index) => (
+                            <div key={purchase.id}>
+                                <div className="text-xl lg:text-2xl font-semibold mb-2">
+                                    {purchase.outlets.name}
+                                </div>
+
+                                <div>
+                                    Card:{' '}
+                                    {purchase?.user_cards?.card_number
+                                        ?.replace(/(\d{4})/g, '$1 ')
+                                        ?.trim()}{' '}
+                                    ({purchase.user_cards.bank_code})
+                                </div>
+
+                                <div>
+                                    Address: {getAddress(purchase.addresses)}
+                                </div>
+
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        {purchase.bill_products.length +
+                                            ' ' +
+                                            (purchase.bill_products.length > 1
+                                                ? ' Items'
+                                                : 'Item')}
+                                    </div>
+
+                                    <div>{formatCurrency(purchase.total)}</div>
+                                </div>
+
+                                {index !== purchases.length - 1 && <Divider />}
+                            </div>
+                        ))
                     ) : (
                         <div className="col-span-full flex flex-col space-y-4 items-center">
                             <p className="text-center text-zinc-600 dark:text-zinc-400">
