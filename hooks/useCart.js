@@ -1,5 +1,7 @@
+import { useRouter } from 'next/router';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { supabase } from '../utils/supabase-client';
 import { useUser } from './useUser';
 
 const CartContext = createContext();
@@ -18,6 +20,7 @@ export const CartProvider = (props) => {
     const [checkingOut, setCheckingOut] = useState(false);
 
     const { user } = useUser();
+    const router = useRouter();
 
     const initialize = () => {
         if (initialized) return;
@@ -28,19 +31,22 @@ export const CartProvider = (props) => {
         if (!initialized) return;
     }, [user, initialized]);
 
-    const getSubtotal = (isSelected) => {
+    const getSubtotal = (isSelected, outletId) => {
         const selected = isSelected ? selectedProducts : products;
+        const filtered = outletId
+            ? selected.filter((product) => product.outlet_id === outletId)
+            : selected;
 
-        return selected.reduce((acc, product) => {
+        return filtered.reduce((acc, product) => {
             return acc + product.price * product.quantity;
         }, 0);
     };
 
     const getDiscountValue = () => {
-        if (discount.type === 'percentage')
+        if (discount?.type === 'percentage')
             return getSubtotal() * (discount.value / 100);
 
-        return discount.value;
+        return discount?.value || 0;
     };
 
     const getTotal = () => {
@@ -50,8 +56,8 @@ export const CartProvider = (props) => {
         return subtotal - discountValue > 0 ? subtotal - discountValue : 0;
     };
 
-    const getTotalForSelectedProducts = () => {
-        const subtotal = getSubtotal(true);
+    const getTotalForSelectedProducts = (outletId) => {
+        const subtotal = getSubtotal(true, outletId);
         const discountValue = getDiscountValue();
 
         return subtotal - discountValue > 0 ? subtotal - discountValue : 0;
@@ -179,11 +185,19 @@ export const CartProvider = (props) => {
         );
     };
 
-    const checkOut = async (selectedCard, selectedAddress, selectedCoupon) => {
+    const checkoutSelected = async (
+        selectedCard,
+        selectedAddress,
+        selectedCoupon
+    ) => {
         if (checkingOut) {
             toast.error('You cannot check out while checking out');
             return;
         }
+
+        const outlets = selectedProducts.map((i) => i.outlet_id);
+        const uniqueOutlets = [...new Set(outlets)];
+        const successfulOutlets = [];
 
         try {
             setCheckingOut(true);
@@ -207,10 +221,77 @@ export const CartProvider = (props) => {
                 toast.error('You must select an address');
                 return;
             }
+
+            for (const outletId of uniqueOutlets) {
+                const products = getSelectedProductsByOutletId(outletId);
+                const total = getTotalForSelectedProducts(outletId);
+
+                const { data: billData, error: billError } = await supabase
+                    .from('bills')
+                    .insert({
+                        customer_id: user?.id,
+                        outlet_id: outletId,
+                        card_id: selectedCard.id,
+                        address_id: selectedAddress.id,
+                        total,
+                    })
+                    .single();
+
+                if (billError) {
+                    toast.error('Error checking out for outlet ' + outletId);
+                    return;
+                }
+
+                const { data: billProductsData, error: billProductsError } =
+                    await supabase.from('bill_products').insert(
+                        products.map((i) => ({
+                            bill_id: billData.id,
+                            product_id: i.id,
+                            amount: i.quantity,
+                        }))
+                    );
+
+                if (billProductsError) {
+                    toast.error(
+                        'Error adding products while checking out for outlet ' +
+                            outletId
+                    );
+                    return;
+                }
+
+                if (selectedCoupon) {
+                    const { data: billCouponsData, error: billCouponsError } =
+                        await supabase.from('bill_coupons').insert({
+                            bill_id: billData.id,
+                            coupon_id: selectedCoupon?.id,
+                        });
+
+                    if (billCouponsError) {
+                        toast.error(
+                            'Error applying coupon for outlet ' + outletId
+                        );
+                        return;
+                    }
+                }
+
+                successfulOutlets.push(outletId);
+
+                toast.success(
+                    'Checked out for outlet ' + outletId + ' successfully'
+                );
+            }
         } catch (error) {
             toast.error(error.message);
         } finally {
             setCheckingOut(false);
+
+            successfulOutlets.forEach((i) =>
+                products.filter((j) => j.outlet_id === i)
+            );
+
+            const newPath =
+                '/checkout/success?bills=' + successfulOutlets.join(',');
+            router.push(newPath);
         }
     };
 
@@ -239,6 +320,7 @@ export const CartProvider = (props) => {
         isProductSelected,
 
         getSelectedProductsByOutletId,
+        checkoutSelected,
     };
 
     return <CartContext.Provider value={values} {...props} />;

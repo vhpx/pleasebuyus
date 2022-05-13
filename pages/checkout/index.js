@@ -26,6 +26,7 @@ export default function CheckoutPage() {
     const {
         setDiscount,
         checkingOut,
+        checkoutSelected,
         products,
         selectedProducts,
         getSubtotal,
@@ -165,6 +166,8 @@ export default function CheckoutPage() {
                         'Please create a card in the settings page before checking out.'
                     );
             }
+
+            checkoutSelected(selectedCard, selectedAddress, selectedCoupon);
         } catch (error) {
             toast.error(error.message);
         }
@@ -231,7 +234,7 @@ export default function CheckoutPage() {
                                     <span className="text-sm font-bold">
                                         {getSubtotal() == 0
                                             ? 'Free'
-                                            : formatCurrency(getSubtotal())}
+                                            : formatCurrency(getSubtotal(true))}
                                     </span>
                                 </div>
 
