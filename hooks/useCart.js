@@ -276,6 +276,18 @@ export const CartProvider = (props) => {
 
                 successfulOutlets.push(outletId);
 
+                setProducts((prevProducts) =>
+                    prevProducts.filter(
+                        (i) => successfulOutlets.indexOf(i.outlet_id) === -1
+                    )
+                );
+
+                setSelectedProducts((prevProducts) =>
+                    prevProducts.filter(
+                        (i) => successfulOutlets.indexOf(i.outlet_id) === -1
+                    )
+                );
+
                 toast.success(
                     'Checked out for outlet ' + outletId + ' successfully'
                 );
@@ -285,10 +297,17 @@ export const CartProvider = (props) => {
         } finally {
             setCheckingOut(false);
 
-            successfulOutlets.forEach((i) => {
-                products.filter((j) => j.outlet_id === i);
-                selectedProducts.filter((j) => j.outlet_id === i);
-            });
+            setProducts((prevProducts) =>
+                prevProducts.filter(
+                    (i) => successfulOutlets.indexOf(i.outlet_id) === -1
+                )
+            );
+
+            setSelectedProducts((prevProducts) =>
+                prevProducts.filter(
+                    (i) => successfulOutlets.indexOf(i.outlet_id) === -1
+                )
+            );
 
             const newPath =
                 '/checkout/success?bills=' + successfulOutlets.join(',');
