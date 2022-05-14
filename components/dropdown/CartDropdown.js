@@ -81,7 +81,7 @@ export default function CartDropdown({ loggedIn, whiteText }) {
                                     </div>
                                 ))}
 
-                                {router.asPath.includes('checkout') || (
+                                {router.pathname === '/checkout' || (
                                     <button
                                         className="col-span-1 rounded-lg bg-purple-300/20 dark:bg-purple-300/20 dark:hover:bg-purple-400/40 hover:bg-purple-300/30 text-purple-600 dark:text-purple-300 dark:hover:text-purple-200 px-2 py-1 font-semibold transition duration-300 w-full text-center mb-2"
                                         onClick={() => {
@@ -110,7 +110,7 @@ export default function CartDropdown({ loggedIn, whiteText }) {
                                 <div className="mt-4 grid grid-cols-3 justify-between space-x-2">
                                     <button
                                         className={`${
-                                            router.asPath.includes('checkout')
+                                            router.pathname === '/checkout'
                                                 ? 'col-span-full'
                                                 : 'col-span-1'
                                         } rounded-lg bg-red-300/20 dark:bg-red-300/20 dark:hover:bg-red-400/40 hover:bg-red-300/30 text-red-600 dark:text-red-300 dark:hover:text-red-200 px-2 py-1 font-semibold transition duration-300`}
@@ -121,7 +121,7 @@ export default function CartDropdown({ loggedIn, whiteText }) {
                                     >
                                         Empty cart
                                     </button>
-                                    {router.asPath.includes('checkout') || (
+                                    {router.pathname === '/checkout' || (
                                         <button
                                             className="col-span-2 rounded-lg bg-blue-300/20 dark:bg-blue-300/20 dark:hover:bg-blue-400/40 hover:bg-blue-300/30 text-blue-600 dark:text-blue-300 dark:hover:text-blue-200 px-2 py-1 font-semibold transition duration-300"
                                             onClick={() => {

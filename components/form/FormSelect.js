@@ -9,6 +9,7 @@ export default function FormSelect({
     options,
     noIcon,
     required,
+    customSetter,
     setter,
     className,
     ref,
@@ -36,7 +37,9 @@ export default function FormSelect({
                     } w-full flex-1 appearance-none border border-zinc-300 bg-white py-2 px-4 text-zinc-700 placeholder-zinc-400 shadow-sm outline-none transition duration-300 group-hover:border-zinc-700 dark:border-zinc-700/50 dark:bg-zinc-800 dark:text-zinc-300`}
                     required={required}
                     onChange={(e) => {
-                        setter && setter(e.target.value);
+                        customSetter
+                            ? customSetter(e)
+                            : setter && setter(e.target.value);
                     }}
                 >
                     {options.map((option) => (

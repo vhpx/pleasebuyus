@@ -243,7 +243,7 @@ export const CartProvider = (props) => {
                     return;
                 }
 
-                billIds.push(billData.id);
+                if (billData?.id) billIds.push(billData.id);
 
                 const { data: billProductsData, error: billProductsError } =
                     await supabase.from('bill_products').insert(
@@ -311,6 +311,9 @@ export const CartProvider = (props) => {
                     (i) => successfulOutlets.indexOf(i.outlet_id) === -1
                 )
             );
+
+            if (billIds.filter((billId) => billId).length == 0) return;
+            console.log(billIds);
 
             const newPath = '/checkout/success?bills=' + billIds.join(',');
             router.push(newPath);

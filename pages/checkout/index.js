@@ -349,7 +349,13 @@ export default function CheckoutPage() {
                                               ]
                                     }
                                     value={selectedAddress?.id}
-                                    setter={setSelectedAddress}
+                                    customSetter={(e) => {
+                                        const address = addresses?.find(
+                                            (address) =>
+                                                address.id === e.target.value
+                                        );
+                                        setSelectedAddress(address);
+                                    }}
                                 >
                                     <LocationMarkerIcon className="w-4 h-4" />
                                 </FormSelect>
