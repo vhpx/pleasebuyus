@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { formatCurrency } from '../../utils/currency-format';
 import LoadingIndicator from '../common/LoadingIndicator';
 
-export default function CouponsTable() {
+export default function CouponsTable({ setter }) {
     const [coupons, setCoupons] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -20,6 +20,7 @@ export default function CouponsTable() {
 
                 if (error) throw error;
                 setCoupons(data);
+                setter(data);
             } catch (error) {
                 toast.error(error.message);
             } finally {
@@ -28,7 +29,7 @@ export default function CouponsTable() {
         };
 
         fetchCoupons();
-    }, []);
+    }, [setter]);
 
     return loading ? (
         <div className="text-center">

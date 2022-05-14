@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { formatCurrency } from '../../utils/currency-format';
 import LoadingIndicator from '../common/LoadingIndicator';
 
-export default function ProductsTable() {
+export default function ProductsTable({ setter }) {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -15,11 +15,12 @@ export default function ProductsTable() {
 
                 const { data, error } = await supabase
                     .from('products')
-                    .select('*')
+                    .select('*, outlets (*)')
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
                 setProducts(data);
+                setter(data);
             } catch (error) {
                 toast.error(error.message);
             } finally {
@@ -28,7 +29,7 @@ export default function ProductsTable() {
         };
 
         fetchProducts();
-    }, []);
+    }, [setter]);
 
     return loading ? (
         <div className="text-center">
