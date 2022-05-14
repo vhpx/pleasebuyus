@@ -45,7 +45,16 @@ const handler = async (req, res) => {
                     .maybeSingle();
 
                 if (error) throw error;
-                return res.json(data);
+
+                const { data: adminData, error: adminError } = await supabase
+                    .from('admins')
+                    .select('*')
+                    .eq('user_id', userId)
+                    .maybeSingle();
+
+                if (adminError) throw error;
+
+                return res.json({ ...(data || {}), isAdmin: !!adminData });
             } catch (e) {
                 return res.status(500).send(e.message);
             }

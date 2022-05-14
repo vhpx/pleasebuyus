@@ -62,14 +62,16 @@ export default function UserDropdown({
                             </>
                         ) : (
                             <>
-                                <button
-                                    className="text-left rounded-t-lg px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
-                                    onClick={() =>
-                                        navigateTo('/dashboard', close)
-                                    }
-                                >
-                                    Admin Dashboard
-                                </button>
+                                {userData.isAdmin && (
+                                    <button
+                                        className="text-left rounded-t-lg px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
+                                        onClick={() =>
+                                            navigateTo('/dashboard', close)
+                                        }
+                                    >
+                                        Admin Dashboard
+                                    </button>
+                                )}
                                 <button
                                     className="text-left rounded-t-lg px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
                                     onClick={() =>

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import LoadingIndicator from '../../components/common/LoadingIndicator.js';
 import { SidebarLayout } from '../../components/layout/layout.js';
-import { RequireAuth } from '../../hooks/useUser';
+import { RequireAuth, useUser } from '../../hooks/useUser';
 import { supabase } from '../../utils/supabase-client.js';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 import Title from '../../components/common/Title.js';
 
 AdminDashboardPage.getLayout = (page) => {
@@ -12,6 +13,21 @@ AdminDashboardPage.getLayout = (page) => {
 
 export default function AdminDashboardPage() {
     RequireAuth();
+
+    const router = useRouter();
+
+    const { userData } = useUser();
+    const [initialized, setInitialized] = useState(false);
+
+    useEffect(() => {
+        if (!userData) return;
+        if (!userData?.isAdmin) {
+            toast.error('You are not authorized to view this page.');
+            router.replace('/');
+        } else {
+            setInitialized(true);
+        }
+    }, [userData, router]);
 
     const [usersCount, setUsersCount] = useState({
         total: null,
@@ -224,6 +240,8 @@ export default function AdminDashboardPage() {
         };
 
         const fetchAll = async () => {
+            if (!initialized) return;
+
             await Promise.all([
                 fetchUsersCount(),
                 fetchBanksCount(),
@@ -237,7 +255,7 @@ export default function AdminDashboardPage() {
         };
 
         fetchAll();
-    }, []);
+    }, [initialized]);
 
     return (
         <div className="p-4 md:p-8 lg:p-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

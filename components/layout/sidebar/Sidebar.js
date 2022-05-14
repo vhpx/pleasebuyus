@@ -11,6 +11,7 @@ import {
     TemplateIcon as OutlinedTemplateIcon,
     CreditCardIcon as OutlinedCreditCardIcon,
     CollectionIcon as OutlinedCollectionIcon,
+    ShieldCheckIcon as OutlinedShieldCheckIcon,
 } from '@heroicons/react/outline';
 
 import {
@@ -24,6 +25,7 @@ import {
     TemplateIcon as SolidTemplateIcon,
     CreditCardIcon as SolidCreditCardIcon,
     CollectionIcon as SolidCollectionIcon,
+    ShieldCheckIcon as SolidShieldCheckIcon,
 } from '@heroicons/react/solid';
 
 import SidebarTab from './SidebarTab';
@@ -190,6 +192,19 @@ export default function Sidebar({ className }) {
                             <OutlinedCollectionIcon className="h-5 w-5" />
                         }
                         activeIcon={<SolidCollectionIcon className="h-5 w-5" />}
+                    />
+
+                    <SidebarTab
+                        href="/dashboard/admins"
+                        label="Manage Admins"
+                        currentPath={router.pathname}
+                        onClick={(e) => navigateTo(e, '/dashboard/admins')}
+                        inactiveIcon={
+                            <OutlinedShieldCheckIcon className="h-5 w-5" />
+                        }
+                        activeIcon={
+                            <SolidShieldCheckIcon className="h-5 w-5" />
+                        }
                     />
 
                     <div className="h-8 md:h-4" />
