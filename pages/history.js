@@ -183,10 +183,21 @@ export default function PurchaseHistoryPage() {
 
                                     <div className="flex justify-between items-center">
                                         <div className="w-fit rounded-lg bg-purple-300/20 dark:bg-purple-300/20 dark:hover:bg-purple-400/40 hover:bg-purple-300/30 text-purple-600 dark:text-purple-300 dark:hover:text-purple-200 px-2 py-1 font-semibold transition duration-300 text-center mb-2">
-                                            {purchase.bill_products.length +
+                                            {purchase.bill_products.reduce(
+                                                (acc, product) => {
+                                                    return acc + product.amount;
+                                                },
+                                                0
+                                            ) +
                                                 ' ' +
-                                                (purchase.bill_products.length >
-                                                1
+                                                (purchase.bill_products.reduce(
+                                                    (acc, product) => {
+                                                        return (
+                                                            acc + product.amount
+                                                        );
+                                                    },
+                                                    0
+                                                ) > 1
                                                     ? ' Items'
                                                     : 'Item')}
                                         </div>

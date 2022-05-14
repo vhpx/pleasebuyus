@@ -2,6 +2,7 @@ import { CollectionIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import OutlinedButton from '../../components/buttons/OutlinedButton';
 import Card from '../../components/common/Card';
 import Divider from '../../components/common/Divider';
 import LoadingIndicator from '../../components/common/LoadingIndicator';
@@ -28,6 +29,9 @@ export default function DetailedBillPage() {
     const [products, setProducts] = useState([]);
     const [loadingProducts, setLoadingProducts] = useState(true);
 
+    const [appliedCoupons, setAppliedCoupons] = useState(null);
+    const [loadingCoupons, setLoadingCoupons] = useState(true);
+
     useEffect(() => {
         const fetchHistory = async () => {
             try {
@@ -50,7 +54,6 @@ export default function DetailedBillPage() {
 
                 if (error) throw error;
                 setPurchase(data);
-                console.log('data', data);
             } catch (error) {
                 toast.error(error);
             } finally {
@@ -87,6 +90,29 @@ export default function DetailedBillPage() {
         };
 
         fetchProducts();
+    }, [purchase]);
+
+    useEffect(() => {
+        const fetchCoupons = async () => {
+            try {
+                if (!purchase) return;
+
+                const { data, error } = await supabase
+                    .from('bill_coupons')
+                    .select('coupons (*)')
+                    .eq('bill_id', purchase.id);
+
+                if (error) throw error;
+                const coupons = data.map((coupon) => coupon.coupons);
+                setAppliedCoupons(coupons);
+            } catch (error) {
+                toast.error(error);
+            } finally {
+                setLoadingCoupons(false);
+            }
+        };
+
+        fetchCoupons();
     }, [purchase]);
 
     const getAddress = (address) => {
@@ -140,6 +166,12 @@ export default function DetailedBillPage() {
 
     return (
         <div className="p-4 md:p-8 lg:p-16 space-y-8">
+            <OutlinedButton
+                href="/history"
+                label="Back to purchase history"
+                widthConstraint="w-full md:max-w-[20rem]"
+            />
+
             <div className="bg-white dark:bg-zinc-800/50 p-8 rounded-lg">
                 <Title>
                     Bill ID:{' '}
@@ -205,23 +237,67 @@ export default function DetailedBillPage() {
                                 </div>
 
                                 <div className="flex justify-between items-center">
-                                    <div className="w-fit rounded-lg bg-purple-300/20 dark:bg-purple-300/20 dark:hover:bg-purple-400/40 hover:bg-purple-300/30 text-purple-600 dark:text-purple-300 dark:hover:text-purple-200 px-2 py-1 font-semibold transition duration-300 text-center mb-2">
-                                        {purchase.bill_products.length +
-                                            ' ' +
-                                            (purchase.bill_products.length > 1
-                                                ? ' Items'
-                                                : 'Item')}
+                                    <div>
+                                        <div className="w-fit rounded-lg bg-purple-300/20 dark:bg-purple-300/20 dark:hover:bg-purple-400/40 hover:bg-purple-300/30 text-purple-600 dark:text-purple-300 dark:hover:text-purple-200 px-2 py-1 font-semibold transition duration-300 text-center mb-2">
+                                            {purchase.bill_products.length +
+                                                ' ' +
+                                                (purchase.bill_products.length >
+                                                1
+                                                    ? ' Items'
+                                                    : 'Item')}
+                                        </div>
+
+                                        <div className="font-semibold text-lg">
+                                            Ship to:{' '}
+                                            <span className="font-normal text-blue-500 dark:text-blue-300 text-base">
+                                                {getAddress(purchase.addresses)}
+                                            </span>
+                                        </div>
                                     </div>
 
-                                    <div className="font-bold text-lg md:text-2xl">
-                                        {formatCurrency(purchase.total)}
+                                    <div className="flex flex-col items-end justify-end space-y-2">
+                                        <div className="font-bold text-lg md:text-2xl">
+                                            {formatCurrency(purchase.total)}
+                                        </div>
+
+                                        {loadingCoupons ? (
+                                            <div className="w-full text-center col-span-full">
+                                                <LoadingIndicator svgClassName="h-8 w-8" />
+                                            </div>
+                                        ) : appliedCoupons &&
+                                          appliedCoupons.length > 0 ? (
+                                            <>
+                                                <div className="font-semibold text-lg">
+                                                    Applied Coupons:
+                                                </div>
+                                                {appliedCoupons.map(
+                                                    (coupon) => (
+                                                        <div
+                                                            key={coupon.id}
+                                                            className="flex items-center space-x-2 w-fit"
+                                                        >
+                                                            <div className="text-sm font-bold px-4 py-1 rounded-lg bg-blue-500 dark:bg-blue-500/20 text-white dark:text-blue-200">
+                                                                {coupon.code} (
+                                                                {(coupon.useRatio
+                                                                    ? `${coupon.value}%`
+                                                                    : formatCurrency(
+                                                                          coupon.value
+                                                                      )) +
+                                                                    ' discount'}
+                                                                )
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                )}
+                                            </>
+                                        ) : (
+                                            <div className="w-full text-center col-span-full">
+                                                <div className="text-sm font-bold px-4 py-1 rounded-lg bg-blue-500 dark:bg-blue-500/20 text-white dark:text-blue-200">
+                                                    No Coupon Applied
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
-                                </div>
-                                <div className="font-semibold text-lg">
-                                    Ship to:{' '}
-                                    <span className="font-normal text-blue-500 dark:text-blue-300 text-base">
-                                        {getAddress(purchase.addresses)}
-                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -240,7 +316,7 @@ export default function DetailedBillPage() {
                     <LoadingIndicator svgClassName="h-8 w-8" />
                 </div>
             ) : products && products.length > 0 ? (
-                products.map((product, index) => (
+                products.map((product) => (
                     <div
                         key={product.id}
                         className="bg-white dark:bg-zinc-800/50 p-8 rounded-lg flex flex-col"
@@ -290,8 +366,6 @@ export default function DetailedBillPage() {
                                 </span>
                             </div>
                         </div>
-
-                        {index !== products.length - 1 && <Divider />}
                     </div>
                 ))
             ) : (
