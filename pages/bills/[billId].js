@@ -278,7 +278,7 @@ export default function DetailedBillPage() {
                                                         >
                                                             <div className="text-sm font-bold px-4 py-1 rounded-lg bg-blue-500 dark:bg-blue-500/20 text-white dark:text-blue-200">
                                                                 {coupon.code} (
-                                                                {(coupon.useRatio
+                                                                {(coupon.use_ratio
                                                                     ? `${coupon.value}%`
                                                                     : formatCurrency(
                                                                           coupon.value

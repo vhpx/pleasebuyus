@@ -198,6 +198,7 @@ export const CartProvider = (props) => {
         const outlets = selectedProducts.map((i) => i.outlet_id);
         const uniqueOutlets = [...new Set(outlets)];
         const successfulOutlets = [];
+        const billIds = [];
 
         try {
             setCheckingOut(true);
@@ -241,6 +242,8 @@ export const CartProvider = (props) => {
                     toast.error('Error checking out for outlet ' + outletId);
                     return;
                 }
+
+                billIds.push(billData.id);
 
                 const { data: billProductsData, error: billProductsError } =
                     await supabase.from('bill_products').insert(
@@ -309,8 +312,7 @@ export const CartProvider = (props) => {
                 )
             );
 
-            const newPath =
-                '/checkout/success?bills=' + successfulOutlets.join(',');
+            const newPath = '/checkout/success?bills=' + billIds.join(',');
             router.push(newPath);
         }
     };

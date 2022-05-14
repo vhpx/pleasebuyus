@@ -47,8 +47,8 @@ export default function CheckoutCompletedPage() {
                                 label="Continue shopping"
                             />
                             <OutlinedButton
-                                href="/history"
-                                label="View history"
+                                href={`/bills/${billId}`}
+                                label="View invoice"
                             />
                         </div>
                     </div>
