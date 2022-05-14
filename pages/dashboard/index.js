@@ -69,6 +69,11 @@ export default function AdminDashboardPage() {
         loading: true,
     });
 
+    const [adminsCount, setAdminsCount] = useState({
+        total: null,
+        loading: true,
+    });
+
     useEffect(() => {
         const fetchUsersCount = async () => {
             try {
@@ -239,6 +244,27 @@ export default function AdminDashboardPage() {
             }
         };
 
+        const fetchAdminsCount = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('admins')
+                    .select('user_id', { count: 'exact' });
+
+                if (error) throw error;
+                setAdminsCount((prevState) => ({
+                    ...prevState,
+                    total: data?.length || 0,
+                }));
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setAdminsCount((prevState) => ({
+                    ...prevState,
+                    loading: false,
+                }));
+            }
+        };
+
         const fetchAll = async () => {
             if (!initialized) return;
 
@@ -251,6 +277,7 @@ export default function AdminDashboardPage() {
                 fetchCouponsCount(),
                 fetchCategoriesCount(),
                 fetchTransactionsCount(),
+                fetchAdminsCount(),
             ]);
         };
 
@@ -392,6 +419,23 @@ export default function AdminDashboardPage() {
                         </div>
                         <div className="text-5xl font-semibold">
                             {transactionsCount?.total ?? 'No data.'}
+                        </div>
+                    </>
+                )}
+            </div>
+
+            <div className="bg-white dark:bg-zinc-800/50 p-8 rounded-lg">
+                {adminsCount.loading ? (
+                    <div className="text-center">
+                        <LoadingIndicator svgClassName="w-8 h-8" />
+                    </div>
+                ) : (
+                    <>
+                        <div className="text-3xl font-bold text-zinc-500">
+                            Total admins
+                        </div>
+                        <div className="text-5xl font-semibold">
+                            {adminsCount?.total ?? 'No data.'}
                         </div>
                     </>
                 )}
