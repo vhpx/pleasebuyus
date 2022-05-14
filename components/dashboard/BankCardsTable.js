@@ -3,7 +3,7 @@ import { supabase } from '../../utils/supabase-client';
 import { toast } from 'react-toastify';
 import LoadingIndicator from '../common/LoadingIndicator';
 
-export default function BankCardsTable() {
+export default function BankCardsTable({ setter }) {
     const [bankCards, setBankCards] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -19,6 +19,7 @@ export default function BankCardsTable() {
 
                 if (error) throw error;
                 setBankCards(data);
+                setter(data);
             } catch (error) {
                 toast.error(error.message);
             } finally {
@@ -27,7 +28,7 @@ export default function BankCardsTable() {
         };
 
         fetchBankCards();
-    }, []);
+    }, [setter]);
 
     return loading ? (
         <div className="text-center">

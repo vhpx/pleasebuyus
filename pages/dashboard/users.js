@@ -170,6 +170,7 @@ export default function UsersDashboardPage() {
                             />
                         </div>
                     </div>
+                    <div className="my-4" />
                 </>
             )}
 

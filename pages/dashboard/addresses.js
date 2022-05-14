@@ -5,6 +5,10 @@ import { RequireAuth, useUser } from '../../hooks/useUser';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Pie } from 'react-chartjs-2';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 AddressesDashboardPage.getLayout = (page) => {
     return <SidebarLayout>{page}</SidebarLayout>;
@@ -18,6 +22,8 @@ export default function AddressesDashboardPage() {
     const { userData } = useUser();
     const [initialized, setInitialized] = useState(false);
 
+    const [addresses, setAddresses] = useState(null);
+
     useEffect(() => {
         if (!userData) return;
         if (!userData?.isAdmin) {
@@ -28,10 +34,153 @@ export default function AddressesDashboardPage() {
         }
     }, [userData, router]);
 
+    const getDistinctCountries = () => {
+        return addresses.reduce((acc, address) => {
+            if (acc.includes(address.country)) return acc;
+            return [...acc, address.country];
+        }, []);
+    };
+
+    const getDistinctCities = () => {
+        return addresses.reduce((acc, address) => {
+            if (acc.includes(address.city)) return acc;
+            return [...acc, address.city];
+        }, []);
+    };
+
+    const getDistinctProvinces = () => {
+        return addresses.reduce((acc, address) => {
+            if (acc.includes(address.province)) return acc;
+            return [...acc, address.province];
+        }, []);
+    };
+
     return initialized ? (
         <div className="p-4 md:p-8 lg:p-16">
+            {addresses && (
+                <>
+                    <Title label="Charts" className="mb-4" />
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                        <div className="max-w-sm">
+                            <Pie
+                                data={{
+                                    labels: getDistinctCountries(),
+                                    datasets: [
+                                        {
+                                            label: 'Countries',
+                                            data: [
+                                                // For each country, count the number of addresses
+                                                ...getDistinctCountries().map(
+                                                    (country) =>
+                                                        addresses.reduce(
+                                                            (acc, address) =>
+                                                                address.country ==
+                                                                country
+                                                                    ? acc + 1
+                                                                    : acc,
+                                                            0
+                                                        )
+                                                ),
+                                            ],
+                                            backgroundColor: [
+                                                'rgba(54, 162, 235, 0.2)',
+                                                'rgba(255, 99, 132, 0.2)',
+                                                'rgba(255, 206, 86, 0.2)',
+                                            ],
+                                            borderColor: [
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(255, 206, 86, 1)',
+                                            ],
+                                            borderWidth: 1,
+                                        },
+                                    ],
+                                }}
+                            />
+                        </div>
+
+                        <div className="max-w-sm">
+                            <Pie
+                                data={{
+                                    labels: getDistinctProvinces(),
+                                    datasets: [
+                                        {
+                                            label: 'Provinces',
+                                            data: [
+                                                // For each country, count the number of addresses
+                                                ...getDistinctProvinces().map(
+                                                    (province) =>
+                                                        addresses.reduce(
+                                                            (acc, address) =>
+                                                                address.province ==
+                                                                province
+                                                                    ? acc + 1
+                                                                    : acc,
+                                                            0
+                                                        )
+                                                ),
+                                            ],
+                                            backgroundColor: [
+                                                'rgba(54, 162, 235, 0.2)',
+                                                'rgba(255, 99, 132, 0.2)',
+                                                'rgba(255, 206, 86, 0.2)',
+                                            ],
+                                            borderColor: [
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(255, 206, 86, 1)',
+                                            ],
+                                            borderWidth: 1,
+                                        },
+                                    ],
+                                }}
+                            />
+                        </div>
+
+                        <div className="max-w-sm">
+                            <Pie
+                                data={{
+                                    labels: getDistinctCities(),
+                                    datasets: [
+                                        {
+                                            label: 'Cities',
+                                            data: [
+                                                // For each country, count the number of addresses
+                                                ...getDistinctCities().map(
+                                                    (city) =>
+                                                        addresses.reduce(
+                                                            (acc, address) =>
+                                                                address.city ==
+                                                                city
+                                                                    ? acc + 1
+                                                                    : acc,
+                                                            0
+                                                        )
+                                                ),
+                                            ],
+                                            backgroundColor: [
+                                                'rgba(54, 162, 235, 0.2)',
+                                                'rgba(255, 99, 132, 0.2)',
+                                                'rgba(255, 206, 86, 0.2)',
+                                            ],
+                                            borderColor: [
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(255, 206, 86, 1)',
+                                            ],
+                                            borderWidth: 1,
+                                        },
+                                    ],
+                                }}
+                            />
+                        </div>
+                    </div>
+                    <div className="my-4" />
+                </>
+            )}
+
             <Title label="Addresses" className="mb-4" />
-            <AddressesTable />
+            <AddressesTable setter={setAddresses} />
         </div>
     ) : (
         <div></div>

@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { formatCurrency } from '../../utils/currency-format';
 import LoadingIndicator from '../common/LoadingIndicator';
 
-export default function AddressesTable() {
+export default function AddressesTable({ setter }) {
     const [addresses, setAddresses] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -20,6 +20,7 @@ export default function AddressesTable() {
 
                 if (error) throw error;
                 setAddresses(data);
+                setter(data);
             } catch (error) {
                 toast.error(error.message);
             } finally {
@@ -28,7 +29,7 @@ export default function AddressesTable() {
         };
 
         fetchAddresses();
-    }, []);
+    }, [setter]);
 
     return loading ? (
         <div className="text-center">
