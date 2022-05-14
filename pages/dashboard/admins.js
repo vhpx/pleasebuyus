@@ -30,7 +30,7 @@ export default function AdminsDashboardPage() {
 
     return initialized ? (
         <div className="p-4 md:p-8 lg:p-16">
-            <Title label="Admins Manager" className="mb-4" />
+            <Title label="Admins" className="mb-4" />
             <AdminsTable />
         </div>
     ) : (
