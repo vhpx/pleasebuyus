@@ -15,7 +15,12 @@ import CartDropdown from '../dropdown/CartDropdown';
 import UserDropdown from '../dropdown/UserDropdown';
 import BetterLink from '../link/BetterLink';
 
-export function StoreNavBar() {
+export function StoreNavBar({
+    hideLogo,
+    hideWishlist,
+    hideCart,
+    dashboardMode,
+}) {
     const [scrolled, setScrolled] = useState(0);
     const [menuClosed, setMenuClosed] = useState(true);
 
@@ -135,21 +140,26 @@ export function StoreNavBar() {
                         <MenuIcon className="h-6 w-6 text-white md:hidden" />
                     </button>
                 )}
-                <Logo />
+                {hideLogo || <Logo />}
             </div>
 
             <div className="flex items-center space-x-2">
-                {user && (
-                    <BetterLink
-                        href="/wishlist"
-                        className="hidden md:flex items-center justify-center space-x-1 rounded-lg px-3 py-[0.725rem] transition duration-300 hover:bg-white/10 dark:hover:bg-zinc-800"
-                    >
-                        <HeartIcon className="h-5 w-5 text-white" />
-                        <div className="font-semibold text-white">Wishlist</div>
-                    </BetterLink>
-                )}
+                {hideWishlist ||
+                    (user && (
+                        <BetterLink
+                            href="/wishlist"
+                            className="hidden md:flex items-center justify-center space-x-1 rounded-lg px-3 py-[0.725rem] transition duration-300 hover:bg-white/10 dark:hover:bg-zinc-800"
+                        >
+                            <HeartIcon className="h-5 w-5 text-white" />
+                            <div className="font-semibold text-white">
+                                Wishlist
+                            </div>
+                        </BetterLink>
+                    ))}
 
-                <CartDropdown loggedIn={!!user} whiteText={true} />
+                {hideCart || (
+                    <CartDropdown loggedIn={!!user} whiteText={true} />
+                )}
 
                 {user ? (
                     <UserDropdown
@@ -158,6 +168,7 @@ export function StoreNavBar() {
                         darkMode={darkMode}
                         updateTheme={updateTheme}
                         desktopOnly={true}
+                        dashboardMode={dashboardMode}
                     />
                 ) : (
                     <BetterLink href="/login">

@@ -11,6 +11,7 @@ export default function UserDropdown({
     updateTheme,
     desktopOnly,
     bankMode,
+    dashboardMode,
 }) {
     const router = useRouter();
 
@@ -50,7 +51,7 @@ export default function UserDropdown({
             <Popover.Panel className="absolute right-0 top-[3.5rem] z-10">
                 {({ close }) => (
                     <div className="my-1 flex w-64 flex-col rounded-lg bg-white/80 shadow backdrop-blur dark:bg-zinc-800/80">
-                        {bankMode ? (
+                        {bankMode || dashboardMode ? (
                             <>
                                 <button
                                     className="text-left rounded-t-lg px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
@@ -61,6 +62,14 @@ export default function UserDropdown({
                             </>
                         ) : (
                             <>
+                                <button
+                                    className="text-left rounded-t-lg px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
+                                    onClick={() =>
+                                        navigateTo('/dashboard', close)
+                                    }
+                                >
+                                    Admin Dashboard
+                                </button>
                                 <button
                                     className="text-left rounded-t-lg px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
                                     onClick={() =>

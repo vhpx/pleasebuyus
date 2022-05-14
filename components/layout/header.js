@@ -1,9 +1,21 @@
 import { BankNavBar, StoreNavBar } from './navbar';
 
-export function StoreHeader({ label }) {
+export function StoreHeader({
+    label,
+    hideLogo,
+    hideWishlist,
+    hideCart,
+    dashboardMode,
+}) {
     return (
         <header className="sticky top-0 z-40">
-            <StoreNavBar label={label} />
+            <StoreNavBar
+                label={label}
+                hideLogo={hideLogo}
+                hideWishlist={hideWishlist}
+                hideCart={hideCart}
+                dashboardMode={dashboardMode}
+            />
         </header>
     );
 }
