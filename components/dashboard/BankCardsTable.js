@@ -3,22 +3,22 @@ import { supabase } from '../../utils/supabase-client';
 import { toast } from 'react-toastify';
 import LoadingIndicator from '../common/LoadingIndicator';
 
-export default function BanksTable() {
-    const [banks, setBanks] = useState([]);
+export default function BankCardsTable() {
+    const [bankCards, setBankCards] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchBanks = async () => {
+        const fetchBankCards = async () => {
             try {
                 setLoading(true);
 
                 const { data, error } = await supabase
-                    .from('banks')
+                    .from('bank_cards')
                     .select('*')
-                    .order('name');
+                    .order('created_at', { ascending: false });
 
                 if (error) throw error;
-                setBanks(data);
+                setBankCards(data);
             } catch (error) {
                 toast.error(error.message);
             } finally {
@@ -26,7 +26,7 @@ export default function BanksTable() {
             }
         };
 
-        fetchBanks();
+        fetchBankCards();
     }, []);
 
     return loading ? (
@@ -45,19 +45,19 @@ export default function BanksTable() {
                                         scope="col"
                                         className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
                                     >
-                                        Code
+                                        Bank Code
                                     </th>
                                     <th
                                         scope="col"
                                         className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
                                     >
-                                        Name
+                                        Card Number
                                     </th>
                                     <th
                                         scope="col"
                                         className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
                                     >
-                                        Short name
+                                        Owner ID
                                     </th>
                                     <th
                                         scope="col"
@@ -68,21 +68,25 @@ export default function BanksTable() {
                                 </tr>
                             </thead>
                             <tbody className="bg-white dark:bg-zinc-800/50 divide-y divide-zinc-200 dark:divide-zinc-700">
-                                {banks.map((bank) => (
-                                    <tr key={bank.code}>
+                                {bankCards.map((card) => (
+                                    <tr
+                                        key={card?.bank_code + card.card_number}
+                                    >
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="text-sm text-zinc-900 dark:text-zinc-200">
-                                                {bank?.code || '-'}
+                                                {card?.bank_code || '-'}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="text-sm text-zinc-900 dark:text-zinc-200">
-                                                {bank?.name || '-'}
+                                                {card?.card_number
+                                                    ?.replace(/(\d{4})/g, '$1 ')
+                                                    ?.trim() || '-'}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="text-sm text-zinc-900 dark:text-zinc-200">
-                                                {bank?.short_name || '-'}
+                                                {card?.owner_id || '-'}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

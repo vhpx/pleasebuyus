@@ -1,3 +1,5 @@
+import Title from '../../components/common/Title.js';
+import TransactionsTable from '../../components/dashboard/TransactionsTable.js';
 import { SidebarLayout } from '../../components/layout/layout.js';
 import { RequireAuth } from '../../hooks/useUser';
 
@@ -10,7 +12,8 @@ export default function TransactionsDashboardPage() {
 
     return (
         <div className="p-4 md:p-8 lg:p-16">
-            <div className="bg-white dark:bg-zinc-800/50 p-8 rounded-lg"></div>
+            <Title label="Transactions" className="mb-4" />
+            <TransactionsTable />
         </div>
     );
 }

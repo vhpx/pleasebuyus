@@ -1,24 +1,25 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../utils/supabase-client';
 import { toast } from 'react-toastify';
+import { formatCurrency } from '../../utils/currency-format';
 import LoadingIndicator from '../common/LoadingIndicator';
 
-export default function UsersTable() {
-    const [users, setUsers] = useState([]);
+export default function ProductsTable() {
+    const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchUsers = async () => {
+        const fetchProducts = async () => {
             try {
                 setLoading(true);
 
                 const { data, error } = await supabase
-                    .from('users')
+                    .from('products')
                     .select('*')
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
-                setUsers(data);
+                setProducts(data);
             } catch (error) {
                 toast.error(error.message);
             } finally {
@@ -26,7 +27,7 @@ export default function UsersTable() {
             }
         };
 
-        fetchUsers();
+        fetchProducts();
     }, []);
 
     return loading ? (
@@ -45,25 +46,31 @@ export default function UsersTable() {
                                         scope="col"
                                         className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
                                     >
+                                        ID
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
+                                    >
+                                        Outlet ID
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
+                                    >
                                         Name
                                     </th>
                                     <th
                                         scope="col"
                                         className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
                                     >
-                                        Phone number
+                                        Description
                                     </th>
                                     <th
                                         scope="col"
                                         className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
                                     >
-                                        Birthday
-                                    </th>
-                                    <th
-                                        scope="col"
-                                        className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
-                                    >
-                                        Gender
+                                        Price
                                     </th>
                                     <th
                                         scope="col"
@@ -74,65 +81,36 @@ export default function UsersTable() {
                                 </tr>
                             </thead>
                             <tbody className="bg-white dark:bg-zinc-800/50 divide-y divide-zinc-200 dark:divide-zinc-700">
-                                {users.map((user) => (
-                                    <tr key={user.email}>
+                                {products.map((product) => (
+                                    <tr key={product.id}>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="flex items-center">
-                                                <div className="flex-shrink-0 h-10 w-10">
-                                                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                                                    {user?.avatar_url ? (
-                                                        <div className="aspect-square rounded-lg">
-                                                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                                                            <img
-                                                                className="h-10 w-10 rounded-lg"
-                                                                src={
-                                                                    user.avatar_url
-                                                                }
-                                                                alt={user.email}
-                                                            />
-                                                        </div>
-                                                    ) : (
-                                                        <div className="aspect-square w-full bg-gradient-to-br from-green-300 via-blue-500 to-purple-600 dark:from-green-300/70 dark:via-blue-500/70 dark:to-purple-600/70 rounded-lg" />
-                                                    )}
-                                                </div>
-                                                <div className="ml-4">
-                                                    <div className="text-sm font-medium text-zinc-900 dark:text-zinc-200">
-                                                        {user?.name || '-'}
-                                                    </div>
-                                                    <div className="text-sm text-zinc-500 dark:text-zinc-400">
-                                                        {user.email}
-                                                    </div>
-                                                </div>
+                                            <div className="text-sm text-zinc-900 dark:text-zinc-200">
+                                                {product?.id || '-'}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="text-sm text-zinc-900 dark:text-zinc-200">
-                                                {user?.phone_number || '-'}
+                                                {product?.outlet_id || '-'}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="text-sm text-zinc-900 dark:text-zinc-200">
-                                                {user?.birthday || '-'}
+                                                {product?.name || '-'}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            {user?.gender ? (
-                                                user?.gender == 'male' ? (
-                                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 dark:bg-blue-300/20 text-blue-800 dark:text-blue-300">
-                                                        Male
-                                                    </span>
-                                                ) : user?.gender == 'female' ? (
-                                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 dark:bg-red-300/20 text-red-800 dark:text-red-300">
-                                                        Female
-                                                    </span>
-                                                ) : (
-                                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 dark:bg-purple-300/20 text-purple-800 dark:text-purple-300">
-                                                        Other
-                                                    </span>
-                                                )
-                                            ) : (
-                                                '-'
-                                            )}
+                                            <div className="text-sm text-zinc-900 dark:text-zinc-200">
+                                                {product?.description || '-'}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm text-zinc-900 dark:text-zinc-200">
+                                                {product?.price != null
+                                                    ? formatCurrency(
+                                                          product?.price
+                                                      )
+                                                    : '-'}
+                                            </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <a
