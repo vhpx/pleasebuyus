@@ -8,7 +8,6 @@ import {
     ShoppingBagIcon as OutlinedShoppingBagIcon,
     TagIcon as OutlinedTagIcon,
     TicketIcon as OutlinedTicketIcon,
-    TemplateIcon as OutlinedTemplateIcon,
     CreditCardIcon as OutlinedCreditCardIcon,
     CollectionIcon as OutlinedCollectionIcon,
     ShieldCheckIcon as OutlinedShieldCheckIcon,
@@ -23,7 +22,6 @@ import {
     ShoppingBagIcon as SolidShoppingBagIcon,
     TagIcon as SolidTagIcon,
     TicketIcon as SolidTicketIcon,
-    TemplateIcon as SolidTemplateIcon,
     CreditCardIcon as SolidCreditCardIcon,
     CollectionIcon as SolidCollectionIcon,
     ShieldCheckIcon as SolidShieldCheckIcon,
@@ -183,17 +181,6 @@ export default function Sidebar({ className }) {
                             <OutlinedTicketIcon className="h-5 w-5" />
                         }
                         activeIcon={<SolidTicketIcon className="h-5 w-5" />}
-                    />
-
-                    <SidebarTab
-                        href="/dashboard/categories"
-                        label="Global Categories"
-                        currentPath={router.pathname}
-                        onClick={(e) => navigateTo(e, '/dashboard/categories')}
-                        inactiveIcon={
-                            <OutlinedTemplateIcon className="h-5 w-5" />
-                        }
-                        activeIcon={<SolidTemplateIcon className="h-5 w-5" />}
                     />
 
                     <SidebarTab
