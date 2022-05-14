@@ -96,7 +96,7 @@ export default function AdminsTable() {
                                                             />
                                                         </div>
                                                     ) : (
-                                                        <div className="aspect-square w-full bg-gradient-to-br from-green-300 via-blue-500 to-purple-600 dark:from-green-300/70 dark:via-blue-500/70 dark:to-purple-600/70 rounded-lg" />
+                                                        <div className="h-10 w-10 aspect-square bg-gradient-to-br from-green-300 via-blue-500 to-purple-600 dark:from-green-300/70 dark:via-blue-500/70 dark:to-purple-600/70 rounded-lg" />
                                                     )}
                                                 </div>
                                                 <div className="ml-4">
