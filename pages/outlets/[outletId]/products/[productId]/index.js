@@ -1,4 +1,5 @@
 import { HeartIcon, PencilIcon } from '@heroicons/react/outline';
+import { HeartIcon as SolidHeartIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import Divider from '../../../../../components/common/Divider';
@@ -35,6 +36,7 @@ export default function DetailedProductPage() {
 
     const [outlet, setOutlet] = useState(null);
     const [product, setProduct] = useState(null);
+    const [wishlisted, setWishlisted] = useState(null);
 
     const [amount, setAmount] = useState(0);
     const closeModal = () => modals.closeModal();
@@ -79,12 +81,30 @@ export default function DetailedProductPage() {
             }
         };
 
+        const fetchWishlist = async () => {
+            if (!user?.id) return;
+
+            try {
+                const { data, error } = await supabase
+                    .from('wishlisted_products')
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .eq('product_id', productId)
+                    .maybeSingle();
+
+                if (error) throw error;
+                setWishlisted(data ? true : false);
+            } catch (error) {
+                toast.error(error.message);
+            }
+        };
+
         const fetchAll = async () => {
-            await Promise.all([fetchOutlet(), fetchProduct()]);
+            await Promise.all([fetchOutlet(), fetchProduct(), fetchWishlist()]);
         };
 
         fetchAll();
-    }, [outletId, productId]);
+    }, [outletId, productId, user?.id]);
 
     const buyNow = () => {
         addProduct(product, amount || 1);
@@ -121,6 +141,35 @@ export default function DetailedProductPage() {
             ),
             onClose: () => {},
         });
+
+    const wishlistProduct = async () => {
+        if (!user?.id) return;
+
+        try {
+            if (wishlisted) {
+                const { error } = await supabase
+                    .from('wishlisted_products')
+                    .delete()
+                    .eq('user_id', user.id)
+                    .eq('product_id', productId);
+
+                if (error) throw error;
+            } else {
+                const { error } = await supabase
+                    .from('wishlisted_products')
+                    .insert({
+                        user_id: user.id,
+                        product_id: productId,
+                    });
+
+                if (error) throw error;
+            }
+
+            setWishlisted(!wishlisted);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
 
     return (
         <div>
@@ -174,7 +223,15 @@ export default function DetailedProductPage() {
                                 </div>
 
                                 <div className="mt-8 flex">
-                                    <HeartIcon className="w-8 hover:cursor-pointer" />
+                                    {wishlisted != null && (
+                                        <button onClick={wishlistProduct}>
+                                            {wishlisted ? (
+                                                <SolidHeartIcon className="w-8 hover:cursor-pointer text-red-500" />
+                                            ) : (
+                                                <HeartIcon className="w-8 hover:cursor-pointer" />
+                                            )}
+                                        </button>
+                                    )}
 
                                     <div className="ml-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 min-w-[8rem] lg:min-w-[16rem]">
                                         <button
