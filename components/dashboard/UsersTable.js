@@ -3,7 +3,7 @@ import { supabase } from '../../utils/supabase-client';
 import { toast } from 'react-toastify';
 import LoadingIndicator from '../common/LoadingIndicator';
 
-export default function UsersTable() {
+export default function UsersTable({ setter }) {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -19,6 +19,7 @@ export default function UsersTable() {
 
                 if (error) throw error;
                 setUsers(data);
+                setter(data);
             } catch (error) {
                 toast.error(error.message);
             } finally {
