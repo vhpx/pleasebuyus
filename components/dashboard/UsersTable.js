@@ -112,7 +112,18 @@ export default function UsersTable() {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="text-sm text-zinc-900 dark:text-zinc-200">
-                                                {user?.birthday || '-'}
+                                                {user?.birthday
+                                                    ? new Date(
+                                                          user?.birthday
+                                                      ).toLocaleDateString(
+                                                          'en-US',
+                                                          {
+                                                              month: 'long',
+                                                              day: 'numeric',
+                                                              year: 'numeric',
+                                                          }
+                                                      )
+                                                    : '-'}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
