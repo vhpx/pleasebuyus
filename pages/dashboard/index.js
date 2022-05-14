@@ -4,6 +4,7 @@ import { SidebarLayout } from '../../components/layout/layout.js';
 import { RequireAuth } from '../../hooks/useUser';
 import { supabase } from '../../utils/supabase-client.js';
 import { toast } from 'react-toastify';
+import Title from '../../components/common/Title.js';
 
 AdminDashboardPage.getLayout = (page) => {
     return <SidebarLayout>{page}</SidebarLayout>;
@@ -240,6 +241,8 @@ export default function AdminDashboardPage() {
 
     return (
         <div className="p-4 md:p-8 lg:p-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <Title label="Dashboard overview" className="col-span-full" />
+
             <div className="bg-white dark:bg-zinc-800/50 p-8 rounded-lg">
                 {usersCount.loading ? (
                     <div className="text-center">
