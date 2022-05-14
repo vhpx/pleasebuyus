@@ -204,7 +204,7 @@ export default function AdminDashboardPage() {
         const fetchCategoriesCount = async () => {
             try {
                 const { data, error } = await supabase
-                    .from('global_categories')
+                    .from('outlet_categories')
                     .select('id', { count: 'exact' });
 
                 if (error) throw error;
