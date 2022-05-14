@@ -12,6 +12,7 @@ import {
     CreditCardIcon as OutlinedCreditCardIcon,
     CollectionIcon as OutlinedCollectionIcon,
     ShieldCheckIcon as OutlinedShieldCheckIcon,
+    LocationMarkerIcon as OutlinedLocationMarkerIcon,
 } from '@heroicons/react/outline';
 
 import {
@@ -26,6 +27,7 @@ import {
     CreditCardIcon as SolidCreditCardIcon,
     CollectionIcon as SolidCollectionIcon,
     ShieldCheckIcon as SolidShieldCheckIcon,
+    LocationMarkerIcon as SolidLocationMarkerIcon,
 } from '@heroicons/react/solid';
 
 import SidebarTab from './SidebarTab';
@@ -113,6 +115,19 @@ export default function Sidebar({ className }) {
                         onClick={(e) => navigateTo(e, '/dashboard/users')}
                         inactiveIcon={<OutlinedUsersIcon className="h-5 w-5" />}
                         activeIcon={<SolidUsersIcon className="h-5 w-5" />}
+                    />
+
+                    <SidebarTab
+                        href="/dashboard/addresses"
+                        label="Addresses"
+                        currentPath={router.pathname}
+                        onClick={(e) => navigateTo(e, '/dashboard/addresses')}
+                        inactiveIcon={
+                            <OutlinedLocationMarkerIcon className="h-5 w-5" />
+                        }
+                        activeIcon={
+                            <SolidLocationMarkerIcon className="h-5 w-5" />
+                        }
                     />
 
                     <SidebarTab
