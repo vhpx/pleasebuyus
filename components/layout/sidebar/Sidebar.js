@@ -10,6 +10,7 @@ import {
     TicketIcon as OutlinedTicketIcon,
     TemplateIcon as OutlinedTemplateIcon,
     CreditCardIcon as OutlinedCreditCardIcon,
+    CollectionIcon as OutlinedCollectionIcon,
 } from '@heroicons/react/outline';
 
 import {
@@ -22,6 +23,7 @@ import {
     TicketIcon as SolidTicketIcon,
     TemplateIcon as SolidTemplateIcon,
     CreditCardIcon as SolidCreditCardIcon,
+    CollectionIcon as SolidCollectionIcon,
 } from '@heroicons/react/solid';
 
 import SidebarTab from './SidebarTab';
@@ -175,6 +177,19 @@ export default function Sidebar({ className }) {
                             <OutlinedTemplateIcon className="h-5 w-5" />
                         }
                         activeIcon={<SolidTemplateIcon className="h-5 w-5" />}
+                    />
+
+                    <SidebarTab
+                        href="/dashboard/transactions"
+                        label="Transactions"
+                        currentPath={router.pathname}
+                        onClick={(e) =>
+                            navigateTo(e, '/dashboard/transactions')
+                        }
+                        inactiveIcon={
+                            <OutlinedCollectionIcon className="h-5 w-5" />
+                        }
+                        activeIcon={<SolidCollectionIcon className="h-5 w-5" />}
                     />
 
                     <div className="h-8 md:h-4" />
