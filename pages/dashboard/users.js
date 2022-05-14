@@ -36,73 +36,70 @@ export default function UsersDashboardPage() {
 
     return initialized ? (
         <div className="p-4 md:p-8 lg:p-16">
-            <Title label="Users" className="mb-4" />
             {users && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                    <div className="max-w-sm">
-                        <Pie
-                            data={{
-                                labels: ['Male', 'Female', 'Other'],
-                                datasets: [
-                                    {
-                                        label: 'Gender',
-                                        data: [
-                                            users.reduce(
-                                                (acc, user) =>
-                                                    user?.gender == 'male'
-                                                        ? acc + 1
-                                                        : acc,
-                                                0
-                                            ),
-                                            users.reduce(
-                                                (acc, user) =>
-                                                    user?.gender == 'female'
-                                                        ? acc + 1
-                                                        : acc,
-                                                0
-                                            ),
-                                            users.reduce(
-                                                (acc, user) =>
-                                                    user?.gender != 'male' &&
-                                                    user?.gender != 'female'
-                                                        ? acc + 1
-                                                        : acc,
-                                                0
-                                            ),
-                                        ],
-                                        backgroundColor: [
-                                            'rgba(54, 162, 235, 0.2)',
-                                            'rgba(255, 99, 132, 0.2)',
-                                            'rgba(255, 206, 86, 0.2)',
-                                        ],
-                                        borderColor: [
-                                            'rgba(54, 162, 235, 1)',
-                                            'rgba(255, 99, 132, 1)',
-                                            'rgba(255, 206, 86, 1)',
-                                        ],
-                                        borderWidth: 1,
-                                    },
-                                ],
-                            }}
-                        />
-                    </div>
+                <>
+                    <Title label="Charts" className="mb-4" />
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                        <div className="max-w-sm">
+                            <Pie
+                                data={{
+                                    labels: ['Male', 'Female', 'Other'],
+                                    datasets: [
+                                        {
+                                            label: 'Gender',
+                                            data: [
+                                                users.reduce(
+                                                    (acc, user) =>
+                                                        user?.gender == 'male'
+                                                            ? acc + 1
+                                                            : acc,
+                                                    0
+                                                ),
+                                                users.reduce(
+                                                    (acc, user) =>
+                                                        user?.gender == 'female'
+                                                            ? acc + 1
+                                                            : acc,
+                                                    0
+                                                ),
+                                                users.reduce(
+                                                    (acc, user) =>
+                                                        user?.gender !=
+                                                            'male' &&
+                                                        user?.gender != 'female'
+                                                            ? acc + 1
+                                                            : acc,
+                                                    0
+                                                ),
+                                            ],
+                                            backgroundColor: [
+                                                'rgba(54, 162, 235, 0.2)',
+                                                'rgba(255, 99, 132, 0.2)',
+                                                'rgba(255, 206, 86, 0.2)',
+                                            ],
+                                            borderColor: [
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(255, 206, 86, 1)',
+                                            ],
+                                            borderWidth: 1,
+                                        },
+                                    ],
+                                }}
+                            />
+                        </div>
 
-                    <div className="max-w-sm">
-                        <Pie
-                            data={{
-                                labels: ['Has phone number', 'No phone number'],
-                                datasets: [
-                                    {
-                                        label: 'Has phone number',
-                                        data: [
-                                            users.reduce(
-                                                (acc, user) =>
-                                                    user?.phone_number
-                                                        ? acc + 1
-                                                        : acc,
-                                                0
-                                            ),
-                                            users?.length -
+                        <div className="max-w-sm">
+                            <Pie
+                                data={{
+                                    labels: [
+                                        'Has phone number',
+                                        'No phone number',
+                                    ],
+                                    datasets: [
+                                        {
+                                            label: 'Has phone number',
+                                            data: [
                                                 users.reduce(
                                                     (acc, user) =>
                                                         user?.phone_number
@@ -110,38 +107,38 @@ export default function UsersDashboardPage() {
                                                             : acc,
                                                     0
                                                 ),
-                                        ],
-                                        backgroundColor: [
-                                            'rgba(54, 162, 235, 0.2)',
-                                            'rgba(255, 99, 132, 0.2)',
-                                        ],
-                                        borderColor: [
-                                            'rgba(54, 162, 235, 1)',
-                                            'rgba(255, 99, 132, 1)',
-                                        ],
-                                        borderWidth: 1,
-                                    },
-                                ],
-                            }}
-                        />
-                    </div>
+                                                users?.length -
+                                                    users.reduce(
+                                                        (acc, user) =>
+                                                            user?.phone_number
+                                                                ? acc + 1
+                                                                : acc,
+                                                        0
+                                                    ),
+                                            ],
+                                            backgroundColor: [
+                                                'rgba(54, 162, 235, 0.2)',
+                                                'rgba(255, 99, 132, 0.2)',
+                                            ],
+                                            borderColor: [
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 99, 132, 1)',
+                                            ],
+                                            borderWidth: 1,
+                                        },
+                                    ],
+                                }}
+                            />
+                        </div>
 
-                    <div className="max-w-sm">
-                        <Pie
-                            data={{
-                                labels: ['Has birthday', 'No birthday'],
-                                datasets: [
-                                    {
-                                        label: 'Has birthday',
-                                        data: [
-                                            users.reduce(
-                                                (acc, user) =>
-                                                    user?.birthday
-                                                        ? acc + 1
-                                                        : acc,
-                                                0
-                                            ),
-                                            users?.length -
+                        <div className="max-w-sm">
+                            <Pie
+                                data={{
+                                    labels: ['Has birthday', 'No birthday'],
+                                    datasets: [
+                                        {
+                                            label: 'Has birthday',
+                                            data: [
                                                 users.reduce(
                                                     (acc, user) =>
                                                         user?.birthday
@@ -149,22 +146,31 @@ export default function UsersDashboardPage() {
                                                             : acc,
                                                     0
                                                 ),
-                                        ],
-                                        backgroundColor: [
-                                            'rgba(54, 162, 235, 0.2)',
-                                            'rgba(255, 99, 132, 0.2)',
-                                        ],
-                                        borderColor: [
-                                            'rgba(54, 162, 235, 1)',
-                                            'rgba(255, 99, 132, 1)',
-                                        ],
-                                        borderWidth: 1,
-                                    },
-                                ],
-                            }}
-                        />
+                                                users?.length -
+                                                    users.reduce(
+                                                        (acc, user) =>
+                                                            user?.birthday
+                                                                ? acc + 1
+                                                                : acc,
+                                                        0
+                                                    ),
+                                            ],
+                                            backgroundColor: [
+                                                'rgba(54, 162, 235, 0.2)',
+                                                'rgba(255, 99, 132, 0.2)',
+                                            ],
+                                            borderColor: [
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 99, 132, 1)',
+                                            ],
+                                            borderWidth: 1,
+                                        },
+                                    ],
+                                }}
+                            />
+                        </div>
                     </div>
-                </div>
+                </>
             )}
 
             <Title label="Users" className="mb-4" />
