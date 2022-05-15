@@ -1,35 +1,61 @@
-import { useEffect, useState } from 'react';
-import { supabase } from '../../utils/supabase-client';
-import { toast } from 'react-toastify';
 import LoadingIndicator from '../common/LoadingIndicator';
 import { getRelativeTime } from '../../utils/date-format';
+import { useModals } from '@mantine/modals';
+import { supabase } from '../../utils/supabase-client';
+import { toast } from 'react-toastify';
+import EditUserForm from '../forms/EditUserForm';
 
-export default function UsersTable({ setter }) {
-    const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(true);
+export default function UsersTable({ users, loading, setter }) {
+    const modals = useModals();
+    const closeModal = () => modals.closeModal();
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                setLoading(true);
+    const editUser = async (user) => {
+        try {
+            if (!user) throw new Error("User doesn't exist");
 
-                const { data, error } = await supabase
-                    .from('users')
-                    .select('*')
-                    .order('created_at', { ascending: false });
+            console.log(user);
 
-                if (error) throw error;
-                setUsers(data);
-                setter(data);
-            } catch (error) {
-                toast.error(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+            const { data, error } = await supabase
+                .from('users')
+                .update(user)
+                .eq('id', user.id)
+                .single();
 
-        fetchUsers();
-    }, [setter]);
+            if (error) throw error;
+
+            setter((prevState) => {
+                const newState = [...prevState];
+                const index = newState.findIndex((u) => u.id === user.id);
+
+                newState[index] = data;
+                return newState;
+            });
+            toast.success('User updated successfully');
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            closeModal();
+        }
+    };
+
+    const showEditUserModal = (userData) =>
+        userData
+            ? modals.openModal({
+                  title: <div className="font-bold">Edit user</div>,
+                  centered: true,
+                  overflow: 'inside',
+                  children: (
+                      <div className="p-1">
+                          <EditUserForm
+                              userData={userData}
+                              closeModal={closeModal}
+                              onCreate={(user) => editUser(user)}
+                          />
+                      </div>
+                  ),
+                  onClose: () => {},
+              })
+            : toast.error('You must be logged in to edit users');
 
     return loading ? (
         <div className="text-center">
@@ -176,7 +202,9 @@ export default function UsersTable({ setter }) {
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <button
                                                 className="w-fit rounded-lg bg-purple-300/20 dark:bg-purple-300/20 dark:hover:bg-purple-400/40 hover:bg-purple-300/30 text-purple-600 dark:text-purple-300 dark:hover:text-purple-200 px-4 py-1 font-semibold transition duration-300 text-center"
-                                                onClick={() => {}}
+                                                onClick={() =>
+                                                    showEditUserModal(user)
+                                                }
                                             >
                                                 Edit
                                             </button>

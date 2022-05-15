@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { PlusIcon } from '@heroicons/react/outline';
+import { supabase } from '../../utils/supabase-client.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -23,8 +24,6 @@ export default function UsersDashboardPage() {
     const { userData } = useUser();
     const [initialized, setInitialized] = useState(false);
 
-    const [users, setUsers] = useState(null);
-
     useEffect(() => {
         if (!userData) return;
         if (!userData?.isAdmin) {
@@ -34,6 +33,31 @@ export default function UsersDashboardPage() {
             setInitialized(true);
         }
     }, [userData, router]);
+
+    const [users, setUsers] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                setLoading(true);
+
+                const { data, error } = await supabase
+                    .from('users')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+                setUsers(data);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUsers();
+    }, []);
 
     return initialized ? (
         <div className="p-4 md:p-8 lg:p-16">
@@ -175,17 +199,8 @@ export default function UsersDashboardPage() {
                 </>
             )}
 
-            <div className="flex mb-4">
-                <Title label="Users" />
-                <button
-                    className="p-2 bg-white hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300 ml-2"
-                    // onClick={showAdminCreationModal}
-                >
-                    <PlusIcon className="w-4 h-4" />
-                </button>
-            </div>
-
-            <UsersTable setter={setUsers} />
+            <Title label="Users" className="mb-4" />
+            <UsersTable users={users} loading={loading} setter={setUsers} />
         </div>
     ) : (
         <div></div>
