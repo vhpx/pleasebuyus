@@ -1,7 +1,7 @@
--- Select database to use
-USE ISYS3414_DB_4;
-
--- PostgreSQL Query to create database tables:
+-- This database creation script is used to create/delete the database and tables for the ISYS3414_DB_4 project.
+-- It has been fully tested and works correctly using a PostgreSQL database provided by Supabase (https://app.supabase.io/).
+-- To test this script, you should create a project in Supabase,
+-- Then, visit https://app.supabase.io/project/[project-id]/sql and run the following query:
 CREATE TABLE users (
     id UUID,
     name TEXT,
@@ -158,7 +158,7 @@ CREATE TABLE wishlisted_products (
     FOREIGN KEY(product_id) REFERENCES products(id)
 );
 
--- PostgreSQL Query to delete tables:
+-- To delete all existing tables in Supabase, run the following query:
 DROP TABLE IF EXISTS bill_coupons;
 
 DROP TABLE IF EXISTS bill_products;
