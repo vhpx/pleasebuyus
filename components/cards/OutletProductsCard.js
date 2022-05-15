@@ -4,12 +4,17 @@ import { toast } from 'react-toastify';
 import { useCart } from '../../hooks/useCart';
 import { formatCurrency } from '../../utils/currency-format';
 import { supabase } from '../../utils/supabase-client';
+import AmountAdjuster from '../buttons/AmountAdjuster';
 import Divider from '../common/Divider';
 import LoadingIndicator from '../common/LoadingIndicator';
 import BetterLink from '../link/BetterLink';
 
 export default function OutletProductsCard({ outletId, products }) {
     const {
+        products: cartProducts,
+        addProduct,
+        removeProduct,
+
         getSelectedProductsByOutletId,
 
         selectProductWithId,
@@ -92,7 +97,7 @@ export default function OutletProductsCard({ outletId, products }) {
                                     : 'text-zinc-500/50 dark:text-zinc-500'
                             }`}
                         />
-                        <div className="font-bold text-2xl">
+                        <div className="font-bold text-lg md:text-xl lg:text-2xl">
                             {outlet.name}{' '}
                             <span className="text-zinc-500 dark:text-zinc-400">
                                 (
@@ -108,7 +113,7 @@ export default function OutletProductsCard({ outletId, products }) {
                     {products && products.length > 0 ? (
                         products.map((product, index) => (
                             <div key={product.id} className="flex flex-col">
-                                <div className="flex items-center mb-4 justify-between space-x-4">
+                                <div className="flex flex-col md:flex-row items-center mb-4 justify-between gap-4">
                                     <button
                                         className="rounded-lg p-2 hover:bg-blue-50 dark:hover:bg-zinc-800 w-full flex items-center space-x-2 transition duration-300"
                                         onClick={() =>
@@ -166,19 +171,36 @@ export default function OutletProductsCard({ outletId, products }) {
 
                                             <BetterLink
                                                 href={`/outlets/${product.outlet_id}/products/${product.id}`}
-                                                className="mt-4 flex items-center font-semibold space-x-2 p-2 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
+                                                className="hidden mt-4 md:flex items-center font-semibold space-x-2 p-2 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
                                             >
                                                 View product
                                             </BetterLink>
                                         </div>
                                     </button>
 
-                                    <div className="hidden text-right md:flex flex-col justify-center space-y-2">
-                                        <span className="text-sm font-bold">
-                                            {formatCurrency(
-                                                product.quantity * product.price
-                                            )}
-                                        </span>
+                                    <div className="flex gap-4">
+                                        <AmountAdjuster
+                                            amount={
+                                                cartProducts.find(
+                                                    (i) => i.id === product.id
+                                                )?.quantity
+                                            }
+                                            onDecrement={() =>
+                                                removeProduct(product.id)
+                                            }
+                                            onIncrement={() =>
+                                                addProduct(product)
+                                            }
+                                        />
+
+                                        <div className="md:min-w-[4rem] hidden text-right md:flex flex-col justify-center space-y-2">
+                                            <span className="text-sm font-bold">
+                                                {formatCurrency(
+                                                    product.quantity *
+                                                        product.price
+                                                )}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
 
