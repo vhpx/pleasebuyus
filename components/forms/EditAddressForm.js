@@ -8,7 +8,11 @@ export default function EditAddressForm({
     address: currentAddress,
     closeModal,
     setter,
+    showUIDField,
 }) {
+    const [userId, setUserId] = useState(
+        user?.id || currentAddress?.user_id || ''
+    );
     const [addressName, setAddressName] = useState(currentAddress?.name || '');
     const [country, setCountry] = useState(currentAddress?.country || '');
     const [province, setProvince] = useState(currentAddress?.province || '');
@@ -29,13 +33,13 @@ export default function EditAddressForm({
     const handleSubmit = async () => {
         try {
             if (!hasAddress()) throw new Error('Address is empty');
-            if (!user) throw new Error('User is not logged in');
+            if (!userId) throw new Error('User is not found');
 
             if (currentAddress?.id == null || !isUUID(currentAddress?.id)) {
                 const { data, error } = await supabase
                     .from('addresses')
                     .insert({
-                        user_id: user?.id,
+                        user_id: userId,
                         name: addressName,
                         country: country,
                         province: province,
@@ -53,6 +57,7 @@ export default function EditAddressForm({
                     province: province,
                     city: city,
                     streetInfo: streetInfo,
+                    user_id: userId,
                 };
 
                 setter((prev) => [...prev, newAddress]);
@@ -71,7 +76,7 @@ export default function EditAddressForm({
                     city: city,
                     street_info: streetInfo,
                 })
-                .eq('user_id', user?.id)
+                .eq('user_id', userId)
                 .eq('id', currentAddress?.id)
                 .single();
 
@@ -84,6 +89,7 @@ export default function EditAddressForm({
                 province: province,
                 city: city,
                 streetInfo: streetInfo,
+                user_id: userId,
             };
 
             setter((prev) =>
@@ -101,13 +107,13 @@ export default function EditAddressForm({
 
     const handleDelete = async () => {
         try {
-            if (!user) throw new Error('User is not logged in');
+            if (!userId) throw new Error('User is not found');
             if (!currentAddress) throw new Error('Address is not selected');
 
             const { data, error } = await supabase
                 .from('addresses')
                 .delete()
-                .eq('user_id', user?.id)
+                .eq('user_id', userId)
                 .eq('id', currentAddress?.id)
                 .single();
 
@@ -126,6 +132,16 @@ export default function EditAddressForm({
 
     return (
         <>
+            {showUIDField && (
+                <FormInput
+                    label="User ID"
+                    id="user-id"
+                    value={userId}
+                    setter={setUserId}
+                    disabled={!!currentAddress?.user_id}
+                />
+            )}
+
             <FormInput
                 label="Address Name"
                 id="address-name"

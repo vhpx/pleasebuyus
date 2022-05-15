@@ -8,6 +8,9 @@ import { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { PlusIcon } from '@heroicons/react/outline';
+import { supabase } from '../../utils/supabase-client.js';
+import EditAddressForm from '../../components/forms/EditAddressForm.js';
+import { useModals } from '@mantine/modals';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -19,11 +22,12 @@ export default function AddressesDashboardPage() {
     RequireAuth();
 
     const router = useRouter();
+    const modals = useModals();
+
+    const closeModal = () => modals.closeModal();
 
     const { userData } = useUser();
     const [initialized, setInitialized] = useState(false);
-
-    const [addresses, setAddresses] = useState(null);
 
     useEffect(() => {
         if (!userData) return;
@@ -34,6 +38,87 @@ export default function AddressesDashboardPage() {
             setInitialized(true);
         }
     }, [userData, router]);
+
+    const [addresses, setAddresses] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchAddresses = async () => {
+            try {
+                setLoading(true);
+
+                const { data, error } = await supabase
+                    .from('addresses')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+                setAddresses(data);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchAddresses();
+    }, []);
+
+    const addAddress = async (address) => {
+        try {
+            if (!address) throw new Error("Address doesn't exist");
+
+            // get non-null values
+            const newAddress = {
+                ...Object.fromEntries(
+                    Object.entries(address).filter(
+                        ([key, value]) => value !== null
+                    )
+                ),
+            };
+
+            const { data, error } = await supabase
+                .from('addresses')
+                .insert(newAddress)
+                .single();
+
+            if (error) throw error;
+
+            setter((prevState) => {
+                const newState = [...prevState];
+                const index = newState.findIndex(
+                    (address) => address.id === data.id
+                );
+
+                newState[index] = data;
+                return newState;
+            });
+            toast.success('Address updated successfully');
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            closeModal();
+        }
+    };
+
+    const showAddAddressModal = (address) =>
+        modals.openModal({
+            title: <div className="font-bold">Add new address</div>,
+            centered: true,
+            overflow: 'inside',
+            children: (
+                <div className="p-1">
+                    <EditAddressForm
+                        address={address}
+                        closeModal={closeModal}
+                        onCreate={(address) => addAddress(address)}
+                        setter={setAddresses}
+                        showUIDField
+                    />
+                </div>
+            ),
+            onClose: () => {},
+        });
 
     const getDistinctCountries = () => {
         return addresses.reduce((acc, address) => {
@@ -184,13 +269,17 @@ export default function AddressesDashboardPage() {
                 <Title label="Addresses" />
                 <button
                     className="p-2 bg-white hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300 ml-2"
-                    // onClick={showAdminCreationModal}
+                    onClick={showAddAddressModal}
                 >
                     <PlusIcon className="w-4 h-4" />
                 </button>
             </div>
 
-            <AddressesTable setter={setAddresses} />
+            <AddressesTable
+                addresses={addresses}
+                loading={loading}
+                setter={setAddresses}
+            />
         </div>
     ) : (
         <div></div>

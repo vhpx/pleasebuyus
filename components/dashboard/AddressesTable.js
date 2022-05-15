@@ -1,36 +1,93 @@
-import { useEffect, useState } from 'react';
-import { supabase } from '../../utils/supabase-client';
 import { toast } from 'react-toastify';
-import { formatCurrency } from '../../utils/currency-format';
 import LoadingIndicator from '../common/LoadingIndicator';
 import { getRelativeTime } from '../../utils/date-format';
+import { useModals } from '@mantine/modals';
+import EditAddressForm from '../forms/EditAddressForm';
 
-export default function AddressesTable({ setter }) {
-    const [addresses, setAddresses] = useState([]);
-    const [loading, setLoading] = useState(true);
+export default function AddressesTable({ addresses, loading, setter }) {
+    const modals = useModals();
+    const closeModal = () => modals.closeModal();
 
-    useEffect(() => {
-        const fetchAddresses = async () => {
-            try {
-                setLoading(true);
+    const editAddress = async (address) => {
+        try {
+            if (!address) throw new Error("Address doesn't exist");
 
-                const { data, error } = await supabase
-                    .from('addresses')
-                    .select('*')
-                    .order('created_at', { ascending: false });
+            // get non-null values
+            const newAddress = {
+                ...Object.fromEntries(
+                    Object.entries(address).filter(
+                        ([key, value]) => value !== null
+                    )
+                ),
+            };
 
-                if (error) throw error;
-                setAddresses(data);
-                setter(data);
-            } catch (error) {
-                toast.error(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+            const { data, error } = await supabase
+                .from('addresses')
+                .update(newAddress)
+                .eq('id', address.id)
+                .single();
 
-        fetchAddresses();
-    }, [setter]);
+            if (error) throw error;
+
+            setter((prevState) => {
+                const newState = [...prevState];
+                const index = newState.findIndex(
+                    (address) => address.id === data.id
+                );
+
+                newState[index] = data;
+                return newState;
+            });
+            toast.success('Address updated successfully');
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            closeModal();
+        }
+    };
+
+    const deleteAddress = async (addressId) => {
+        try {
+            const { error } = await supabase
+                .from('addresses')
+                .delete()
+                .eq('id', addressId)
+                .single();
+
+            if (error) throw error;
+
+            setter((prevState) =>
+                prevState.filter(
+                    (address) => address.id !== addressId && address.id !== null
+                )
+            );
+            toast.success('Address deleted successfully');
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            closeModal();
+        }
+    };
+
+    const showEditAddressModal = (address) =>
+        modals.openModal({
+            title: <div className="font-bold">Edit address</div>,
+            centered: true,
+            overflow: 'inside',
+            children: (
+                <div className="p-1">
+                    <EditAddressForm
+                        address={address}
+                        closeModal={closeModal}
+                        onCreate={(address) => editAddress(address)}
+                        onDelete={() => deleteAddress(address?.id)}
+                        setter={setter}
+                        showUIDField
+                    />
+                </div>
+            ),
+            onClose: () => {},
+        });
 
     return loading ? (
         <div className="text-center">
@@ -150,7 +207,11 @@ export default function AddressesTable({ setter }) {
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <button
                                                 className="w-fit rounded-lg bg-purple-300/20 dark:bg-purple-300/20 dark:hover:bg-purple-400/40 hover:bg-purple-300/30 text-purple-600 dark:text-purple-300 dark:hover:text-purple-200 px-4 py-1 font-semibold transition duration-300 text-center"
-                                                onClick={() => {}}
+                                                onClick={() =>
+                                                    showEditAddressModal(
+                                                        address
+                                                    )
+                                                }
                                             >
                                                 Edit
                                             </button>
