@@ -1,34 +1,90 @@
-import { useEffect, useState } from 'react';
-import { supabase } from '../../utils/supabase-client';
 import { toast } from 'react-toastify';
 import LoadingIndicator from '../common/LoadingIndicator';
 import { getRelativeTime } from '../../utils/date-format';
+import { useModals } from '@mantine/modals';
+import { supabase } from '../../utils/supabase-client';
+import EditOutletForm from '../forms/EditOutletForm';
 
-export default function OutletsTable() {
-    const [outlets, setOutlets] = useState([]);
-    const [loading, setLoading] = useState(true);
+export default function OutletsTable({ outlets, loading, setter }) {
+    const modals = useModals();
+    const closeModal = () => modals.closeModal();
 
-    useEffect(() => {
-        const fetchOutlets = async () => {
-            try {
-                setLoading(true);
+    const editOutlet = async (outlet) => {
+        try {
+            if (!outlet) throw new Error("Outlet doesn't exist");
 
-                const { data, error } = await supabase
-                    .from('outlets')
-                    .select('*')
-                    .order('created_at', { ascending: false });
+            // get non-null values
+            const newOutlet = {
+                ...Object.fromEntries(
+                    Object.entries(outlet).filter(
+                        ([key, value]) => value !== null
+                    )
+                ),
+            };
 
-                if (error) throw error;
-                setOutlets(data);
-            } catch (error) {
-                toast.error(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+            const { data, error } = await supabase
+                .from('outlets')
+                .update(newOutlet)
+                .eq('id', outlet.id)
+                .single();
 
-        fetchOutlets();
-    }, []);
+            if (error) throw error;
+
+            setter((prevState) => {
+                const newState = [...prevState];
+                const index = newState.findIndex(
+                    (outlet) => outlet.id === newOutlet.id
+                );
+
+                newState[index] = data;
+                return newState;
+            });
+            toast.success('Outlet updated successfully');
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            closeModal();
+        }
+    };
+
+    const deleteOutlet = async (outletId) => {
+        try {
+            const { error } = await supabase
+                .from('outlets')
+                .delete()
+                .eq('id', outletId)
+                .single();
+
+            if (error) throw error;
+
+            setter((prevState) =>
+                prevState.filter((outlet) => outlet.id !== outletId)
+            );
+            toast.success('Outlet deleted successfully');
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            closeModal();
+        }
+    };
+
+    const showEditOutletModal = (outlet) =>
+        modals.openModal({
+            title: <div className="font-bold">Edit outlet</div>,
+            centered: true,
+            overflow: 'inside',
+            children: (
+                <div className="p-1">
+                    <EditOutletForm
+                        outlet={outlet}
+                        closeModal={closeModal}
+                        onCreate={(outlet) => editOutlet(outlet)}
+                        onDelete={() => deleteOutlet(outlet?.id)}
+                    />
+                </div>
+            ),
+            onClose: () => {},
+        });
 
     return loading ? (
         <div className="text-center">
@@ -115,7 +171,9 @@ export default function OutletsTable() {
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <button
                                                 className="w-fit rounded-lg bg-purple-300/20 dark:bg-purple-300/20 dark:hover:bg-purple-400/40 hover:bg-purple-300/30 text-purple-600 dark:text-purple-300 dark:hover:text-purple-200 px-4 py-1 font-semibold transition duration-300 text-center"
-                                                onClick={() => {}}
+                                                onClick={() =>
+                                                    showEditOutletModal(outlet)
+                                                }
                                             >
                                                 Edit
                                             </button>

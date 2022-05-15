@@ -1,36 +1,91 @@
-import { useEffect, useState } from 'react';
-import { supabase } from '../../utils/supabase-client';
 import { toast } from 'react-toastify';
 import { formatCurrency } from '../../utils/currency-format';
 import LoadingIndicator from '../common/LoadingIndicator';
 import { getRelativeTime } from '../../utils/date-format';
+import { useModals } from '@mantine/modals';
+import { supabase } from '../../utils/supabase-client';
+import AdminEditProductForm from '../forms/AdminEditProductForm';
 
-export default function ProductsTable({ setter }) {
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
+export default function ProductsTable({ products, loading, setter }) {
+    const modals = useModals();
+    const closeModal = () => modals.closeModal();
 
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                setLoading(true);
+    const editProduct = async (product) => {
+        try {
+            if (!product) throw new Error("Product doesn't exist");
 
-                const { data, error } = await supabase
-                    .from('products')
-                    .select('*, outlets (*)')
-                    .order('created_at', { ascending: false });
+            // get non-null values
+            const newProduct = {
+                ...Object.fromEntries(
+                    Object.entries(product).filter(
+                        ([key, value]) => value !== null
+                    )
+                ),
+            };
 
-                if (error) throw error;
-                setProducts(data);
-                setter(data);
-            } catch (error) {
-                toast.error(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+            const { data, error } = await supabase
+                .from('products')
+                .update(newProduct)
+                .eq('id', product.id)
+                .single();
 
-        fetchProducts();
-    }, [setter]);
+            if (error) throw error;
+
+            setter((prevState) => {
+                const newState = [...prevState];
+                const index = newState.findIndex(
+                    (product) => product.id === newProduct.id
+                );
+
+                newState[index] = data;
+                return newState;
+            });
+            toast.success('Product updated successfully');
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            closeModal();
+        }
+    };
+
+    const deleteProduct = async (productId) => {
+        try {
+            const { error } = await supabase
+                .from('products')
+                .delete()
+                .eq('id', productId)
+                .single();
+
+            if (error) throw error;
+
+            setter((prevState) =>
+                prevState.filter((product) => product.id !== productId)
+            );
+            toast.success('Product deleted successfully');
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            closeModal();
+        }
+    };
+
+    const showEditProductModal = (product) =>
+        modals.openModal({
+            title: <div className="font-bold">Edit product</div>,
+            centered: true,
+            overflow: 'inside',
+            children: (
+                <div className="p-1">
+                    <AdminEditProductForm
+                        product={product}
+                        closeModal={closeModal}
+                        onCreate={(product) => editProduct(product)}
+                        onDelete={() => deleteProduct(product?.id)}
+                    />
+                </div>
+            ),
+            onClose: () => {},
+        });
 
     return loading ? (
         <div className="text-center">
@@ -73,7 +128,8 @@ export default function ProductsTable({ setter }) {
                                         className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
                                     >
                                         Price
-                                    </th><th
+                                    </th>
+                                    <th
                                         scope="col"
                                         className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
                                     >
@@ -131,7 +187,11 @@ export default function ProductsTable({ setter }) {
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <button
                                                 className="w-fit rounded-lg bg-purple-300/20 dark:bg-purple-300/20 dark:hover:bg-purple-400/40 hover:bg-purple-300/30 text-purple-600 dark:text-purple-300 dark:hover:text-purple-200 px-4 py-1 font-semibold transition duration-300 text-center"
-                                                onClick={() => {}}
+                                                onClick={() =>
+                                                    showEditProductModal(
+                                                        product
+                                                    )
+                                                }
                                             >
                                                 Edit
                                             </button>

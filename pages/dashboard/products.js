@@ -8,6 +8,9 @@ import { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { PlusIcon } from '@heroicons/react/outline';
+import { supabase } from '../../utils/supabase-client.js';
+import { useModals } from '@mantine/modals';
+import AdminEditProductForm from '../../components/forms/AdminEditProductForm.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -19,11 +22,12 @@ export default function ProductsDashboardPage() {
     RequireAuth();
 
     const router = useRouter();
+    const modals = useModals();
+
+    const closeModal = () => modals.closeModal();
 
     const { userData } = useUser();
     const [initialized, setInitialized] = useState(false);
-
-    const [products, setProducts] = useState(null);
 
     useEffect(() => {
         if (!userData) return;
@@ -35,10 +39,83 @@ export default function ProductsDashboardPage() {
         }
     }, [userData, router]);
 
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                setLoading(true);
+
+                const { data, error } = await supabase
+                    .from('products')
+                    .select('*, outlets (*)')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+                setProducts(data);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
+    const addProduct = async (product) => {
+        try {
+            if (!product) throw new Error("Product doesn't exist");
+
+            // get non-null values
+            const newProduct = {
+                ...Object.fromEntries(
+                    Object.entries(product).filter(
+                        ([key, value]) => value !== null
+                    )
+                ),
+            };
+
+            delete newProduct.id;
+
+            const { data, error } = await supabase
+                .from('products')
+                .insert(newProduct)
+                .single();
+
+            if (error) throw error;
+
+            setProducts((products) => [...products, data]);
+            toast.success('Product added successfully.');
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            closeModal();
+        }
+    };
+
+    const showCreateProductModal = (product) =>
+        modals.openModal({
+            title: <div className="font-bold">Create new product</div>,
+            centered: true,
+            overflow: 'inside',
+            children: (
+                <div className="p-1">
+                    <AdminEditProductForm
+                        product={product}
+                        closeModal={closeModal}
+                        onCreate={(product) => addProduct(product)}
+                    />
+                </div>
+            ),
+            onClose: () => {},
+        });
+
     const getDistinctOutlets = () => {
         return products.reduce((acc, product) => {
-            if (acc.includes(product.outlets.name)) return acc;
-            return [...acc, product.outlets.name];
+            if (acc.includes(product?.outlets?.name)) return acc;
+            return [...acc, product?.outlets?.name];
         }, []);
     };
 
@@ -126,8 +203,9 @@ export default function ProductsDashboardPage() {
                                                 (outlet) =>
                                                     products.filter(
                                                         (product) =>
-                                                            product.outlets
-                                                                .name === outlet
+                                                            product?.outlets
+                                                                ?.name ===
+                                                            outlet
                                                     ).length
                                             ),
                                             backgroundColor: [
@@ -161,13 +239,17 @@ export default function ProductsDashboardPage() {
                 <Title label="Products" />
                 <button
                     className="p-2 bg-white hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300 ml-2"
-                    // onClick={showAdminCreationModal}
+                    onClick={() => showCreateProductModal()}
                 >
                     <PlusIcon className="w-4 h-4" />
                 </button>
             </div>
 
-            <ProductsTable setter={setProducts} />
+            <ProductsTable
+                products={products}
+                loading={loading}
+                setter={setProducts}
+            />
         </div>
     ) : (
         <div></div>

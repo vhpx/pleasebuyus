@@ -1,8 +1,8 @@
 import { formatCurrency } from '../../utils/currency-format';
 import LoadingIndicator from '../common/LoadingIndicator';
-import { useModals } from '@mantine/modals';
 import EditCouponForm from '../forms/EditCouponForm';
 import { toast } from 'react-toastify';
+import { useModals } from '@mantine/modals';
 import { supabase } from '../../utils/supabase-client';
 import { getRelativeTime } from '../../utils/date-format';
 
