@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { supabase } from '../../utils/supabase-client';
 import { toast } from 'react-toastify';
 import LoadingIndicator from '../common/LoadingIndicator';

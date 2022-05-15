@@ -8,6 +8,9 @@ import { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { PlusIcon } from '@heroicons/react/outline';
+import { supabase } from '../../utils/supabase-client.js';
+import EditCouponForm from '../../components/forms/EditCouponForm.js';
+import { useModals } from '@mantine/modals';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -19,11 +22,12 @@ export default function CouponsDashboardPage() {
     RequireAuth();
 
     const router = useRouter();
+    const modals = useModals();
+
+    const closeModal = () => modals.closeModal();
 
     const { userData } = useUser();
     const [initialized, setInitialized] = useState(false);
-
-    const [coupons, setCoupons] = useState(null);
 
     useEffect(() => {
         if (!userData) return;
@@ -34,6 +38,79 @@ export default function CouponsDashboardPage() {
             setInitialized(true);
         }
     }, [userData, router]);
+
+    const [coupons, setCoupons] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchCoupons = async () => {
+            try {
+                setLoading(true);
+
+                const { data, error } = await supabase
+                    .from('coupons')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+                setCoupons(data);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCoupons();
+    }, []);
+
+    const addCoupon = async (coupon) => {
+        try {
+            if (!coupon) throw new Error("Coupon doesn't exist");
+
+            // get non-null values
+            const newCoupon = {
+                ...Object.fromEntries(
+                    Object.entries(coupon).filter(
+                        ([key, value]) => value !== null
+                    )
+                ),
+            };
+
+            delete newCoupon.id;
+
+            const { data, error } = await supabase
+                .from('coupons')
+                .insert(newCoupon)
+                .single();
+
+            if (error) throw error;
+
+            setCoupons((coupons) => [...coupons, data]);
+            toast.success('Coupon added successfully.');
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            closeModal();
+        }
+    };
+
+    const showCreateCouponModal = (coupon) =>
+        modals.openModal({
+            title: <div className="font-bold">Create new coupon</div>,
+            centered: true,
+            overflow: 'inside',
+            children: (
+                <div className="p-1">
+                    <EditCouponForm
+                        coupon={coupon}
+                        closeModal={closeModal}
+                        onCreate={(coupon) => addCoupon(coupon)}
+                    />
+                </div>
+            ),
+            onClose: () => {},
+        });
 
     return initialized ? (
         <div className="p-4 md:p-8 lg:p-16">
@@ -92,13 +169,17 @@ export default function CouponsDashboardPage() {
                 <Title label="Coupons" />
                 <button
                     className="p-2 bg-white hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300 ml-2"
-                    // onClick={showAdminCreationModal}
+                    onClick={showCreateCouponModal}
                 >
                     <PlusIcon className="w-4 h-4" />
                 </button>
             </div>
 
-            <CouponsTable setter={setCoupons} />
+            <CouponsTable
+                coupons={coupons}
+                loading={loading}
+                setter={setCoupons}
+            />
         </div>
     ) : (
         <div></div>

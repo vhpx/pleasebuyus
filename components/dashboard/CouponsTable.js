@@ -1,35 +1,89 @@
-import { useEffect, useState } from 'react';
-import { supabase } from '../../utils/supabase-client';
-import { toast } from 'react-toastify';
 import { formatCurrency } from '../../utils/currency-format';
 import LoadingIndicator from '../common/LoadingIndicator';
+import { useModals } from '@mantine/modals';
+import EditCouponForm from '../forms/EditCouponForm';
+import { toast } from 'react-toastify';
+import { supabase } from '../../utils/supabase-client';
 
-export default function CouponsTable({ setter }) {
-    const [coupons, setCoupons] = useState([]);
-    const [loading, setLoading] = useState(true);
+export default function CouponsTable({ coupons, loading, setter }) {
+    const modals = useModals();
+    const closeModal = () => modals.closeModal();
 
-    useEffect(() => {
-        const fetchCoupons = async () => {
-            try {
-                setLoading(true);
+    const editCoupon = async (coupon) => {
+        try {
+            if (!coupon) throw new Error("Coupon doesn't exist");
 
-                const { data, error } = await supabase
-                    .from('coupons')
-                    .select('*')
-                    .order('created_at', { ascending: false });
+            // get non-null values
+            const newCoupon = {
+                ...Object.fromEntries(
+                    Object.entries(coupon).filter(
+                        ([key, value]) => value !== null
+                    )
+                ),
+            };
 
-                if (error) throw error;
-                setCoupons(data);
-                setter(data);
-            } catch (error) {
-                toast.error(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+            const { error } = await supabase
+                .from('coupons')
+                .update(newCoupon)
+                .eq('id', coupon.id)
+                .single();
 
-        fetchCoupons();
-    }, [setter]);
+            if (error) throw error;
+
+            setter((prevState) => {
+                const newState = [...prevState];
+                const index = newState.findIndex(
+                    (coupon) => coupon.id === newCoupon.id
+                );
+                newState[index] = newCoupon;
+                return newState;
+            });
+            toast.success('Coupon updated successfully');
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            closeModal();
+        }
+    };
+
+    const deleteCoupon = async (couponId) => {
+        try {
+            const { error } = await supabase
+                .from('coupons')
+                .delete()
+                .eq('id', couponId)
+                .single();
+
+            if (error) throw error;
+
+            setter((prevState) =>
+                prevState.filter((coupon) => coupon.id !== couponId)
+            );
+            toast.success('Coupon deleted successfully');
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            closeModal();
+        }
+    };
+
+    const showEditCouponModal = (coupon) =>
+        modals.openModal({
+            title: <div className="font-bold">Edit coupon</div>,
+            centered: true,
+            overflow: 'inside',
+            children: (
+                <div className="p-1">
+                    <EditCouponForm
+                        coupon={coupon}
+                        closeModal={closeModal}
+                        onCreate={(coupon) => editCoupon(coupon)}
+                        onDelete={() => deleteCoupon(coupon?.id)}
+                    />
+                </div>
+            ),
+            onClose: () => {},
+        });
 
     return loading ? (
         <div className="text-center">
@@ -107,7 +161,9 @@ export default function CouponsTable({ setter }) {
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <button
                                                 className="w-fit rounded-lg bg-purple-300/20 dark:bg-purple-300/20 dark:hover:bg-purple-400/40 hover:bg-purple-300/30 text-purple-600 dark:text-purple-300 dark:hover:text-purple-200 px-4 py-1 font-semibold transition duration-300 text-center"
-                                                onClick={() => {}}
+                                                onClick={() =>
+                                                    showEditCouponModal(coupon)
+                                                }
                                             >
                                                 Edit
                                             </button>
