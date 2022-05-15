@@ -107,7 +107,7 @@ export default function DetailedProductPage() {
     }, [outletId, productId, user?.id]);
 
     const buyNow = () => {
-        addProduct(product, amount || 1);
+        addProduct(product, amount || 1, true);
         setAmount(0);
 
         router.push(`/checkout`);
@@ -258,7 +258,11 @@ export default function DetailedProductPage() {
                                         <AddToCartButton
                                             className="col-span-full lg:col-span-1"
                                             onClick={() => {
-                                                addProduct(product, amount);
+                                                addProduct(
+                                                    product,
+                                                    amount,
+                                                    true
+                                                );
                                                 setAmount(0);
                                             }}
                                         />

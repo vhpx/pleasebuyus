@@ -67,7 +67,7 @@ export const CartProvider = (props) => {
         return products.reduce((total, product) => total + product.quantity, 0);
     };
 
-    const addProduct = (product, quantity = 1) => {
+    const addProduct = (product, quantity = 1, announce = false) => {
         if (quantity <= 0) return;
         if (checkingOut) {
             toast.error('You cannot add products while checking out');
@@ -85,21 +85,22 @@ export const CartProvider = (props) => {
                 quantity: Math.min(quantity, maxQuantity),
             });
 
-            toast.info(`Added ${quantity} ${product.name} to cart`);
+            if (announce)
+                toast.info(`Added ${quantity} ${product.name} to cart`);
         } else {
             const oldQuantity = newProducts[productIndex].quantity;
             const newQuantity = Math.min(oldQuantity + quantity, maxQuantity);
 
             newProducts[productIndex].quantity = newQuantity;
 
-            if (newQuantity !== oldQuantity)
+            if (announce && newQuantity !== oldQuantity)
                 toast.info(`Added ${quantity} ${product.name} to cart`);
         }
 
         setProducts(newProducts);
     };
 
-    const removeProduct = (productId) => {
+    const removeProduct = (productId, announce = false) => {
         if (checkingOut) {
             toast.error('Cannot remove product while checking out');
             return;
@@ -117,6 +118,9 @@ export const CartProvider = (props) => {
         }
 
         setProducts(newProducts);
+
+        if (announce)
+            toast.info(`Removed 1 ${newProducts[productIndex].name} from cart`);
     };
 
     const removeAllProducts = (productId) => {
