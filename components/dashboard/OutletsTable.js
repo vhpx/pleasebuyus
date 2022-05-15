@@ -97,12 +97,12 @@ export default function OutletsTable() {
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a
-                                                href="#"
-                                                className="text-blue-600 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-200"
+                                            <button
+                                                className="w-fit rounded-lg bg-purple-300/20 dark:bg-purple-300/20 dark:hover:bg-purple-400/40 hover:bg-purple-300/30 text-purple-600 dark:text-purple-300 dark:hover:text-purple-200 px-4 py-1 font-semibold transition duration-300 text-center"
+                                                onClick={() => {}}
                                             >
                                                 Edit
-                                            </a>
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}
