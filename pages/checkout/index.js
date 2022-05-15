@@ -352,7 +352,12 @@ export default function CheckoutPage() {
                                               ]
                                     }
                                     value={selectedCard?.id}
-                                    setter={setSelectedCard}
+                                    customSetter={(e) => {
+                                        const card = cards?.find(
+                                            (card) => card.id === e.target.value
+                                        );
+                                        setSelectedCard(card);
+                                    }}
                                 >
                                     <CreditCardIcon className="w-4 h-4" />
                                 </FormSelect>
