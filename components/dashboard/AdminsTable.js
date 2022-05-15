@@ -82,6 +82,12 @@ export default function AdminsTable({ admins, loading, setter }) {
                                         scope="col"
                                         className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
                                     >
+                                        User ID
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
+                                    >
                                         Phone number
                                     </th>
                                     <th
@@ -139,6 +145,11 @@ export default function AdminsTable({ admins, loading, setter }) {
                                                         {user?.users?.email}
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm text-zinc-900 dark:text-zinc-200">
+                                                {user?.users?.id || '-'}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
