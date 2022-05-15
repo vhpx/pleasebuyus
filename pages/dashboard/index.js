@@ -6,6 +6,7 @@ import { supabase } from '../../utils/supabase-client.js';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import Title from '../../components/common/Title.js';
+import { formatCurrency } from '../../utils/currency-format.js';
 
 AdminDashboardPage.getLayout = (page) => {
     return <SidebarLayout>{page}</SidebarLayout>;
@@ -28,6 +29,11 @@ export default function AdminDashboardPage() {
             setInitialized(true);
         }
     }, [userData, router]);
+
+    const [totalSales, setTotalSales] = useState({
+        total: 0,
+        loading: true,
+    });
 
     const [usersCount, setUsersCount] = useState({
         total: null,
@@ -75,6 +81,30 @@ export default function AdminDashboardPage() {
     });
 
     useEffect(() => {
+        const fetchTotalSales = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('bills')
+                    .select('total');
+
+                if (error) throw error;
+                setTotalSales((prevState) => ({
+                    ...prevState,
+                    total:
+                        data != null
+                            ? data.reduce((acc, curr) => acc + curr.total, 0)
+                            : 0,
+                }));
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setTotalSales((prevState) => ({
+                    ...prevState,
+                    loading: false,
+                }));
+            }
+        };
+
         const fetchUsersCount = async () => {
             try {
                 const { data, error } = await supabase
@@ -208,7 +238,6 @@ export default function AdminDashboardPage() {
                     .select('id', { count: 'exact' });
 
                 if (error) throw error;
-                console.log(data);
                 setCategoriesCount((prevState) => ({
                     ...prevState,
                     total: data?.length || 0,
@@ -269,6 +298,7 @@ export default function AdminDashboardPage() {
             if (!initialized) return;
 
             await Promise.all([
+                fetchTotalSales(),
                 fetchUsersCount(),
                 fetchBanksCount(),
                 fetchBankCardsCount(),
@@ -287,6 +317,25 @@ export default function AdminDashboardPage() {
     return (
         <div className="p-4 md:p-8 lg:p-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <Title label="Dashboard overview" className="col-span-full" />
+
+            <div className="col-span-full bg-white dark:bg-zinc-800/50 p-8 text-center rounded-lg">
+                {totalSales.loading ? (
+                    <div className="text-center">
+                        <LoadingIndicator svgClassName="w-8 h-8" />
+                    </div>
+                ) : (
+                    <>
+                        <div className="text-3xl font-bold text-zinc-500">
+                            Total sales
+                        </div>
+                        <div className="text-5xl font-semibold">
+                            {totalSales?.total != null
+                                ? formatCurrency(totalSales?.total)
+                                : 'No data.'}
+                        </div>
+                    </>
+                )}
+            </div>
 
             <div className="bg-white dark:bg-zinc-800/50 p-8 rounded-lg">
                 {usersCount.loading ? (

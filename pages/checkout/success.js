@@ -17,7 +17,6 @@ export default function CheckoutCompletedPage() {
 
     useEffect(() => {
         const billIds = router?.query?.bills?.split(',');
-        console.log('billIds', billIds);
         setBillIds(billIds);
     }, [router?.query]);
 

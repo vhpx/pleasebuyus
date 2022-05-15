@@ -119,6 +119,9 @@ export default function TransactionsDashboardPage() {
                                     ],
                                 }}
                             />
+                            <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                                Total expense range
+                            </div>
                         </div>
 
                         <div className="max-w-sm">
@@ -157,6 +160,9 @@ export default function TransactionsDashboardPage() {
                                     ],
                                 }}
                             />
+                            <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                                Outlet sales
+                            </div>
                         </div>
 
                         <div className="max-w-sm">
@@ -195,6 +201,9 @@ export default function TransactionsDashboardPage() {
                                     ],
                                 }}
                             />
+                            <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                                Customer purchase count
+                            </div>
                         </div>
                     </div>
                     <div className="my-8" />

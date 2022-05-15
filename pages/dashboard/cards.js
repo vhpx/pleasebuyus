@@ -161,6 +161,9 @@ export default function BankCardsDashboardPage() {
                                     ],
                                 }}
                             />
+                            <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                                Bank popularity
+                            </div>
                         </div>
                     </div>
                     <div className="my-8" />

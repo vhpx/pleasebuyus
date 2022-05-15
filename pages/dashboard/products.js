@@ -190,6 +190,9 @@ export default function ProductsDashboardPage() {
                                     ],
                                 }}
                             />
+                            <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                                Price range
+                            </div>
                         </div>
 
                         <div className="max-w-sm">
@@ -229,6 +232,9 @@ export default function ProductsDashboardPage() {
                                     ],
                                 }}
                             />
+                            <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                                Outlet products count
+                            </div>
                         </div>
                     </div>
                     <div className="my-8" />

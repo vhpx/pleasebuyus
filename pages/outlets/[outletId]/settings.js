@@ -49,7 +49,7 @@ export async function getServerSideProps({ query, req }) {
 
         return { props: { outlet: outletData } };
     } catch (error) {
-        console.error(error);
+        toast.error(error);
     }
 }
 
@@ -201,7 +201,7 @@ export default function OutletSettingsPage({ outlet: fetchedOutlet }) {
 
             return publicURL;
         } catch (error) {
-            console.log('Error downloading image: ', error.message);
+            toast.log('Error downloading image: ', error.message);
         }
     };
 

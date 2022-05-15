@@ -159,6 +159,9 @@ export default function CouponsDashboardPage() {
                                     ],
                                 }}
                             />
+                            <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                                Coupon type
+                            </div>
                         </div>
                     </div>
                     <div className="my-8" />

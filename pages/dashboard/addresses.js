@@ -183,6 +183,9 @@ export default function AddressesDashboardPage() {
                                     ],
                                 }}
                             />
+                            <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                                Country
+                            </div>
                         </div>
 
                         <div className="max-w-sm">
@@ -221,6 +224,9 @@ export default function AddressesDashboardPage() {
                                     ],
                                 }}
                             />
+                            <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                                Province
+                            </div>
                         </div>
 
                         <div className="max-w-sm">
@@ -259,6 +265,9 @@ export default function AddressesDashboardPage() {
                                     ],
                                 }}
                             />
+                            <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                                City
+                            </div>
                         </div>
                     </div>
                     <div className="my-8" />

@@ -317,7 +317,6 @@ export const CartProvider = (props) => {
             );
 
             if (billIds.filter((billId) => billId).length == 0) return;
-            console.log(billIds);
 
             const newPath = '/checkout/success?bills=' + billIds.join(',');
             router.push(newPath);

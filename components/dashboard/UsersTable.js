@@ -13,8 +13,6 @@ export default function UsersTable({ users, loading, setter }) {
         try {
             if (!user) throw new Error("User doesn't exist");
 
-            console.log(user);
-
             const { data, error } = await supabase
                 .from('users')
                 .update(user)

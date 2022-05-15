@@ -151,7 +151,7 @@ export default function SettingsPage() {
 
             return publicURL;
         } catch (error) {
-            console.log('Error downloading image: ', error.message);
+            toast.log('Error downloading image: ', error.message);
         }
     };
 

@@ -92,7 +92,6 @@ export default function AdminsDashboardPage() {
                 )
                 .single();
 
-            console.log(error);
             if (error) throw new Error(error);
 
             const { data: userData, error: userError } = await supabase
@@ -101,7 +100,6 @@ export default function AdminsDashboardPage() {
                 .eq('id', adminId)
                 .single();
 
-            console.log(userError);
             if (userError) throw new Error(userError);
 
             setAdmins((prevAdmins) => [
@@ -113,7 +111,6 @@ export default function AdminsDashboardPage() {
             ]);
             toast.success('Admin added successfully.');
         } catch (error) {
-            console.log(error);
             toast.error(error.message);
         } finally {
             closeModal();

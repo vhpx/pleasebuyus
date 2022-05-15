@@ -127,6 +127,9 @@ export default function UsersDashboardPage() {
                                     ],
                                 }}
                             />
+                            <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                                Gender
+                            </div>
                         </div>
 
                         <div className="max-w-sm">
@@ -169,6 +172,9 @@ export default function UsersDashboardPage() {
                                     ],
                                 }}
                             />
+                            <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                                Phone number
+                            </div>
                         </div>
 
                         <div className="max-w-sm">
@@ -208,6 +214,9 @@ export default function UsersDashboardPage() {
                                     ],
                                 }}
                             />
+                            <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                                Birthday
+                            </div>
                         </div>
                     </div>
                     <div className="my-8" />

@@ -50,7 +50,6 @@ export default function PurchaseHistoryPage() {
 
                 if (error) throw error;
                 setPurchases(data);
-                console.log(data);
             } catch (error) {
                 toast.error(error);
             } finally {
