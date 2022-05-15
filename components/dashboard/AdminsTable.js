@@ -2,38 +2,69 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../../utils/supabase-client';
 import { toast } from 'react-toastify';
 import LoadingIndicator from '../common/LoadingIndicator';
+import { useModals } from '@mantine/modals';
 
-export default function AdminsTable() {
-    const [admins, setAdmins] = useState([]);
-    const [loading, setLoading] = useState(true);
+export default function AdminsTable({ admins, loading, setter }) {
+    const modals = useModals();
+    const closeModal = () => modals.closeModal();
 
-    useEffect(() => {
-        const fetchAdmins = async () => {
-            try {
-                setLoading(true);
+    const revokeAdmin = async (adminId) => {
+        try {
+            const { error } = await supabase
+                .from('admins')
+                .delete()
+                .eq('user_id', adminId)
+                .single();
 
-                const { data, error } = await supabase
-                    .from('admins')
-                    .select('users (*)')
-                    .order('created_at', { ascending: false });
+            if (error) throw error;
 
-                if (error) throw error;
-                setAdmins(data);
-            } catch (error) {
-                toast.error(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+            setter(admins.filter((admin) => admin.users.id !== adminId));
+            toast.success('Admin access revoked successfully.');
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            closeModal();
+        }
+    };
 
-        fetchAdmins();
-    }, []);
+    const showRevokeAdminModal = async (id, email) => {
+        modals.openModal({
+            title: <div className="font-bold">Revoke admin access</div>,
+            centered: true,
+            overflow: 'inside',
+            children: (
+                <div>
+                    <div className="text-center">
+                        <p className="text-lg">
+                            Are you sure you want to revoke admin access for{' '}
+                            <strong className="font-semibold">{email}</strong>?
+                        </p>
+                    </div>
+
+                    <div className="flex items-center justify-end mt-4 space-x-2">
+                        <button
+                            className="w-fit rounded-lg bg-zinc-300/20 dark:bg-zinc-300/20 dark:hover:bg-zinc-400/40 hover:bg-zinc-300/30 text-zinc-600 dark:text-zinc-300 dark:hover:text-zinc-200 px-4 py-1 font-semibold transition duration-300 text-center mb-2"
+                            onClick={closeModal}
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            className="w-fit rounded-lg bg-red-300/20 dark:bg-red-300/20 dark:hover:bg-red-400/40 hover:bg-red-300/30 text-red-600 dark:text-red-300 dark:hover:text-red-200 px-4 py-1 font-semibold transition duration-300 text-center mb-2"
+                            onClick={() => revokeAdmin(id)}
+                        >
+                            Revoke
+                        </button>
+                    </div>
+                </div>
+            ),
+        });
+    };
 
     return loading ? (
         <div className="text-center">
             <LoadingIndicator svgClassName="w-8 h-8" />
         </div>
-    ) : (
+    ) : admins && admins.length > 0 ? (
         <div className="flex flex-col">
             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -74,7 +105,7 @@ export default function AdminsTable() {
                                 </tr>
                             </thead>
                             <tbody className="bg-white dark:bg-zinc-800/50 divide-y divide-zinc-200 dark:divide-zinc-700">
-                                {admins.map((user) => (
+                                {admins?.map((user) => (
                                     <tr key={user?.users?.email}>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
@@ -154,12 +185,17 @@ export default function AdminsTable() {
                                             )}
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a
-                                                href="#"
-                                                className="text-blue-600 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-200"
+                                            <button
+                                                className="w-fit rounded-lg bg-red-300/20 dark:bg-red-300/20 dark:hover:bg-red-400/40 hover:bg-red-300/30 text-red-600 dark:text-red-300 dark:hover:text-red-200 px-4 py-1 font-semibold transition duration-300 text-center mb-2"
+                                                onClick={() =>
+                                                    showRevokeAdminModal(
+                                                        user?.users?.id,
+                                                        user?.users?.email
+                                                    )
+                                                }
                                             >
                                                 Revoke admin
-                                            </a>
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}
@@ -168,6 +204,12 @@ export default function AdminsTable() {
                     </div>
                 </div>
             </div>
+        </div>
+    ) : (
+        <div className="col-span-full flex flex-col space-y-4 items-center">
+            <p className="text-center text-zinc-600 dark:text-zinc-400">
+                No admins found.
+            </p>
         </div>
     );
 }
