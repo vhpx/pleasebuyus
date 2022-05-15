@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import { PlusIcon } from '@heroicons/react/outline';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -59,7 +60,7 @@ export default function AddressesDashboardPage() {
         <div className="p-4 md:p-8 lg:p-16">
             {addresses && (
                 <>
-                    <Title label="Charts" className="mb-4" />
+                    <Title label="Insights" className="mb-4" />
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                         <div className="max-w-sm">
                             <Pie
@@ -175,11 +176,20 @@ export default function AddressesDashboardPage() {
                             />
                         </div>
                     </div>
-                    <div className="my-4" />
+                    <div className="my-8" />
                 </>
             )}
 
-            <Title label="Addresses" className="mb-4" />
+            <div className="flex mb-4">
+                <Title label="Addresses" />
+                <button
+                    className="p-2 bg-white hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300 ml-2"
+                    // onClick={showAdminCreationModal}
+                >
+                    <PlusIcon className="w-4 h-4" />
+                </button>
+            </div>
+
             <AddressesTable setter={setAddresses} />
         </div>
     ) : (

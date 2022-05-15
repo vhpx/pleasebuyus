@@ -52,7 +52,7 @@ export default function TransactionsDashboardPage() {
         <div className="p-4 md:p-8 lg:p-16">
             {transactions && (
                 <>
-                    <Title label="Charts" className="mb-4" />
+                    <Title label="Insights" className="mb-4" />
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                         <div className="max-w-sm">
                             <Pie
@@ -197,7 +197,7 @@ export default function TransactionsDashboardPage() {
                             />
                         </div>
                     </div>
-                    <div className="my-4" />
+                    <div className="my-8" />
                 </>
             )}
 
