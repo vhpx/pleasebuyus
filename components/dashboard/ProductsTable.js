@@ -3,6 +3,7 @@ import { supabase } from '../../utils/supabase-client';
 import { toast } from 'react-toastify';
 import { formatCurrency } from '../../utils/currency-format';
 import LoadingIndicator from '../common/LoadingIndicator';
+import { getRelativeTime } from '../../utils/date-format';
 
 export default function ProductsTable({ setter }) {
     const [products, setProducts] = useState([]);
@@ -72,6 +73,11 @@ export default function ProductsTable({ setter }) {
                                         className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
                                     >
                                         Price
+                                    </th><th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
+                                    >
+                                        Creation Date
                                     </th>
                                     <th
                                         scope="col"
@@ -109,6 +115,15 @@ export default function ProductsTable({ setter }) {
                                                 {product?.price != null
                                                     ? formatCurrency(
                                                           product?.price
+                                                      )
+                                                    : '-'}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm text-zinc-900 dark:text-zinc-200">
+                                                {product?.created_at
+                                                    ? getRelativeTime(
+                                                          product?.created_at
                                                       )
                                                     : '-'}
                                             </div>

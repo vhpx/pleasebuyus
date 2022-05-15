@@ -4,6 +4,7 @@ import { useModals } from '@mantine/modals';
 import EditCouponForm from '../forms/EditCouponForm';
 import { toast } from 'react-toastify';
 import { supabase } from '../../utils/supabase-client';
+import { getRelativeTime } from '../../utils/date-format';
 
 export default function CouponsTable({ coupons, loading, setter }) {
     const modals = useModals();
@@ -123,6 +124,12 @@ export default function CouponsTable({ coupons, loading, setter }) {
                                     </th>
                                     <th
                                         scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
+                                    >
+                                        Creation Date
+                                    </th>
+                                    <th
+                                        scope="col"
                                         className="relative px-6 py-3"
                                     >
                                         <span className="sr-only">Edit</span>
@@ -155,6 +162,15 @@ export default function CouponsTable({ coupons, loading, setter }) {
                                                         : formatCurrency(
                                                               coupon?.value
                                                           )
+                                                    : '-'}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm text-zinc-900 dark:text-zinc-200">
+                                                {coupon?.created_at
+                                                    ? getRelativeTime(
+                                                          coupon?.created_at
+                                                      )
                                                     : '-'}
                                             </div>
                                         </td>

@@ -3,6 +3,7 @@ import { supabase } from '../../utils/supabase-client';
 import { toast } from 'react-toastify';
 import { formatCurrency } from '../../utils/currency-format';
 import LoadingIndicator from '../common/LoadingIndicator';
+import { getRelativeTime } from '../../utils/date-format';
 
 export default function AddressesTable({ setter }) {
     const [addresses, setAddresses] = useState([]);
@@ -87,6 +88,12 @@ export default function AddressesTable({ setter }) {
                                     </th>
                                     <th
                                         scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
+                                    >
+                                        Creation Date
+                                    </th>
+                                    <th
+                                        scope="col"
                                         className="relative px-6 py-3"
                                     >
                                         <span className="sr-only">Edit</span>
@@ -131,7 +138,15 @@ export default function AddressesTable({ setter }) {
                                                 {address?.street_info || '-'}
                                             </div>
                                         </td>
-
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm text-zinc-900 dark:text-zinc-200">
+                                                {address?.created_at
+                                                    ? getRelativeTime(
+                                                          address?.created_at
+                                                      )
+                                                    : '-'}
+                                            </div>
+                                        </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <button
                                                 className="w-fit rounded-lg bg-purple-300/20 dark:bg-purple-300/20 dark:hover:bg-purple-400/40 hover:bg-purple-300/30 text-purple-600 dark:text-purple-300 dark:hover:text-purple-200 px-4 py-1 font-semibold transition duration-300 text-center"

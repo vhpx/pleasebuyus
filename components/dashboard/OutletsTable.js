@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../../utils/supabase-client';
 import { toast } from 'react-toastify';
 import LoadingIndicator from '../common/LoadingIndicator';
+import { getRelativeTime } from '../../utils/date-format';
 
 export default function OutletsTable() {
     const [outlets, setOutlets] = useState([]);
@@ -67,6 +68,12 @@ export default function OutletsTable() {
                                     </th>
                                     <th
                                         scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
+                                    >
+                                        Creation Date
+                                    </th>
+                                    <th
+                                        scope="col"
                                         className="relative px-6 py-3"
                                     >
                                         <span className="sr-only">Edit</span>
@@ -94,6 +101,15 @@ export default function OutletsTable() {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="text-sm text-zinc-900 dark:text-zinc-200">
                                                 {outlet?.owner_id || '-'}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm text-zinc-900 dark:text-zinc-200">
+                                                {outlet?.created_at
+                                                    ? getRelativeTime(
+                                                          outlet?.created_at
+                                                      )
+                                                    : '-'}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

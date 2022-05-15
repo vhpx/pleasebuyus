@@ -3,6 +3,7 @@ import { supabase } from '../../utils/supabase-client';
 import { toast } from 'react-toastify';
 import LoadingIndicator from '../common/LoadingIndicator';
 import { formatCurrency } from '../../utils/currency-format';
+import { getRelativeTime } from '../../utils/date-format';
 
 export default function TransactionsTable({ setter }) {
     const [transactions, setTransactions] = useState([]);
@@ -77,6 +78,12 @@ export default function TransactionsTable({ setter }) {
                                         scope="col"
                                         className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
                                     >
+                                        Creation Date
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider"
+                                    >
                                         Total
                                     </th>
                                 </tr>
@@ -108,6 +115,15 @@ export default function TransactionsTable({ setter }) {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="text-sm text-zinc-900 dark:text-zinc-200">
                                                 {transaction?.address_id || '-'}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm text-zinc-900 dark:text-zinc-200">
+                                                {transaction?.created_at
+                                                    ? getRelativeTime(
+                                                          transaction?.created_at
+                                                      )
+                                                    : '-'}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">

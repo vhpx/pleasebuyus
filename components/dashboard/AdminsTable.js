@@ -26,7 +26,7 @@ export default function AdminsTable({ admins, loading, setter }) {
         }
     };
 
-    const showRevokeAdminModal = async (id, email) => {
+    const showRevokeAdminModal = async (id, email, name) => {
         modals.openModal({
             title: <div className="font-bold">Revoke admin access</div>,
             centered: true,
@@ -36,7 +36,10 @@ export default function AdminsTable({ admins, loading, setter }) {
                     <div className="text-center">
                         <p className="text-lg">
                             Are you sure you want to revoke admin access for{' '}
-                            <strong className="font-semibold">{email}</strong>?
+                            <strong className="font-semibold">
+                                {name || 'Unknown name'}
+                            </strong>{' '}
+                            ({email})?
                         </p>
                     </div>
 
@@ -200,7 +203,8 @@ export default function AdminsTable({ admins, loading, setter }) {
                                                 onClick={() =>
                                                     showRevokeAdminModal(
                                                         user?.users?.id,
-                                                        user?.users?.email
+                                                        user?.users?.email,
+                                                        user?.users?.name
                                                     )
                                                 }
                                             >

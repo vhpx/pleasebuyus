@@ -10,6 +10,7 @@ import { StoreLayout } from '../components/layout/layout';
 import BetterLink from '../components/link/BetterLink';
 import { RequireAuth, useUser } from '../hooks/useUser';
 import { formatCurrency } from '../utils/currency-format';
+import { getRelativeTime } from '../utils/date-format';
 import { supabase } from '../utils/supabase-client';
 
 PurchaseHistoryPage.getLayout = (page) => {
@@ -70,43 +71,6 @@ export default function PurchaseHistoryPage() {
         );
 
         return infos.join(', ');
-    };
-
-    function myDateParse(s) {
-        let b = s.split(/\D/);
-        --b[1]; // Adjust month number
-        b[6] = b[6].substr(0, 3); // Microseconds to milliseconds
-        return new Date(Date.UTC(...b));
-    }
-
-    const getRelativeTime = (timestamptz) => {
-        const now = new Date();
-        const then = myDateParse(timestamptz);
-
-        const diff = now.getTime() - then.getTime();
-
-        const seconds = Math.floor(diff / 1000);
-        const minutes = Math.floor(seconds / 60);
-        const hours = Math.floor(minutes / 60);
-        const days = Math.floor(hours / 24);
-
-        if (seconds <= 1) return 'just now';
-        if (seconds < 60) return `${seconds} seconds ago`;
-
-        if (minutes <= 1) return '1 minute ago';
-        if (minutes < 60) return `${minutes} minutes ago`;
-
-        if (hours <= 1) return '1 hour ago';
-        if (hours < 24) return `${hours} hours ago`;
-
-        if (days <= 1) return '1 day ago';
-        if (days < 7) return `${days} days ago`;
-
-        if (days < 30) return `${Math.floor(days / 7)} weeks ago`;
-
-        if (days < 365) return `${Math.floor(days / 30)} months ago`;
-
-        return `${Math.floor(days / 365)} years ago`;
     };
 
     return (
