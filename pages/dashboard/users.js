@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-import { PlusIcon } from '@heroicons/react/outline';
 import { supabase } from '../../utils/supabase-client.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend);

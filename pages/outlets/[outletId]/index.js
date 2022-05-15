@@ -1,15 +1,17 @@
 import { useRouter } from 'next/router';
-import ItemCard from '../../../components/cards/ItemCard';
-import Card from '../../../components/common/Card';
 import { StoreLayout } from '../../../components/layout/layout';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import { supabase } from '../../../utils/supabase-client';
 import ImageCard from '../../../components/cards/ImageCard';
-import BetterLink from '../../../components/link/BetterLink';
 import { useUser } from '../../../hooks/useUser';
 import ProductCard from '../../../components/cards/ProductCard';
 import LoadingIndicator from '../../../components/common/LoadingIndicator';
+import { formatCurrency } from '../../../utils/currency-format';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Pie } from 'react-chartjs-2';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 DetailedOutletPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -17,7 +19,7 @@ DetailedOutletPage.getLayout = (page) => {
 
 export default function DetailedOutletPage() {
     const router = useRouter();
-    const { user } = useUser();
+    const { user, userData } = useUser();
 
     const { outletId } = router.query;
     const [loadingSettings, setLoadingSettings] = useState(false);
@@ -31,6 +33,17 @@ export default function DetailedOutletPage() {
 
     const [products, setProducts] = useState([]);
     const [loadingProducts, setLoadingProducts] = useState(true);
+
+    const [sales, setSales] = useState([]);
+    const [totalSale, setTotalSale] = useState(0);
+    const [loadingTotalSale, setLoadingTotalSale] = useState(true);
+
+    const [totalProducts, setTotalProducts] = useState(0);
+    const [loadingTotalProducts, setLoadingTotalProducts] = useState(true);
+
+    const [soldProducts, setSoldProducts] = useState([]);
+    const [totalItemsSold, setTotalItemsSold] = useState(0);
+    const [loadingTotalItemsSold, setLoadingTotalItemsSold] = useState(true);
 
     useEffect(() => {
         const fetchOutlet = async () => {
@@ -106,6 +119,82 @@ export default function DetailedOutletPage() {
         fetchAll();
     }, [outletId]);
 
+    useEffect(() => {
+        const fetchSales = async () => {
+            try {
+                if (!outletId) return;
+
+                const { data, error } = await supabase
+                    .from('bills')
+                    .select('total')
+                    .eq('outlet_id', outletId);
+
+                if (error) throw error;
+                setSales(data);
+                setTotalSale(data.reduce((acc, curr) => acc + curr.total, 0));
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoadingTotalSale(false);
+            }
+        };
+
+        const fetchTotalProducts = async () => {
+            try {
+                if (!outletId) return;
+
+                const { data, error } = await supabase
+                    .from('products')
+                    .select('id')
+                    .eq('outlet_id', outletId);
+
+                if (error) throw error;
+                setTotalProducts(data.length);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoadingTotalProducts(false);
+            }
+        };
+
+        const fetchTotalProductsSold = async () => {
+            try {
+                if (!outletId) return;
+
+                const { data, error } = await supabase
+                    .from('bill_products')
+                    .select('amount, products!inner(*)')
+                    .eq('products.outlet_id', outletId);
+
+                if (error) throw error;
+
+                const total = data.reduce((acc, curr) => acc + curr.amount, 0);
+                setTotalItemsSold(total);
+                setSoldProducts(data);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoadingTotalItemsSold(false);
+            }
+        };
+
+        const fetchAll = async () => {
+            if (
+                !userData?.isAdmin &&
+                !(user?.id && outlet?.id && user.id === outlet?.owner_id)
+            )
+                return;
+
+            await Promise.all([
+                fetchSales(),
+                fetchTotalProducts(),
+                fetchTotalProductsSold(),
+            ]);
+        };
+
+        fetchAll();
+    }, [outlet, outletId, user, userData?.isAdmin]);
+
     const fetchProducts = async (categoryId) => {
         try {
             if (!outletId) return;
@@ -142,6 +231,14 @@ export default function DetailedOutletPage() {
         await fetchProducts(categoryId);
     };
 
+    const getDistinctSoldProductNames = () => {
+        const distinctProductNames = soldProducts.reduce((acc, curr) => {
+            if (!acc.includes(curr.products.name)) acc.push(curr.products.name);
+            return acc;
+        }, []);
+        return distinctProductNames;
+    };
+
     return (
         <div className="p-4 md:p-8 lg:p-16 space-y-8">
             <div className="flex justify-between items-start bg-white dark:bg-zinc-800/50 rounded-lg p-8">
@@ -173,6 +270,218 @@ export default function DetailedOutletPage() {
                     </button>
                 )}
             </div>
+
+            {(userData?.isAdmin ||
+                (user?.id && outlet?.id && user.id === outlet?.owner_id)) && (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
+                        {loadingTotalSale ? (
+                            <div className="text-center">
+                                <LoadingIndicator svgClassName="w-8 h-8" />
+                            </div>
+                        ) : (
+                            <>
+                                <div className="text-3xl font-bold text-zinc-500">
+                                    Total sale
+                                </div>
+                                <div className="text-5xl font-semibold">
+                                    {totalSale != null
+                                        ? formatCurrency(totalSale)
+                                        : 'No data.'}
+                                </div>
+                            </>
+                        )}
+                    </div>
+
+                    <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
+                        {loadingTotalProducts ? (
+                            <div className="text-center">
+                                <LoadingIndicator svgClassName="w-8 h-8" />
+                            </div>
+                        ) : (
+                            <>
+                                <div className="text-3xl font-bold text-zinc-500">
+                                    Total products
+                                </div>
+                                <div className="text-5xl font-semibold">
+                                    {totalProducts != null
+                                        ? totalProducts
+                                        : 'No data.'}
+                                </div>
+                            </>
+                        )}
+                    </div>
+
+                    <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
+                        {loadingTotalItemsSold ? (
+                            <div className="text-center">
+                                <LoadingIndicator svgClassName="w-8 h-8" />
+                            </div>
+                        ) : (
+                            <>
+                                <div className="text-3xl font-bold text-zinc-500">
+                                    Total items sold
+                                </div>
+                                <div className="text-5xl font-semibold">
+                                    {totalItemsSold ?? 'No data.'}
+                                </div>
+                            </>
+                        )}
+                    </div>
+
+                    <div className="max-w-sm">
+                        <Pie
+                            data={{
+                                labels: getDistinctSoldProductNames(),
+                                datasets: [
+                                    {
+                                        label: 'Most popular products',
+                                        // each number is the combined amount of each product with the same name
+                                        data: getDistinctSoldProductNames().map(
+                                            (name) =>
+                                                soldProducts.reduce(
+                                                    (acc, curr) =>
+                                                        curr.products.name ===
+                                                        name
+                                                            ? acc + curr.amount
+                                                            : acc,
+                                                    0
+                                                )
+                                        ),
+                                        backgroundColor: [
+                                            'rgba(54, 162, 235, 0.2)',
+                                            'rgba(255, 99, 132, 0.2)',
+                                            'rgba(153, 102, 255, 0.2)',
+                                            'rgba(255, 206, 86, 0.2)',
+                                        ],
+                                        borderColor: [
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 99, 132, 1)',
+                                            'rgba(153, 102, 255, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                        ],
+                                        borderWidth: 1,
+                                    },
+                                ],
+                            }}
+                        />
+                        <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                            Most popular products
+                        </div>
+                    </div>
+
+                    <div className="max-w-sm">
+                        <Pie
+                            data={{
+                                labels: getDistinctSoldProductNames(),
+                                datasets: [
+                                    {
+                                        label: 'Product sales',
+                                        data: getDistinctSoldProductNames().map(
+                                            (name) =>
+                                                soldProducts.reduce(
+                                                    (acc, curr) =>
+                                                        curr.products.name ===
+                                                        name
+                                                            ? acc +
+                                                              curr.products
+                                                                  .price *
+                                                                  curr.amount
+                                                            : acc,
+                                                    0
+                                                )
+                                        ),
+                                        backgroundColor: [
+                                            'rgba(54, 162, 235, 0.2)',
+                                            'rgba(255, 99, 132, 0.2)',
+                                            'rgba(153, 102, 255, 0.2)',
+                                            'rgba(255, 206, 86, 0.2)',
+                                        ],
+                                        borderColor: [
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 99, 132, 1)',
+                                            'rgba(153, 102, 255, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                        ],
+                                        borderWidth: 1,
+                                    },
+                                ],
+                            }}
+                        />
+                        <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                            Product sales
+                        </div>
+                    </div>
+
+                    <div className="max-w-sm">
+                        <Pie
+                            data={{
+                                labels: [
+                                    'Less than 10$',
+                                    '10$ - 20$',
+                                    '20$ - 50$',
+                                    '50$ - 100$',
+                                    '100$ - 500$',
+                                    '500$+',
+                                ],
+                                datasets: [
+                                    {
+                                        label: 'Sales by margin',
+                                        data: [
+                                            sales.filter(
+                                                (sale) => sale.total < 10
+                                            ).length,
+                                            sales.filter(
+                                                (sale) =>
+                                                    sale.total >= 10 &&
+                                                    sale.total < 20
+                                            ).length,
+                                            sales.filter(
+                                                (sale) =>
+                                                    sale.total >= 20 &&
+                                                    sale.total < 50
+                                            ).length,
+                                            sales.filter(
+                                                (sale) =>
+                                                    sale.total >= 50 &&
+                                                    sale.total < 100
+                                            ).length,
+                                            sales.filter(
+                                                (sale) =>
+                                                    sale.total >= 100 &&
+                                                    sale.total < 500
+                                            ).length,
+                                            sales.filter(
+                                                (sale) => sale.total >= 500
+                                            ).length,
+                                        ],
+                                        backgroundColor: [
+                                            'rgba(54, 162, 235, 0.2)',
+                                            'rgba(255, 99, 132, 0.2)',
+                                            'rgba(255, 206, 86, 0.2)',
+                                            'rgba(75, 192, 192, 0.2)',
+                                            'rgba(153, 102, 255, 0.2)',
+                                            'rgba(255, 159, 64, 0.2)',
+                                        ],
+                                        borderColor: [
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 99, 132, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(153, 102, 255, 1)',
+                                            'rgba(255, 159, 64, 1)',
+                                        ],
+                                        borderWidth: 1,
+                                    },
+                                ],
+                            }}
+                        />
+                        <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                            Sales range
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
                 <div className="flex space-x-2">
