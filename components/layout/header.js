@@ -5,6 +5,7 @@ export function StoreHeader({
     hideLogo,
     hideWishlist,
     hideCart,
+    whiteMode,
     dashboardMode,
 }) {
     return (
@@ -14,6 +15,7 @@ export function StoreHeader({
                 hideLogo={hideLogo}
                 hideWishlist={hideWishlist}
                 hideCart={hideCart}
+                whiteMode={whiteMode}
                 dashboardMode={dashboardMode}
             />
         </header>

@@ -30,7 +30,9 @@ export default function UserDropdown({
     return (
         <Popover className={`relative ${desktopOnly && 'hidden md:block'}`}>
             <Popover.Button
-                className={`flex items-center justify-center rounded-lg px-4 py-2 transition duration-300 hover:bg-white/10 dark:hover:bg-zinc-800`}
+                className={`flex items-center justify-center rounded-lg px-4 py-2 transition duration-300 ${
+                    whiteText ? 'hover:bg-white/10' : 'hover:bg-blue-50'
+                } dark:hover:bg-zinc-800`}
             >
                 <Avatar
                     url={userData?.avatar_url}

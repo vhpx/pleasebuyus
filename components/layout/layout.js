@@ -75,6 +75,7 @@ export function SidebarLayout({
                         hideLogo
                         hideWishlist
                         hideCart
+                        whiteMode
                         dashboardMode
                     />
                 )}

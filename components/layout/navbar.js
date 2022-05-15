@@ -19,6 +19,7 @@ export function StoreNavBar({
     hideLogo,
     hideWishlist,
     hideCart,
+    whiteMode,
     dashboardMode,
 }) {
     const [scrolled, setScrolled] = useState(0);
@@ -48,7 +49,9 @@ export function StoreNavBar({
 
     return (
         <nav
-            className={`flex items-center justify-between border-b bg-blue-500 px-4 py-2 shadow dark:border-transparent dark:bg-zinc-900 dark:text-white md:px-12 ${
+            className={`flex items-center justify-between border-b ${
+                whiteMode ? 'bg-white' : 'bg-blue-500'
+            } px-4 py-2 shadow dark:border-transparent dark:bg-zinc-900 dark:text-white md:px-12 ${
                 scrolled || 'border-transparent shadow-none'
             }`}
         >
@@ -163,12 +166,12 @@ export function StoreNavBar({
 
                 {user ? (
                     <UserDropdown
-                        whiteText={true}
+                        whiteText={false}
                         userData={userData}
                         darkMode={darkMode}
                         updateTheme={updateTheme}
                         desktopOnly={true}
-                        dashboardMode={dashboardMode}
+                        dashboardMode
                     />
                 ) : (
                     <BetterLink href="/login">
