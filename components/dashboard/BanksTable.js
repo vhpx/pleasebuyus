@@ -1,34 +1,90 @@
-import { useEffect, useState } from 'react';
-import { supabase } from '../../utils/supabase-client';
-import { toast } from 'react-toastify';
 import LoadingIndicator from '../common/LoadingIndicator';
 import { getRelativeTime } from '../../utils/date-format';
+import { supabase } from '../../utils/supabase-client';
+import EditBankForm from '../forms/EditBankForm';
+import { useModals } from '@mantine/modals';
+import { toast } from 'react-toastify';
 
-export default function BanksTable() {
-    const [banks, setBanks] = useState([]);
-    const [loading, setLoading] = useState(true);
+export default function BanksTable({ banks, loading, setter }) {
+    const modals = useModals();
+    const closeModal = () => modals.closeModal();
 
-    useEffect(() => {
-        const fetchBanks = async () => {
-            try {
-                setLoading(true);
+    const editBank = async (bank) => {
+        try {
+            if (!bank) throw new Error("Bank doesn't exist");
 
-                const { data, error } = await supabase
-                    .from('banks')
-                    .select('*')
-                    .order('name');
+            // get non-null values
+            const newBank = {
+                ...Object.fromEntries(
+                    Object.entries(bank).filter(
+                        ([key, value]) => value !== null
+                    )
+                ),
+            };
 
-                if (error) throw error;
-                setBanks(data);
-            } catch (error) {
-                toast.error(error.message);
-            } finally {
-                setLoading(false);
-            }
-        };
+            const { data, error } = await supabase
+                .from('banks')
+                .update(newBank)
+                .eq('code', bank.code)
+                .single();
 
-        fetchBanks();
-    }, []);
+            if (error) throw error;
+
+            setter((prevState) => {
+                const newState = [...prevState];
+                const index = newState.findIndex(
+                    (bank) => bank.code === newBank.code
+                );
+
+                newState[index] = data;
+                return newState;
+            });
+            toast.success('Bank updated successfully');
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            closeModal();
+        }
+    };
+
+    const deleteBank = async (bankCode) => {
+        try {
+            const { error } = await supabase
+                .from('banks')
+                .delete()
+                .eq('code', bankCode)
+                .single();
+
+            if (error) throw error;
+
+            setter((prevState) =>
+                prevState.filter((bank) => bank.code !== bankCode)
+            );
+            toast.success('Bank deleted successfully');
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            closeModal();
+        }
+    };
+
+    const showEditBankModal = (bank) =>
+        modals.openModal({
+            title: <div className="font-bold">Edit bank</div>,
+            centered: true,
+            overflow: 'inside',
+            children: (
+                <div className="p-1">
+                    <EditBankForm
+                        bank={bank}
+                        closeModal={closeModal}
+                        onCreate={(bank) => editBank(bank)}
+                        onDelete={() => deleteBank(bank?.code)}
+                    />
+                </div>
+            ),
+            onClose: () => {},
+        });
 
     return loading ? (
         <div className="text-center">
@@ -104,7 +160,9 @@ export default function BanksTable() {
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <button
                                                 className="w-fit rounded-lg bg-purple-300/20 dark:bg-purple-300/20 dark:hover:bg-purple-400/40 hover:bg-purple-300/30 text-purple-600 dark:text-purple-300 dark:hover:text-purple-200 px-4 py-1 font-semibold transition duration-300 text-center"
-                                                onClick={() => {}}
+                                                onClick={() =>
+                                                    showEditBankModal(bank)
+                                                }
                                             >
                                                 Edit
                                             </button>

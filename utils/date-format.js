@@ -16,7 +16,7 @@ export const getRelativeTime = (timestamptz) => {
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
 
-    if (seconds <= 1) return 'just now';
+    if (seconds <= 1) return 'Just now';
     if (seconds < 60) return `${seconds} seconds ago`;
 
     if (minutes <= 1) return '1 minute ago';

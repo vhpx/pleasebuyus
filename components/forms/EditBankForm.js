@@ -1,53 +1,34 @@
 import { useState } from 'react';
 import FormInput from '../form/FormInput';
-import FormSelect from '../form/FormSelect';
 
-export default function EditCouponForm({
-    coupon,
-    closeModal,
-    onCreate,
-    onDelete,
-}) {
-    const [code, setCode] = useState(coupon?.code || '');
-    const [couponName, setCouponName] = useState(coupon?.name || '');
-    const [value, setValue] = useState(coupon?.value || '');
-    const [useRatio, setUseRatio] = useState(coupon?.use_ratio || false);
+export default function EditBankForm({ bank, closeModal, onCreate, onDelete }) {
+    const [code, setCode] = useState(bank?.code || '');
+    const [bankName, setbankName] = useState(bank?.name || '');
+    const [shortName, setShortName] = useState(bank?.short_name || '');
 
     return (
         <>
             <FormInput
-                label="Coupon code"
-                id="coupon-code"
+                label="Bank code"
+                id="bank-code"
                 value={code}
                 setter={(e) => setCode(e.toUpperCase())}
                 required
             />
 
             <FormInput
-                label="Coupon name"
-                id="coupon-name"
-                value={couponName}
-                setter={setCouponName}
+                label="Bank name"
+                id="bank-name"
+                value={bankName}
+                setter={setbankName}
                 required
             />
 
             <FormInput
-                label="Coupon value"
-                id="coupon-value"
-                value={value}
-                setter={setValue}
-                required
-            />
-
-            <FormSelect
-                label="Coupon type"
-                id="coupon-type"
-                value={useRatio}
-                setter={setUseRatio}
-                options={[
-                    { label: 'Discount by value', value: false },
-                    { label: 'Discount by percentage', value: true },
-                ]}
+                label="Bank short name"
+                id="bank-short-name"
+                value={shortName}
+                setter={setShortName}
                 required
             />
 
@@ -56,9 +37,8 @@ export default function EditCouponForm({
                     className="flex items-center font-semibold space-x-2 px-4 py-1 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
                     onClick={() => {
                         setCode(null);
-                        setCouponName(null);
-                        setValue(null);
-                        setUseRatio(null);
+                        setbankName(null);
+                        setShortName(null);
 
                         closeModal();
                     }}
@@ -66,7 +46,7 @@ export default function EditCouponForm({
                     Cancel
                 </button>
 
-                {coupon && coupon?.id && (
+                {onDelete && bank && bank?.code && (
                     <button
                         className="flex items-center font-semibold space-x-2 px-4 py-1 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
                         onClick={onDelete}
@@ -79,15 +59,14 @@ export default function EditCouponForm({
                     className="flex items-center font-semibold space-x-2 px-4 py-1 bg-zinc-100 hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300"
                     onClick={() =>
                         onCreate({
-                            id: coupon?.id,
+                            id: bank?.id,
                             code,
-                            name: couponName,
-                            value,
-                            use_ratio: useRatio === true || useRatio === 'true',
+                            name: bankName,
+                            short_name: shortName,
                         })
                     }
                 >
-                    {coupon?.id ? 'Update' : 'Create'}
+                    {onDelete && bank && bank?.code ? 'Update' : 'Create'}
                 </button>
             </div>
         </>

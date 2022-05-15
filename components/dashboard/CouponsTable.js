@@ -23,7 +23,7 @@ export default function CouponsTable({ coupons, loading, setter }) {
                 ),
             };
 
-            const { error } = await supabase
+            const { data, error } = await supabase
                 .from('coupons')
                 .update(newCoupon)
                 .eq('id', coupon.id)
@@ -36,7 +36,8 @@ export default function CouponsTable({ coupons, loading, setter }) {
                 const index = newState.findIndex(
                     (coupon) => coupon.id === newCoupon.id
                 );
-                newState[index] = newCoupon;
+
+                newState[index] = data;
                 return newState;
             });
             toast.success('Coupon updated successfully');
