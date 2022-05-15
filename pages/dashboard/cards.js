@@ -7,8 +7,10 @@ import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-import { Divider } from '@mui/material';
 import { PlusIcon } from '@heroicons/react/outline';
+import { supabase } from '../../utils/supabase-client.js';
+import EditCardForm from '../../components/forms/EditCardForm.js';
+import { useModals } from '@mantine/modals';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -20,11 +22,12 @@ export default function BankCardsDashboardPage() {
     RequireAuth();
 
     const router = useRouter();
+    const modals = useModals();
+
+    const closeModal = () => modals.closeModal();
 
     const { userData } = useUser();
     const [initialized, setInitialized] = useState(false);
-
-    const [cards, setCards] = useState(null);
 
     useEffect(() => {
         if (!userData) return;
@@ -35,6 +38,79 @@ export default function BankCardsDashboardPage() {
             setInitialized(true);
         }
     }, [userData, router]);
+
+    const [cards, setCards] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchBankCards = async () => {
+            try {
+                setLoading(true);
+
+                const { data, error } = await supabase
+                    .from('bank_cards')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+                setCards(data);
+            } catch (error) {
+                toast.error(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchBankCards();
+    }, []);
+
+    const addCard = async (card) => {
+        try {
+            if (!card) throw new Error("Card doesn't exist");
+
+            // get non-null values
+            const newCard = {
+                ...Object.fromEntries(
+                    Object.entries(card).filter(
+                        ([key, value]) => value !== null
+                    )
+                ),
+            };
+
+            delete newCard.id;
+
+            const { data, error } = await supabase
+                .from('bank_cards')
+                .insert(newCard)
+                .single();
+
+            if (error) throw error;
+
+            setCards((cards) => [...cards, data]);
+            toast.success('Card added successfully.');
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
+            closeModal();
+        }
+    };
+
+    const showCreateCardModal = (card) =>
+        modals.openModal({
+            title: <div className="font-bold">Create new card</div>,
+            centered: true,
+            overflow: 'inside',
+            children: (
+                <div className="p-1">
+                    <EditCardForm
+                        card={card}
+                        closeModal={closeModal}
+                        onCreate={(card) => addCard(card)}
+                    />
+                </div>
+            ),
+            onClose: () => {},
+        });
 
     const getDistinctCards = () => {
         return cards.reduce((acc, card) => {
@@ -95,13 +171,17 @@ export default function BankCardsDashboardPage() {
                 <Title label="Bank Cards" />
                 <button
                     className="p-2 bg-white hover:bg-blue-100 hover:text-blue-700 text-zinc-600 dark:text-zinc-400 dark:bg-zinc-800 dark:hover:bg-zinc-700/70 dark:hover:text-white rounded-lg transition duration-300 ml-2"
-                    // onClick={showAdminCreationModal}
+                    onClick={showCreateCardModal}
                 >
                     <PlusIcon className="w-4 h-4" />
                 </button>
             </div>
 
-            <BankCardsTable setter={setCards} />
+            <BankCardsTable
+                bankCards={cards}
+                loading={loading}
+                setter={setCards}
+            />
         </div>
     ) : (
         <div></div>
