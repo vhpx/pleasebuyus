@@ -79,12 +79,6 @@ export default function TransactionsTable({ setter }) {
                                     >
                                         Total
                                     </th>
-                                    <th
-                                        scope="col"
-                                        className="relative px-6 py-3"
-                                    >
-                                        <span className="sr-only">Edit</span>
-                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="bg-white dark:bg-zinc-800/50 divide-y divide-zinc-200 dark:divide-zinc-700">
@@ -124,14 +118,6 @@ export default function TransactionsTable({ setter }) {
                                                       )
                                                     : '-'}
                                             </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <a
-                                                href="#"
-                                                className="text-blue-600 dark:text-blue-300 hover:text-blue-900 dark:hover:text-blue-200"
-                                            >
-                                                Edit
-                                            </a>
                                         </td>
                                     </tr>
                                 ))}
