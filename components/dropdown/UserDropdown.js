@@ -10,8 +10,8 @@ export default function UserDropdown({
     darkMode,
     updateTheme,
     desktopOnly,
-    bankMode,
-    dashboardMode,
+    bankMode = false,
+    dashboardMode = false,
 }) {
     const router = useRouter();
 
@@ -74,6 +74,7 @@ export default function UserDropdown({
                                         Admin Dashboard
                                     </button>
                                 )}
+
                                 <button
                                     className="text-left rounded-t-lg px-4 py-2 font-semibold hover:bg-zinc-200/20 dark:hover:bg-zinc-700/40"
                                     onClick={() =>

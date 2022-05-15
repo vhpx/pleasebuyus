@@ -11,7 +11,13 @@ export function StoreLayout({
 }) {
     return (
         <div className="min-h-screen">
-            {hideHeader || <StoreHeader darkMode={darkMode} label={label} />}
+            {hideHeader || (
+                <StoreHeader
+                    darkMode={darkMode}
+                    label={label}
+                    whiteMode={false}
+                />
+            )}
             <main
                 className={`${
                     hideFooter || 'min-h-screen'

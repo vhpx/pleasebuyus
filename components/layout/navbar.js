@@ -166,12 +166,12 @@ export function StoreNavBar({
 
                 {user ? (
                     <UserDropdown
-                        whiteText={false}
+                        whiteText={!whiteMode}
                         userData={userData}
                         darkMode={darkMode}
                         updateTheme={updateTheme}
                         desktopOnly={true}
-                        dashboardMode
+                        dashboardMode={dashboardMode}
                     />
                 ) : (
                     <BetterLink href="/login">
