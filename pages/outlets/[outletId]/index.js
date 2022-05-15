@@ -329,157 +329,164 @@ export default function DetailedOutletPage() {
                         )}
                     </div>
 
-                    <div className="max-w-sm">
-                        <Pie
-                            data={{
-                                labels: getDistinctSoldProductNames(),
-                                datasets: [
-                                    {
-                                        label: 'Most popular products',
-                                        // each number is the combined amount of each product with the same name
-                                        data: getDistinctSoldProductNames().map(
-                                            (name) =>
-                                                soldProducts.reduce(
-                                                    (acc, curr) =>
-                                                        curr.products.name ===
-                                                        name
-                                                            ? acc + curr.amount
-                                                            : acc,
-                                                    0
-                                                )
-                                        ),
-                                        backgroundColor: [
-                                            'rgba(54, 162, 235, 0.2)',
-                                            'rgba(255, 99, 132, 0.2)',
-                                            'rgba(153, 102, 255, 0.2)',
-                                            'rgba(255, 206, 86, 0.2)',
-                                        ],
-                                        borderColor: [
-                                            'rgba(54, 162, 235, 1)',
-                                            'rgba(255, 99, 132, 1)',
-                                            'rgba(153, 102, 255, 1)',
-                                            'rgba(255, 206, 86, 1)',
-                                        ],
-                                        borderWidth: 1,
-                                    },
-                                ],
-                            }}
-                        />
-                        <div className="mt-2 mb-4 text-2xl text-center font-semibold">
-                            Most popular products
-                        </div>
-                    </div>
-
-                    <div className="max-w-sm">
-                        <Pie
-                            data={{
-                                labels: getDistinctSoldProductNames(),
-                                datasets: [
-                                    {
-                                        label: 'Product sales',
-                                        data: getDistinctSoldProductNames().map(
-                                            (name) =>
-                                                soldProducts.reduce(
-                                                    (acc, curr) =>
-                                                        curr.products.name ===
-                                                        name
-                                                            ? acc +
-                                                              curr.products
-                                                                  .price *
+                    {getDistinctSoldProductNames().length > 0 && (
+                        <div className="max-w-sm">
+                            <Pie
+                                data={{
+                                    labels: getDistinctSoldProductNames(),
+                                    datasets: [
+                                        {
+                                            label: 'Most popular products',
+                                            // each number is the combined amount of each product with the same name
+                                            data: getDistinctSoldProductNames().map(
+                                                (name) =>
+                                                    soldProducts.reduce(
+                                                        (acc, curr) =>
+                                                            curr.products
+                                                                .name === name
+                                                                ? acc +
                                                                   curr.amount
-                                                            : acc,
-                                                    0
-                                                )
-                                        ),
-                                        backgroundColor: [
-                                            'rgba(54, 162, 235, 0.2)',
-                                            'rgba(255, 99, 132, 0.2)',
-                                            'rgba(153, 102, 255, 0.2)',
-                                            'rgba(255, 206, 86, 0.2)',
-                                        ],
-                                        borderColor: [
-                                            'rgba(54, 162, 235, 1)',
-                                            'rgba(255, 99, 132, 1)',
-                                            'rgba(153, 102, 255, 1)',
-                                            'rgba(255, 206, 86, 1)',
-                                        ],
-                                        borderWidth: 1,
-                                    },
-                                ],
-                            }}
-                        />
-                        <div className="mt-2 mb-4 text-2xl text-center font-semibold">
-                            Product sales
+                                                                : acc,
+                                                        0
+                                                    )
+                                            ),
+                                            backgroundColor: [
+                                                'rgba(54, 162, 235, 0.2)',
+                                                'rgba(255, 99, 132, 0.2)',
+                                                'rgba(153, 102, 255, 0.2)',
+                                                'rgba(255, 206, 86, 0.2)',
+                                            ],
+                                            borderColor: [
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(153, 102, 255, 1)',
+                                                'rgba(255, 206, 86, 1)',
+                                            ],
+                                            borderWidth: 1,
+                                        },
+                                    ],
+                                }}
+                            />
+                            <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                                Most popular products
+                            </div>
                         </div>
-                    </div>
+                    )}
 
-                    <div className="max-w-sm">
-                        <Pie
-                            data={{
-                                labels: [
-                                    'Less than 10$',
-                                    '10$ - 20$',
-                                    '20$ - 50$',
-                                    '50$ - 100$',
-                                    '100$ - 500$',
-                                    '500$+',
-                                ],
-                                datasets: [
-                                    {
-                                        label: 'Sales by margin',
-                                        data: [
-                                            sales.filter(
-                                                (sale) => sale.total < 10
-                                            ).length,
-                                            sales.filter(
-                                                (sale) =>
-                                                    sale.total >= 10 &&
-                                                    sale.total < 20
-                                            ).length,
-                                            sales.filter(
-                                                (sale) =>
-                                                    sale.total >= 20 &&
-                                                    sale.total < 50
-                                            ).length,
-                                            sales.filter(
-                                                (sale) =>
-                                                    sale.total >= 50 &&
-                                                    sale.total < 100
-                                            ).length,
-                                            sales.filter(
-                                                (sale) =>
-                                                    sale.total >= 100 &&
-                                                    sale.total < 500
-                                            ).length,
-                                            sales.filter(
-                                                (sale) => sale.total >= 500
-                                            ).length,
-                                        ],
-                                        backgroundColor: [
-                                            'rgba(54, 162, 235, 0.2)',
-                                            'rgba(255, 99, 132, 0.2)',
-                                            'rgba(255, 206, 86, 0.2)',
-                                            'rgba(75, 192, 192, 0.2)',
-                                            'rgba(153, 102, 255, 0.2)',
-                                            'rgba(255, 159, 64, 0.2)',
-                                        ],
-                                        borderColor: [
-                                            'rgba(54, 162, 235, 1)',
-                                            'rgba(255, 99, 132, 1)',
-                                            'rgba(255, 206, 86, 1)',
-                                            'rgba(75, 192, 192, 1)',
-                                            'rgba(153, 102, 255, 1)',
-                                            'rgba(255, 159, 64, 1)',
-                                        ],
-                                        borderWidth: 1,
-                                    },
-                                ],
-                            }}
-                        />
-                        <div className="mt-2 mb-4 text-2xl text-center font-semibold">
-                            Sales range
+                    {getDistinctSoldProductNames().length > 0 && (
+                        <div className="max-w-sm">
+                            <Pie
+                                data={{
+                                    labels: getDistinctSoldProductNames(),
+                                    datasets: [
+                                        {
+                                            label: 'Product sales',
+                                            data: getDistinctSoldProductNames().map(
+                                                (name) =>
+                                                    soldProducts.reduce(
+                                                        (acc, curr) =>
+                                                            curr.products
+                                                                .name === name
+                                                                ? acc +
+                                                                  curr.products
+                                                                      .price *
+                                                                      curr.amount
+                                                                : acc,
+                                                        0
+                                                    )
+                                            ),
+                                            backgroundColor: [
+                                                'rgba(54, 162, 235, 0.2)',
+                                                'rgba(255, 99, 132, 0.2)',
+                                                'rgba(153, 102, 255, 0.2)',
+                                                'rgba(255, 206, 86, 0.2)',
+                                            ],
+                                            borderColor: [
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(153, 102, 255, 1)',
+                                                'rgba(255, 206, 86, 1)',
+                                            ],
+                                            borderWidth: 1,
+                                        },
+                                    ],
+                                }}
+                            />
+                            <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                                Product sales
+                            </div>
                         </div>
-                    </div>
+                    )}
+
+                    {sales && sales.length > 0 && (
+                        <div className="max-w-sm">
+                            <Pie
+                                data={{
+                                    labels: [
+                                        'Less than 10$',
+                                        '10$ - 20$',
+                                        '20$ - 50$',
+                                        '50$ - 100$',
+                                        '100$ - 500$',
+                                        '500$+',
+                                    ],
+                                    datasets: [
+                                        {
+                                            label: 'Sales by margin',
+                                            data: [
+                                                sales.filter(
+                                                    (sale) => sale.total < 10
+                                                ).length,
+                                                sales.filter(
+                                                    (sale) =>
+                                                        sale.total >= 10 &&
+                                                        sale.total < 20
+                                                ).length,
+                                                sales.filter(
+                                                    (sale) =>
+                                                        sale.total >= 20 &&
+                                                        sale.total < 50
+                                                ).length,
+                                                sales.filter(
+                                                    (sale) =>
+                                                        sale.total >= 50 &&
+                                                        sale.total < 100
+                                                ).length,
+                                                sales.filter(
+                                                    (sale) =>
+                                                        sale.total >= 100 &&
+                                                        sale.total < 500
+                                                ).length,
+                                                sales.filter(
+                                                    (sale) => sale.total >= 500
+                                                ).length,
+                                            ],
+                                            backgroundColor: [
+                                                'rgba(54, 162, 235, 0.2)',
+                                                'rgba(255, 99, 132, 0.2)',
+                                                'rgba(255, 206, 86, 0.2)',
+                                                'rgba(75, 192, 192, 0.2)',
+                                                'rgba(153, 102, 255, 0.2)',
+                                                'rgba(255, 159, 64, 0.2)',
+                                            ],
+                                            borderColor: [
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(255, 206, 86, 1)',
+                                                'rgba(75, 192, 192, 1)',
+                                                'rgba(153, 102, 255, 1)',
+                                                'rgba(255, 159, 64, 1)',
+                                            ],
+                                            borderWidth: 1,
+                                        },
+                                    ],
+                                }}
+                            />
+                            <div className="mt-2 mb-4 text-2xl text-center font-semibold">
+                                Sales range
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
 
