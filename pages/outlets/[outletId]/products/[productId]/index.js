@@ -83,6 +83,7 @@ export default function DetailedProductPage() {
 
         const fetchWishlist = async () => {
             if (!user?.id) return;
+            if (!productId) return;
 
             try {
                 const { data, error } = await supabase
