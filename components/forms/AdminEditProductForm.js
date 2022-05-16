@@ -14,12 +14,14 @@ export default function AdminEditProductForm({
 
     return (
         <>
-            <FormInput
-                label="Outlet Name"
-                id="outlet-name"
-                value={product?.outlets?.name || ''}
-                disabled={true}
-            />
+            {product?.outlets?.name && (
+                <FormInput
+                    label="Outlet Name"
+                    id="outlet-name"
+                    value={product?.outlets?.name || ''}
+                    disabled={true}
+                />
+            )}
 
             <FormInput
                 label="Outlet ID"

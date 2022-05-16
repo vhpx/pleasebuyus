@@ -94,7 +94,9 @@ export default function EditAddressForm({
 
             setter((prev) =>
                 prev?.map((address) =>
-                    address.id === currentAddress.id ? newAddress : address
+                    address?.id === currentAddress?.id
+                        ? { ...address, ...newAddress }
+                        : address
                 )
             );
 
@@ -134,16 +136,21 @@ export default function EditAddressForm({
         <>
             {showUIDField && (
                 <>
-                    <FormInput
-                        label={currentAddress?.users?.name ? 'Name' : 'Email'}
-                        id={currentAddress?.users?.name ? 'name' : 'email'}
-                        value={
-                            currentAddress?.users.name ||
-                            currentAddress?.users?.email ||
-                            ''
-                        }
-                        disabled={true}
-                    />
+                    {(currentAddress?.users?.name ||
+                        currentAddress?.users?.email) && (
+                        <FormInput
+                            label={
+                                currentAddress?.users?.name ? 'Name' : 'Email'
+                            }
+                            id={currentAddress?.users?.name ? 'name' : 'email'}
+                            value={
+                                currentAddress?.users?.name ||
+                                currentAddress?.users?.email ||
+                                ''
+                            }
+                            disabled={true}
+                        />
+                    )}
                     <FormInput
                         label="User ID"
                         id="user-id"

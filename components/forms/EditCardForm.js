@@ -9,6 +9,16 @@ export default function EditCardForm({ card, closeModal, onCreate, onDelete }) {
 
     return (
         <>
+            {(card?.users?.name || card?.users?.email) && (
+                <FormInput
+                    label={card?.users?.name ? 'Name' : 'Email'}
+                    id={card?.users?.name ? 'name' : 'email'}
+                    value={card?.users?.name || card?.users?.email || ''}
+                    disabled={true}
+                    required
+                />
+            )}
+
             <FormInput
                 label="Owner ID"
                 id="owner-id"

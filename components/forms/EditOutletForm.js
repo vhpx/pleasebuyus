@@ -29,13 +29,15 @@ export default function EditOutletForm({
                 required
             />
 
-            <FormInput
-                label={outlet?.users?.name ? 'Owner Name' : 'Owner Email'}
-                id={outlet?.users?.name ? 'owner-name' : 'owner-email'}
-                value={outlet?.users?.name || outlet?.users?.email || ''}
-                disabled={true}
-                required
-            />
+            {(outlet?.users?.name || outlet?.users?.email) && (
+                <FormInput
+                    label={outlet?.users?.name ? 'Owner Name' : 'Owner Email'}
+                    id={outlet?.users?.name ? 'owner-name' : 'owner-email'}
+                    value={outlet?.users?.name || outlet?.users?.email || ''}
+                    disabled={true}
+                    required
+                />
+            )}
 
             <FormInput
                 label="Owner ID"
