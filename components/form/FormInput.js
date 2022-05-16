@@ -29,9 +29,11 @@ export default function FormInput({
                     placeholder={placeholder}
                     required={required}
                     disabled={disabled}
-                    className={`${
-                        children ? 'rounded-r-lg' : 'rounded-lg'
-                    } w-full flex-1 appearance-none border border-zinc-300 bg-white py-2 px-4 text-zinc-700 placeholder-zinc-400 shadow-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300`}
+                    className={`${children ? 'rounded-r-lg' : 'rounded-lg'} ${
+                        disabled
+                            ? 'bg-zinc-200/70 dark:bg-zinc-800'
+                            : 'bg-white dark:bg-zinc-900'
+                    } w-full flex-1 appearance-none border border-zinc-300 py-2 px-4 text-zinc-700 placeholder-zinc-400 shadow-sm dark:border-zinc-700 dark:text-zinc-300`}
                     onChange={(e) => {
                         setter && setter(e.target.value);
                     }}

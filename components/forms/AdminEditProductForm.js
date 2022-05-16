@@ -15,6 +15,13 @@ export default function AdminEditProductForm({
     return (
         <>
             <FormInput
+                label="Outlet Name"
+                id="outlet-name"
+                value={product?.outlets?.name || ''}
+                disabled={true}
+            />
+
+            <FormInput
                 label="Outlet ID"
                 id="outlet-id"
                 value={outletId}

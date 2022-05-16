@@ -133,13 +133,25 @@ export default function EditAddressForm({
     return (
         <>
             {showUIDField && (
-                <FormInput
-                    label="User ID"
-                    id="user-id"
-                    value={userId}
-                    setter={setUserId}
-                    disabled={!!currentAddress?.user_id}
-                />
+                <>
+                    <FormInput
+                        label={currentAddress?.users?.name ? 'Name' : 'Email'}
+                        id={currentAddress?.users?.name ? 'name' : 'email'}
+                        value={
+                            currentAddress?.users.name ||
+                            currentAddress?.users?.email ||
+                            ''
+                        }
+                        disabled={true}
+                    />
+                    <FormInput
+                        label="User ID"
+                        id="user-id"
+                        value={userId}
+                        setter={setUserId}
+                        disabled={!!currentAddress?.user_id}
+                    />
+                </>
             )}
 
             <FormInput
