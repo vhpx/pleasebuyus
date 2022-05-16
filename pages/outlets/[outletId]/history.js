@@ -32,6 +32,7 @@ export default function OutletPurchaseHistoryPage() {
 
     const [outlet, setOutlet] = useState(null);
     const [loadingOutlet, setLoadingOutlet] = useState(true);
+    const [loadingSettings, setLoadingSettings] = useState(false);
 
     const [purchases, setPurchases] = useState(null);
     const [loadingPurchases, setLoadingPurchases] = useState(true);
