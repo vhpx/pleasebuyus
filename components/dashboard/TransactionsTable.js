@@ -97,7 +97,12 @@ export default function TransactionsTable({ setter }) {
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm text-zinc-900 dark:text-zinc-200">
+                                            <div className="text-sm text-zinc-500 dark:text-zinc-400">
+                                                {transaction?.users?.name ||
+                                                    transaction?.users?.email ||
+                                                    '-'}
+                                            </div>
+                                            <div className="text-sm font-medium text-zinc-900 dark:text-zinc-200">
                                                 {transaction?.customer_id ||
                                                     '-'}
                                             </div>

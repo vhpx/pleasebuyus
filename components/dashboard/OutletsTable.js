@@ -155,7 +155,12 @@ export default function OutletsTable({ outlets, loading, setter }) {
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm text-zinc-900 dark:text-zinc-200">
+                                            <div className="text-sm text-zinc-500 dark:text-zinc-400">
+                                                {outlet?.users?.name ||
+                                                    outlet?.users?.email ||
+                                                    '-'}
+                                            </div>
+                                            <div className="text-sm font-medium text-zinc-900 dark:text-zinc-200">
                                                 {outlet?.owner_id || '-'}
                                             </div>
                                         </td>

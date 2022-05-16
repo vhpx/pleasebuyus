@@ -192,7 +192,12 @@ export default function BankCardsTable({ bankCards, loading, setter }) {
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm text-zinc-900 dark:text-zinc-200">
+                                            <div className="text-sm text-zinc-500 dark:text-zinc-400">
+                                                {card?.users?.name ||
+                                                    card?.users?.email ||
+                                                    '-'}
+                                            </div>
+                                            <div className="text-sm font-medium text-zinc-900 dark:text-zinc-200">
                                                 {card?.owner_id || '-'}
                                             </div>
                                         </td>

@@ -152,7 +152,10 @@ export default function ProductsTable({ products, loading, setter }) {
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm text-zinc-900 dark:text-zinc-200">
+                                            <div className="text-sm text-zinc-500 dark:text-zinc-400">
+                                                {product?.outlets?.name || '-'}
+                                            </div>
+                                            <div className="text-sm font-medium text-zinc-900 dark:text-zinc-200">
                                                 {product?.outlet_id || '-'}
                                             </div>
                                         </td>

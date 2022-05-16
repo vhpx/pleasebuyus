@@ -45,7 +45,7 @@ export default function OutletsDashboardPage() {
 
                 const { data, error } = await supabase
                     .from('outlets')
-                    .select('*')
+                    .select('*, users!outlets_owner_id_fkey (name, email)')
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;

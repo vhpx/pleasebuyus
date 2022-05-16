@@ -49,7 +49,7 @@ export default function BankCardsDashboardPage() {
 
                 const { data, error } = await supabase
                     .from('bank_cards')
-                    .select('*')
+                    .select('*, users (name, email)')
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;

@@ -49,7 +49,7 @@ export default function AddressesDashboardPage() {
 
                 const { data, error } = await supabase
                     .from('addresses')
-                    .select('*')
+                    .select('*, users!addresses_user_id_fkey (name, email)')
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
