@@ -48,7 +48,6 @@ export default function DetailedBillPage() {
                     .select(
                         'id, total, users (*), outlets (*), addresses (*), user_cards (*), bill_products (*), created_at'
                     )
-                    .eq('customer_id', user.id)
                     .eq('id', billId)
                     .single();
 

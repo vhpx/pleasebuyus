@@ -102,7 +102,7 @@ export default function PurchaseHistoryPage() {
                                         />
                                     </div>
                                 ) : (
-                                    <div className="aspect-square w-full bg-gradient-to-br from-green-300 via-blue-500 to-purple-600 dark:from-green-300/70 dark:via-blue-500/70 dark:to-purple-600/70 rounded-lg" />
+                                    <div className="aspect-square h-auto w-[400px] bg-gradient-to-br from-green-300 via-blue-500 to-purple-600 dark:from-green-300/70 dark:via-blue-500/70 dark:to-purple-600/70 rounded-lg" />
                                 )}
 
                                 <div className="w-full">

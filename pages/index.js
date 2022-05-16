@@ -40,8 +40,7 @@ export default function Home() {
             try {
                 const { data, error } = await supabase
                     .from('bill_products')
-                    .select('amount, products (*)')
-                    .limit(50);
+                    .select('amount, products (*)');
 
                 if (error) throw error;
 
@@ -66,7 +65,6 @@ export default function Home() {
                     .sort((a, b) => b.quantity - a.quantity);
 
                 setMostPopularProducts(productsSold);
-                console.log(productsSold);
             } catch (error) {
                 toast.error(error.message);
             } finally {
