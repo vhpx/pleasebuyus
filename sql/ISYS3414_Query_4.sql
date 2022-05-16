@@ -150,16 +150,16 @@ VALUES
         '2022-05-14T08:20:15+00:00'
     ),
     (
-        '89508b5b-59f0-4503-9a2e-454c0fa14991',
-        '2022-05-14T08:20:19+00:00'
-    ),
-    (
         '33971715-cfac-45c0-8af3-982cecd50c3c',
         '2022-05-15T07:44:15.079921+00:00'
     ),
     (
         '86b87f95-2442-44aa-8ffa-3cadba30384a',
         '2022-05-15T08:36:32.833212+00:00'
+    ),
+    (
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        '2022-05-16T15:54:45.906817+00:00'
     );
 
 -- Populate data for the addresses table.
@@ -234,6 +234,16 @@ VALUES
         'a',
         'b',
         '2022-05-15T12:26:50.07774+00:00'
+    ),
+    (
+        '4d476ac8-5152-41f4-bec7-74f4bf7a2ebd',
+        '6f6c346d-6d32-4e85-87ef-a485ca497754',
+        'Home',
+        'Vietnam',
+        NULL,
+        'HCMC',
+        'Nguyen Van Linh St',
+        '2022-05-16T14:40:09.200171+00:00'
     );
 
 -- Populate data for the banks table.
@@ -495,6 +505,13 @@ VALUES
         '3322',
         'cfe1575d-7566-444c-a353-0dce8a760962',
         '2022-05-15T15:11:17.468841+00:00'
+    ),
+    (
+        'DAB',
+        '9156480539798360',
+        '1010',
+        '6f6c346d-6d32-4e85-87ef-a485ca497754',
+        '2022-05-16T14:38:24.723078+00:00'
     );
 
 -- Populate data for the user_cards table.
@@ -528,6 +545,13 @@ VALUES
         'MSB',
         '6504024219549778',
         '2022-05-15T15:11:53.280798+00:00'
+    ),
+    (
+        '33b0706f-a8bd-4006-9be2-9b3f414b80fb',
+        '6f6c346d-6d32-4e85-87ef-a485ca497754',
+        'DAB',
+        '9156480539798360',
+        '2022-05-16T14:38:53.484341+00:00'
     );
 
 -- Populate data for the outlets table.
@@ -596,6 +620,14 @@ VALUES
         '123, That str, This ward, Middle of nowhere',
         NULL,
         '2022-05-02T10:29:47.413156+00:00'
+    ),
+    (
+        '73332efc-8287-4d54-9193-8787f6a06caf',
+        '6f6c346d-6d32-4e85-87ef-a485ca497754',
+        'Televia',
+        'District 7, HCMC',
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/6b8364b2-1768-4d92-9d4e-d5e536012331.png',
+        '2022-05-16T13:47:24.918213+00:00'
     ),
     (
         'a80ce879-fcf5-4561-8d16-b2c8c4d18cbd',
@@ -761,12 +793,6 @@ VALUES
         '2022-05-11T07:04:42.709525+00:00'
     ),
     (
-        '95c12621-ce39-494b-ba7f-6bce0adee1cf',
-        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
-        'Lip',
-        '2022-05-11T07:04:48.475805+00:00'
-    ),
-    (
         '6be7b200-2694-4fb4-a14f-0100b3a7eccb',
         '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
         'G-Shock',
@@ -789,6 +815,18 @@ VALUES
         '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
         'Casio',
         '2022-05-11T04:33:19.851293+00:00'
+    ),
+    (
+        'e1358e6d-c4e9-4fcf-a34b-815fe3906fc3',
+        '73332efc-8287-4d54-9193-8787f6a06caf',
+        'Samsung',
+        '2022-05-16T13:51:55.169329+00:00'
+    ),
+    (
+        '45f5474e-83fe-4dbd-9fb2-f86a643996a4',
+        '73332efc-8287-4d54-9193-8787f6a06caf',
+        'LG',
+        '2022-05-16T13:52:01.597662+00:00'
     );
 
 -- Populate data for the products table.
@@ -2075,14 +2113,24 @@ VALUES
         '2022-05-11T07:23:05.102674+00:00'
     ),
     (
-        '5ac46e85-3f9b-46ad-af64-9af5c50418fc',
-        '5d15b35e-d185-4bd4-b0f7-dca3dac4a0e2',
-        'Brown shoe',
+        '573ffc3e-d965-438d-a214-1c4b2a81f31c',
+        '73332efc-8287-4d54-9193-8787f6a06caf',
+        'Smart TV 4K QLED 85 inch Q70B 2022',
         NULL,
-        19.99,
+        3242.78,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/688d6196-0d1c-4051-af2c-b6d9cbea2e81.webp',
+        'e1358e6d-c4e9-4fcf-a34b-815fe3906fc3',
+        '2022-05-16T13:58:50.975104+00:00'
+    ),
+    (
+        'dd424a94-d124-47ca-a9ad-ac662c26c97c',
+        '73332efc-8287-4d54-9193-8787f6a06caf',
+        'Smart TV 8K Neo QLED 65 inch QN900B 2022',
         NULL,
-        NULL,
-        '2022-05-15T10:51:02.696984+00:00'
+        4758.08,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/e52ddfb7-a538-4a1d-b5e9-3109172e3e22.webp',
+        'e1358e6d-c4e9-4fcf-a34b-815fe3906fc3',
+        '2022-05-16T13:54:07.826854+00:00'
     ),
     (
         'd2334224-d541-477e-a458-2b1b9fc035c5',
@@ -2093,6 +2141,26 @@ VALUES
         'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/3866effa-6a6f-4fd9-abdb-3083b21038b4.jpeg',
         '948ec544-6280-4a20-a804-39cbeba9c0c8',
         '2022-05-11T08:13:24.544306+00:00'
+    ),
+    (
+        '2f989689-eff6-4cb0-aafc-e2170cab3931',
+        '73332efc-8287-4d54-9193-8787f6a06caf',
+        'LG G1 65 inch 4K Smart OLED TV',
+        NULL,
+        3041,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/bba5af84-ceae-488d-b83a-cfe7b662c631.webp',
+        '45f5474e-83fe-4dbd-9fb2-f86a643996a4',
+        '2022-05-16T13:53:08.753236+00:00'
+    ),
+    (
+        '5ac46e85-3f9b-46ad-af64-9af5c50418fc',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Brown shoe',
+        NULL,
+        19.99,
+        NULL,
+        NULL,
+        '2022-05-15T10:51:02.696984+00:00'
     );
 
 -- Populate data for the wishlisted_products table.
@@ -2545,6 +2613,69 @@ VALUES
         '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
         125.35,
         '2022-05-16T03:05:49.342449+00:00'
+    ),
+    (
+        '22b0a9cd-06fe-4236-b207-7ffbb811309d',
+        '6f6c346d-6d32-4e85-87ef-a485ca497754',
+        '33b0706f-a8bd-4006-9be2-9b3f414b80fb',
+        '4d476ac8-5152-41f4-bec7-74f4bf7a2ebd',
+        '73332efc-8287-4d54-9193-8787f6a06caf',
+        3041,
+        '2022-05-16T14:40:16.544756+00:00'
+    ),
+    (
+        'f95cb764-d473-4975-8287-da472f6ec8fe',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        100,
+        '2022-05-16T15:56:31.275759+00:00'
+    ),
+    (
+        '300d0df5-9e00-49b1-b000-be57b114bb48',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        100,
+        '2022-05-16T15:57:21.018493+00:00'
+    ),
+    (
+        'c721da61-5c86-4abf-b84f-de75e99c6c6e',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        10,
+        '2022-05-16T16:03:18.985222+00:00'
+    ),
+    (
+        'fe7ff3e8-cf1c-489c-83cf-39e7f2f66a5f',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        88,
+        '2022-05-16T16:06:54.460437+00:00'
+    ),
+    (
+        '8f75c3b9-4e8b-48ce-b46e-4c0b3e2870ec',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        459.9,
+        '2022-05-16T16:07:26.295538+00:00'
+    ),
+    (
+        'f4cbc1ba-f515-4035-b3fd-d080303ec83a',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        '73332efc-8287-4d54-9193-8787f6a06caf',
+        3041,
+        '2022-05-16T16:10:26.416738+00:00'
     );
 
 -- Populate data for the bill_products table.
@@ -2849,6 +2980,41 @@ VALUES
     (
         '17e4435e-5114-49f1-bdae-f0eb3dcc27c5',
         '1f35c79e-9a70-4a2c-a731-0203270ecd69',
+        1
+    ),
+    (
+        '22b0a9cd-06fe-4236-b207-7ffbb811309d',
+        '2f989689-eff6-4cb0-aafc-e2170cab3931',
+        1
+    ),
+    (
+        'f95cb764-d473-4975-8287-da472f6ec8fe',
+        '7df4bc18-2a56-4f7f-9fd4-28fc7835450b',
+        10
+    ),
+    (
+        '300d0df5-9e00-49b1-b000-be57b114bb48',
+        '7df4bc18-2a56-4f7f-9fd4-28fc7835450b',
+        10
+    ),
+    (
+        'c721da61-5c86-4abf-b84f-de75e99c6c6e',
+        '7df4bc18-2a56-4f7f-9fd4-28fc7835450b',
+        1
+    ),
+    (
+        'fe7ff3e8-cf1c-489c-83cf-39e7f2f66a5f',
+        '91e3dc42-9663-4082-b997-cd975a00c163',
+        8
+    ),
+    (
+        '8f75c3b9-4e8b-48ce-b46e-4c0b3e2870ec',
+        '0a2461ae-a00e-4104-8821-03de44818571',
+        10
+    ),
+    (
+        'f4cbc1ba-f515-4035-b3fd-d080303ec83a',
+        '2f989689-eff6-4cb0-aafc-e2170cab3931',
         1
     );
 
