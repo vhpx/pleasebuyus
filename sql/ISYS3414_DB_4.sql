@@ -121,8 +121,10 @@ CREATE TABLE public.products (
     avatar_url TEXT,
     created_at TIMESTAMPTZ(6),
     PRIMARY KEY(id),
-    FOREIGN KEY(outlet_id) REFERENCES outlets(id),
-    FOREIGN KEY(category_id) REFERENCES outlet_categories(id)
+    FOREIGN KEY(outlet_id) REFERENCES outlets(id) ON DELETE CASCADE,
+    FOREIGN KEY(category_id) REFERENCES outlet_categories(id) ON DELETE
+    SET
+        NULL
 );
 
 CREATE TABLE public.bill_coupons (
