@@ -27,14 +27,14 @@ CREATE TABLE public.addresses (
     street_info TEXT,
     created_at TIMESTAMPTZ(6),
     PRIMARY KEY(id),
-    FOREIGN KEY(user_id) REFERENCES users(id)
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE public.admins (
     user_id UUID,
     created_at TIMESTAMPTZ(6),
     PRIMARY KEY(user_id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE public.banks (
@@ -62,8 +62,8 @@ CREATE TABLE public.user_cards (
     card_number TEXT,
     created_at TIMESTAMPTZ(6),
     PRIMARY KEY(id),
-    FOREIGN KEY(user_id) REFERENCES users(id),
-    FOREIGN KEY(bank_code) REFERENCES banks(code)
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY(bank_code) REFERENCES banks(code) ON DELETE CASCADE
 );
 
 CREATE TABLE public.outlets (
@@ -86,10 +86,16 @@ CREATE TABLE public.bills (
     total FLOAT8,
     created_at TIMESTAMPTZ(6),
     PRIMARY KEY(id),
-    FOREIGN KEY(customer_id) REFERENCES users(id),
-    FOREIGN KEY(address_id) REFERENCES addresses(id),
-    FOREIGN KEY(outlet_id) REFERENCES outlets(id),
-    FOREIGN KEY(card_id) REFERENCES user_cards(id)
+    FOREIGN KEY(customer_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY(address_id) REFERENCES addresses(id) ON DELETE
+    SET
+        NULL,
+        FOREIGN KEY(outlet_id) REFERENCES outlets(id) ON DELETE
+    SET
+        NULL,
+        FOREIGN KEY(card_id) REFERENCES user_cards(id) ON DELETE
+    SET
+        NULL
 );
 
 CREATE TABLE public.coupons (
@@ -108,7 +114,7 @@ CREATE TABLE public.outlet_categories (
     name TEXT,
     created_at TIMESTAMPTZ(6),
     PRIMARY KEY(id),
-    FOREIGN KEY(outlet_id) REFERENCES outlets(id)
+    FOREIGN KEY(outlet_id) REFERENCES outlets(id) ON DELETE CASCADE
 );
 
 CREATE TABLE public.products (
@@ -131,8 +137,10 @@ CREATE TABLE public.bill_coupons (
     bill_id UUID,
     coupon_id UUID,
     PRIMARY KEY(bill_id, coupon_id),
-    FOREIGN KEY(bill_id) REFERENCES bills(id),
-    FOREIGN KEY(coupon_id) REFERENCES coupons(id)
+    FOREIGN KEY(bill_id) REFERENCES bills(id) ON DELETE CASCADE,
+    FOREIGN KEY(coupon_id) REFERENCES coupons(id) ON DELETE
+    SET
+        NULL
 );
 
 CREATE TABLE public.bill_products (
@@ -140,8 +148,8 @@ CREATE TABLE public.bill_products (
     product_id UUID,
     amount INT2,
     PRIMARY KEY(bill_id, product_id),
-    FOREIGN KEY(bill_id) REFERENCES bills(id),
-    FOREIGN KEY(product_id) REFERENCES products(id)
+    FOREIGN KEY(bill_id) REFERENCES bills(id) ON DELETE CASCADE,
+    FOREIGN KEY(product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
 CREATE TABLE public.memberships (
@@ -149,7 +157,7 @@ CREATE TABLE public.memberships (
     redeemable_pts INT4,
     progress_pts INT4,
     PRIMARY KEY(user_id),
-    FOREIGN KEY(user_id) REFERENCES users(id)
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE public.wishlisted_products (
@@ -157,8 +165,8 @@ CREATE TABLE public.wishlisted_products (
     product_id UUID,
     created_at TIMESTAMPTZ(6),
     PRIMARY KEY(user_id, product_id),
-    FOREIGN KEY(user_id) REFERENCES users(id),
-    FOREIGN KEY(product_id) REFERENCES products(id)
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY(product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
 -- To delete all existing tables in Supabase, run the following query:
