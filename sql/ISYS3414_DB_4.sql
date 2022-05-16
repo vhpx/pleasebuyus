@@ -1,8 +1,11 @@
 -- This database creation script is used to create/delete the database and tables for the ISYS3414_DB_4 project.
--- It has been fully tested and works correctly using a PostgreSQL database provided by Supabase (https://app.supabase.io/).
+-- It has been fully tested and works correctly using a PostgreSQL (v14) database provided by Supabase (https://app.supabase.io/).
+--
 -- To test this script, you should create a project in Supabase,
 -- Then, visit https://app.supabase.io/project/[project-id]/sql and run the following query:
-CREATE TABLE users (
+-- NOTE: By default, the database is created in the `public` schema.
+--
+CREATE TABLE public.users (
     id UUID,
     name TEXT,
     email TEXT,
@@ -14,7 +17,7 @@ CREATE TABLE users (
     PRIMARY KEY(id)
 );
 
-CREATE TABLE addresses (
+CREATE TABLE public.addresses (
     id UUID,
     user_id UUID,
     name TEXT,
@@ -27,14 +30,14 @@ CREATE TABLE addresses (
     FOREIGN KEY(user_id) REFERENCES users(id)
 );
 
-CREATE TABLE admins (
+CREATE TABLE public.admins (
     user_id UUID,
     created_at TIMESTAMPTZ(6),
     PRIMARY KEY(user_id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-CREATE TABLE banks (
+CREATE TABLE public.banks (
     code TEXT,
     name TEXT,
     short_name TEXT,
@@ -42,18 +45,17 @@ CREATE TABLE banks (
     PRIMARY KEY(code)
 );
 
-CREATE TABLE bank_cards (
+CREATE TABLE public.bank_cards (
     bank_code TEXT,
     card_number TEXT,
     owner_id UUID,
-    balance INT8,
     created_at TIMESTAMPTZ(6),
     PIN TEXT,
     PRIMARY KEY(bank_code, card_number),
     FOREIGN KEY(bank_code) REFERENCES banks(code) ON DELETE CASCADE
 );
 
-CREATE TABLE user_cards (
+CREATE TABLE public.user_cards (
     id UUID,
     user_id UUID,
     bank_code TEXT,
@@ -64,7 +66,7 @@ CREATE TABLE user_cards (
     FOREIGN KEY(bank_code) REFERENCES banks(code)
 );
 
-CREATE TABLE outlets (
+CREATE TABLE public.outlets (
     id UUID,
     owner_id UUID,
     name TEXT,
@@ -75,7 +77,7 @@ CREATE TABLE outlets (
     FOREIGN KEY(owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE TABLE bills (
+CREATE TABLE public.bills (
     id UUID,
     customer_id UUID,
     card_id UUID,
@@ -90,18 +92,17 @@ CREATE TABLE bills (
     FOREIGN KEY(card_id) REFERENCES user_cards(id)
 );
 
-CREATE TABLE coupons (
+CREATE TABLE public.coupons (
     id UUID,
     code TEXT,
     name TEXT,
     value FLOAT4,
     use_ratio BOOL,
-    active BOOL,
     created_at TIMESTAMPTZ(6),
     PRIMARY KEY(id)
 );
 
-CREATE TABLE outlet_categories (
+CREATE TABLE public.outlet_categories (
     id UUID,
     outlet_id UUID,
     name TEXT,
@@ -110,7 +111,7 @@ CREATE TABLE outlet_categories (
     FOREIGN KEY(outlet_id) REFERENCES outlets(id)
 );
 
-CREATE TABLE products (
+CREATE TABLE public.products (
     id UUID,
     outlet_id UUID,
     category_id UUID,
@@ -124,7 +125,7 @@ CREATE TABLE products (
     FOREIGN KEY(category_id) REFERENCES outlet_categories(id)
 );
 
-CREATE TABLE bill_coupons (
+CREATE TABLE public.bill_coupons (
     bill_id UUID,
     coupon_id UUID,
     PRIMARY KEY(bill_id, coupon_id),
@@ -132,7 +133,7 @@ CREATE TABLE bill_coupons (
     FOREIGN KEY(coupon_id) REFERENCES coupons(id)
 );
 
-CREATE TABLE bill_products (
+CREATE TABLE public.bill_products (
     bill_id UUID,
     product_id UUID,
     amount INT2,
@@ -141,7 +142,7 @@ CREATE TABLE bill_products (
     FOREIGN KEY(product_id) REFERENCES products(id)
 );
 
-CREATE TABLE memberships (
+CREATE TABLE public.memberships (
     user_id UUID,
     redeemable_pts INT4,
     progress_pts INT4,
@@ -149,7 +150,7 @@ CREATE TABLE memberships (
     FOREIGN KEY(user_id) REFERENCES users(id)
 );
 
-CREATE TABLE wishlisted_products (
+CREATE TABLE public.wishlisted_products (
     user_id UUID,
     product_id UUID,
     created_at TIMESTAMPTZ(6),

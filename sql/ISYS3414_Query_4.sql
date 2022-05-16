@@ -1,0 +1,3015 @@
+-- Please refer to the 'ISYS3414_DB_4.sql' if you have not yet
+-- created the database and tables for this project.
+-- By default, Supabase uses the `public` schema.
+--
+-- Populate data for the users table.
+INSERT INTO
+    public.users(
+        id,
+        name,
+        email,
+        phone_number,
+        birthday,
+        gender,
+        avatar_url,
+        created_at
+    )
+VALUES
+    (
+        '33971715-cfac-45c0-8af3-982cecd50c3c',
+        'Nhat Luu',
+        'pbu-nhatluu@pleasebuy.us',
+        '1233211233',
+        '2003-11-24',
+        'male',
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/e555b033-7e74-4254-8859-43f03078005c.png',
+        '2022-05-02T10:29:40.216065+00:00'
+    ),
+    (
+        '6f6c346d-6d32-4e85-87ef-a485ca497754',
+        'Outlet Manager',
+        'seller@pleasebuy.us',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2022-05-11T09:43:30.735367+00:00'
+    ),
+    (
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'Võ Hoàng Phúc',
+        'pbu-vhp@pleasebuy.us',
+        '3652637383',
+        '2003-08-07',
+        'male',
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/0.89067722223734.png',
+        '2022-04-28T09:33:27.796493+00:00'
+    ),
+    (
+        '624be7e8-77eb-44af-9d10-d5873301dd3d',
+        'Tester 1',
+        'pbu-test1@pleasebuy.us',
+        NULL,
+        NULL,
+        'other',
+        NULL,
+        '2022-05-10T16:37:53.022715+00:00'
+    ),
+    (
+        '46b636e8-57a1-4bb9-bb3a-0bb2fa3291ea',
+        NULL,
+        'pbu-test2@pleasebuy.us',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2022-05-15T12:25:23.045112+00:00'
+    ),
+    (
+        'ff6f1810-fcd1-4559-9f27-ee258f576039',
+        'Krusk',
+        'pbu-luong@pleasebuy.us',
+        '911',
+        '2003-04-03',
+        'male',
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/0.9264243579223208.jpg',
+        '2022-04-28T10:25:59.997192+00:00'
+    ),
+    (
+        'faed677f-8cae-4207-b678-48091138bcec',
+        NULL,
+        'pbu-tester3@pleasebuy.us',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2022-05-11T04:36:42.294486+00:00'
+    ),
+    (
+        '86b87f95-2442-44aa-8ffa-3cadba30384a',
+        'Website Admin',
+        'admin@pleasebuy.us',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2022-05-11T09:41:35.499018+00:00'
+    ),
+    (
+        '82a19f36-3f3d-4674-b879-6a5e50c72750',
+        'Customer',
+        'customer@pleasebuy.us',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '2022-05-11T09:42:34.019932+00:00'
+    ),
+    (
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'Anh Thư',
+        'pbu-thu@pleasebuy.us',
+        '6748392743',
+        '2003-07-02',
+        'female',
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/8d57fca0-e29f-4c87-8994-588f61bb9b4f.JPG',
+        '2022-04-28T10:19:26.470557+00:00'
+    );
+
+-- Populate data for the memberships table.
+INSERT INTO
+    public.memberships(user_id, redeemable_pts, progress_pts)
+VALUES
+    ('ff6f1810-fcd1-4559-9f27-ee258f576039', 0, 0),
+    ('33971715-cfac-45c0-8af3-982cecd50c3c', 0, 0),
+    ('cfe1575d-7566-444c-a353-0dce8a760962', 0, 400),
+    ('624be7e8-77eb-44af-9d10-d5873301dd3d', 0, 0),
+    ('faed677f-8cae-4207-b678-48091138bcec', 0, 0),
+    ('86b87f95-2442-44aa-8ffa-3cadba30384a', 0, 0),
+    ('82a19f36-3f3d-4674-b879-6a5e50c72750', 0, 0),
+    ('6f6c346d-6d32-4e85-87ef-a485ca497754', 0, 0),
+    ('46b636e8-57a1-4bb9-bb3a-0bb2fa3291ea', 0, 0),
+    ('89508b5b-59f0-4503-9a2e-454c0fa14991', 0, 932);
+
+-- Populate data for the admins table.
+INSERT INTO
+    public.admins(user_id, created_at)
+VALUES
+    (
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        '2022-05-14T08:10:41+00:00'
+    ),
+    (
+        'ff6f1810-fcd1-4559-9f27-ee258f576039',
+        '2022-05-14T08:20:15+00:00'
+    ),
+    (
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        '2022-05-14T08:20:19+00:00'
+    ),
+    (
+        '33971715-cfac-45c0-8af3-982cecd50c3c',
+        '2022-05-15T07:44:15.079921+00:00'
+    ),
+    (
+        '86b87f95-2442-44aa-8ffa-3cadba30384a',
+        '2022-05-15T08:36:32.833212+00:00'
+    );
+
+-- Populate data for the addresses table.
+INSERT INTO
+    public.addresses(
+        id,
+        user_id,
+        name,
+        country,
+        province,
+        city,
+        street_info,
+        created_at
+    )
+VALUES
+    (
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'Home',
+        'Vietnam',
+        NULL,
+        'Ho Chi Minh',
+        '27 Nguyen Huu Tho, District 7',
+        '2022-04-28T17:17:15.788893+00:00'
+    ),
+    (
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'Home',
+        'Vietnam',
+        'Ben Tre',
+        'Ben Tre',
+        '100D Hung Vuong, ward 5',
+        '2022-04-29T09:16:18.98232+00:00'
+    ),
+    (
+        '4e36c0e5-291d-441b-8611-4a617399b987',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'School',
+        'Vietnam',
+        NULL,
+        'Ho Chi Minh',
+        '702 Nguyen Van Linh, District 7',
+        '2022-04-28T17:22:35.034949+00:00'
+    ),
+    (
+        '6c2f0efe-c832-4e3d-bdc8-bb843a037915',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'Hostel',
+        'Vietnam',
+        NULL,
+        'Ho Chi Minh',
+        'Tan Phong ward, district 7',
+        '2022-05-14T06:52:35.540198+00:00'
+    ),
+    (
+        'd1c1eb8e-f35d-43fd-b2fb-3d6f07673871',
+        '33971715-cfac-45c0-8af3-982cecd50c3c',
+        'Home',
+        'Vietnam',
+        NULL,
+        'Quang Ngai',
+        'Le Loi',
+        '2022-05-03T02:09:42.235066+00:00'
+    ),
+    (
+        '480703eb-75dd-4a76-8750-a6e482c396e2',
+        '46b636e8-57a1-4bb9-bb3a-0bb2fa3291ea',
+        'Home',
+        'United States',
+        'Georgia',
+        'a',
+        'b',
+        '2022-05-15T12:26:50.07774+00:00'
+    );
+
+-- Populate data for the banks table.
+INSERT INTO
+    public.banks(code, name, short_name, created_at)
+VALUES
+    (
+        'DAB',
+        'Dong A Commercial Joint Stock Bank',
+        'Dong A Bank',
+        '2022-05-03T04:14:33+00:00'
+    ),
+    (
+        'SB',
+        'Southeast Asia Commercial Joint Stock Bank',
+        'SeABank',
+        '2022-05-03T04:14:52+00:00'
+    ),
+    (
+        'BAB',
+        'Bac A Commercial Joint Stock Bank',
+        'Bac A Bank',
+        '2022-05-03T04:15:26+00:00'
+    ),
+    (
+        'TCB',
+        'VietNam Technological and Commercial Joint Stock Bank',
+        'Techcombank',
+        '2022-05-03T04:16:32+00:00'
+    ),
+    (
+        'KLB',
+        'Kien Long Commercial Joint Stock Bank',
+        'Kien Long Bank',
+        '2022-05-03T04:16:45+00:00'
+    ),
+    (
+        'NAB',
+        'Nam A Comercial Join Stock Bank',
+        'Nam A Bank',
+        '2022-05-03T04:17:04+00:00'
+    ),
+    (
+        'NCB',
+        'National Citizen Commercial Joint Stock Bank',
+        'National Citizen Bank',
+        '2022-05-03T04:17:13+00:00'
+    ),
+    (
+        'TPB',
+        'Tien Phong Commercial Joint Stock Bank',
+        'TPBank',
+        '2022-05-03T04:17:37+00:00'
+    ),
+    (
+        'VPB',
+        'Vietnam Prosperity Joint Stock Commercial Bank',
+        'VPBank',
+        '2022-05-03T04:17:45+00:00'
+    ),
+    (
+        'HDB',
+        'Ho Chi Minh City Housing Development Bank',
+        'HDBank',
+        '2022-05-03T04:17:57+00:00'
+    ),
+    (
+        'PVB',
+        'Vietnam Public Joint Stock Commercial Bank',
+        'PVcombank',
+        '2022-05-03T04:18:42+00:00'
+    ),
+    (
+        'MB',
+        'Military Commercial Joint Stock Bank',
+        'Military Bank',
+        '2022-05-03T04:18:19+00:00'
+    ),
+    (
+        'SGB',
+        'Saigon Bank for Industry and Trade',
+        'Saigonbank',
+        '2022-05-03T04:19:34+00:00'
+    ),
+    (
+        'SGHNB',
+        'Saigon - Hanoi Commercial Joint Stock Bank',
+        'Saigon Hanoi Bank',
+        '2022-05-03T04:19:48+00:00'
+    ),
+    (
+        'STB',
+        'Sai Gon Thuong Tin Commercial Joint Stock Bank',
+        'Sacombank',
+        '2022-05-03T04:20:23+00:00'
+    ),
+    (
+        'VAB',
+        'Vietnam Asia Commercial Joint Stock Bank',
+        'Viet A Bank',
+        '2022-05-03T04:21:21+00:00'
+    ),
+    (
+        'BVB',
+        'Bao Viet Joint Stock Commercial Bank',
+        'Bao Viet Bank',
+        '2022-05-03T04:21:36+00:00'
+    ),
+    (
+        'PGB',
+        'Joint Stock Commercia Petrolimex Bank',
+        'Petrolimex Group Bank',
+        '2022-05-03T04:21:51+00:00'
+    ),
+    (
+        'EIB',
+        'Vietnam Joint Stock Commercial Vietnam Export Import Bank',
+        'Exim Bank',
+        '2022-05-03T04:22:17+00:00'
+    ),
+    (
+        'LPB',
+        'Joint stock commercial Lien Viet postal bank',
+        'Lien Viet Post Bank',
+        '2022-05-03T04:22:33+00:00'
+    ),
+    (
+        'CB',
+        'Construction Bank',
+        'Construction Bank',
+        '2022-05-03T04:22:57+00:00'
+    ),
+    (
+        'OIB',
+        'Ocean Commercial One Member Limited Liability Bank',
+        'Ocean Bank',
+        '2022-05-03T04:23:07+00:00'
+    ),
+    (
+        'GPB',
+        'Global Petro Commercial Joint Stock Bank',
+        'Global Petro Bank',
+        '2022-05-03T04:23:25+00:00'
+    ),
+    (
+        'AB',
+        'Vietnam Bank for Agriculture and Rural Development',
+        'Agribank',
+        '2022-05-03T04:23:53+00:00'
+    ),
+    (
+        'SHB',
+        'Shinhan Vietnam Bank Limited',
+        'Shinhan Bank',
+        '2022-05-03T04:24:06+00:00'
+    ),
+    (
+        'VCB',
+        'JSC Bank for Foreign Trade of Vietnam',
+        'Vietcombank',
+        '2022-05-03T04:24:54+00:00'
+    ),
+    (
+        'ACB',
+        'Asia Commercial Joint Stock Bank',
+        'Asia Commercial Bank',
+        '2022-05-03T04:14:22+00:00'
+    ),
+    (
+        'MSB',
+        'Vietnam Maritime Joint Stock Commercial Bank',
+        'Maritime Commercial Bank',
+        '2022-05-03T04:16:14+00:00'
+    ),
+    (
+        'OCB',
+        'Orient Commercial Joint Stock Bank',
+        'Orient Commercial Bank',
+        '2022-05-03T04:18:09+00:00'
+    ),
+    (
+        'VIB',
+        'Vietnam International and Commercial Joint Stock Bank',
+        'Vietnam International Bank',
+        '2022-05-03T04:19:15+00:00'
+    ),
+    (
+        'VNCB',
+        'Vietcapital Commercial Joint Stock Bank',
+        'Viet Capital Bank',
+        '2022-05-03T04:15:38+00:00'
+    ),
+    (
+        'VTB',
+        'Vietnam Joint Stock Commercial Bank for Industry and Trade',
+        'Vietinbank',
+        '2022-05-03T04:25:05+00:00'
+    ),
+    (
+        'HSBC',
+        'The Hongkong and Shanghai Banking Corporation Limited',
+        'HSBC',
+        '2022-05-03T04:24:23+00:00'
+    ),
+    (
+        'BIDV',
+        'JSC Bank for Investment and Development of Vietnam',
+        'BIDV',
+        '2022-05-03T04:22:48+00:00'
+    ),
+    (
+        'ABB',
+        'An Binh Commercial Joint Stock Bank',
+        'An Binh Bank',
+        '2022-05-03T04:15:05+00:00'
+    );
+
+-- Populate data for the bank_cards table.
+INSERT INTO
+    public.bank_cards(
+        bank_code,
+        card_number,
+        PIN,
+        owner_id,
+        created_at
+    )
+VALUES
+    (
+        'HSBC',
+        '7354997536493022',
+        '9423',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        '2022-05-04T08:20:51.013966+00:00'
+    ),
+    (
+        'MB',
+        '8481065162488215',
+        '0197',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        '2022-05-04T08:22:17.510422+00:00'
+    ),
+    (
+        'MB',
+        '2384014992559717',
+        '7791',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        '2022-05-13T16:01:20.999282+00:00'
+    ),
+    (
+        'VCB',
+        '2687628679756666',
+        '8690',
+        '46b636e8-57a1-4bb9-bb3a-0bb2fa3291ea',
+        '2022-05-15T12:27:13.57046+00:00'
+    ),
+    (
+        'MSB',
+        '6504024219549778',
+        '3322',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        '2022-05-15T15:11:17.468841+00:00'
+    );
+
+-- Populate data for the user_cards table.
+INSERT INTO
+    public.user_cards(id, user_id, bank_code, card_number, created_at)
+VALUES
+    (
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'MB',
+        '2384014992559717',
+        '2022-05-13T16:01:44.79715+00:00'
+    ),
+    (
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'HSBC',
+        '7354997536493022',
+        '2022-05-13T18:18:56.396062+00:00'
+    ),
+    (
+        '022e8179-3c08-48e1-b73f-21e141866e70',
+        '46b636e8-57a1-4bb9-bb3a-0bb2fa3291ea',
+        'VCB',
+        '2687628679756666',
+        '2022-05-15T12:27:30.701046+00:00'
+    ),
+    (
+        'b80cd86d-4a24-47c5-b807-2c886fe26b3c',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'MSB',
+        '6504024219549778',
+        '2022-05-15T15:11:53.280798+00:00'
+    );
+
+-- Populate data for the outlets table.
+INSERT INTO
+    public.outlets(
+        id,
+        owner_id,
+        name,
+        address,
+        avatar_url,
+        created_at
+    )
+VALUES
+    (
+        '16d8a595-548b-48ed-bb7e-9044f15bdb7e',
+        '33971715-cfac-45c0-8af3-982cecd50c3c',
+        'EXODUS',
+        'District 7, HCM City',
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/6679abaa-b346-48de-9c1c-cf8e7e3ad43c.png',
+        '2022-05-03T02:12:24.379202+00:00'
+    ),
+    (
+        'bcbb10dd-413c-42f1-9e38-92bb3b14c3cc',
+        '33971715-cfac-45c0-8af3-982cecd50c3c',
+        'Tagline',
+        'Quang Ngai City',
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/bc392289-0675-4886-b7c4-01ec1a8f4265.jpg',
+        '2022-05-03T02:13:47.594172+00:00'
+    ),
+    (
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        '33971715-cfac-45c0-8af3-982cecd50c3c',
+        'POPwatch',
+        'District 8, HCM City ',
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/84ebec23-74dc-4871-9024-7cdbf78cfe3a.jpg',
+        '2022-05-03T02:13:24.38325+00:00'
+    ),
+    (
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'Mimishop',
+        'District 9, HCMC',
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/7d915f61-00f9-43cc-80e6-06c60e8311ec.jpg',
+        '2022-05-11T06:59:00.286887+00:00'
+    ),
+    (
+        '7401b581-fa1e-4c97-a05f-f98e08f77ad5',
+        '33971715-cfac-45c0-8af3-982cecd50c3c',
+        'Nothing shop',
+        NULL,
+        NULL,
+        '2022-05-03T02:13:31.493459+00:00'
+    ),
+    (
+        '5d15b35e-d185-4bd4-b0f7-dca3dac4a0e2',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'Shopea',
+        '123 Nguyen Thi Minh Khai',
+        NULL,
+        '2022-05-15T10:50:03.199265+00:00'
+    ),
+    (
+        '3aca1d19-9154-4acd-9aec-9762814ce6f7',
+        'ff6f1810-fcd1-4559-9f27-ee258f576039',
+        'Gone Bankrupt',
+        '123, That str, This ward, Middle of nowhere',
+        NULL,
+        '2022-05-02T10:29:47.413156+00:00'
+    ),
+    (
+        'a80ce879-fcf5-4561-8d16-b2c8c4d18cbd',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'Tikia',
+        '56372 Nguyen Van Linh',
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/4a4581a4-0eb4-44dd-b3ad-bea1b9ab2999.png',
+        '2022-05-02T10:26:39.666481+00:00'
+    ),
+    (
+        'af90fd0b-aa78-4a14-9a45-a9cf56d616ee',
+        '33971715-cfac-45c0-8af3-982cecd50c3c',
+        'ALDObags',
+        'District 1, HCM City',
+        NULL,
+        '2022-05-03T02:13:38.37753+00:00'
+    ),
+    (
+        '7fac4847-e695-42df-a1ba-c8b1571c9c11',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'Techshop',
+        'District 7, HCM city',
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/1253ac19-0b0c-4eee-990e-6fa997498f0f.webp',
+        '2022-05-02T10:28:23.256886+00:00'
+    ),
+    (
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'Meomeo shop',
+        'Ben Tre city',
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/09954498-466d-4a20-910d-c7ba7e0a63e5.webp',
+        '2022-05-02T10:27:56.160646+00:00'
+    );
+
+-- Populate data for the outlet_categories table.
+INSERT INTO
+    public.outlet_categories(id, outlet_id, name, created_at)
+VALUES
+    (
+        '89295d90-b237-4389-9270-076d5363013d',
+        'a80ce879-fcf5-4561-8d16-b2c8c4d18cbd',
+        'Cakes',
+        '2022-05-09T07:40:09.674554+00:00'
+    ),
+    (
+        'e474ed19-5ac9-4939-861a-2915715a4d71',
+        'a80ce879-fcf5-4561-8d16-b2c8c4d18cbd',
+        'Computers',
+        '2022-05-09T07:40:18.588712+00:00'
+    ),
+    (
+        '42baa25e-d432-4001-b15a-52b3445fe958',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Suncream',
+        '2022-05-10T05:04:47.932119+00:00'
+    ),
+    (
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Cleanser',
+        '2022-05-10T05:04:57.452285+00:00'
+    ),
+    (
+        'fdf20678-9196-4d3a-8d63-6b43a1cb2ac5',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Moisturizer',
+        '2022-05-10T05:05:07.95871+00:00'
+    ),
+    (
+        'a26c4644-9bce-4182-8d0e-9779d51e06bb',
+        '7fac4847-e695-42df-a1ba-c8b1571c9c11',
+        'TV',
+        '2022-05-11T05:43:08.323826+00:00'
+    ),
+    (
+        '9809ff9b-0ed3-4923-8dfb-35f62cab52c1',
+        '7fac4847-e695-42df-a1ba-c8b1571c9c11',
+        'Laptop',
+        '2022-05-11T05:43:14.809161+00:00'
+    ),
+    (
+        '128322ee-2c3c-4dcd-92de-8bf48c507557',
+        '7fac4847-e695-42df-a1ba-c8b1571c9c11',
+        'Screen',
+        '2022-05-11T05:43:20.052757+00:00'
+    ),
+    (
+        '948ec544-6280-4a20-a804-39cbeba9c0c8',
+        '7fac4847-e695-42df-a1ba-c8b1571c9c11',
+        'Smartphone',
+        '2022-05-11T05:43:38.69331+00:00'
+    ),
+    (
+        '4df870cd-cc2f-4847-bc23-2f3d939c29fb',
+        '7fac4847-e695-42df-a1ba-c8b1571c9c11',
+        'Tablet',
+        '2022-05-11T05:43:44.474018+00:00'
+    ),
+    (
+        'd1e22d52-e7bb-4833-926a-10947374360d',
+        '16d8a595-548b-48ed-bb7e-9044f15bdb7e',
+        'Nike',
+        '2022-05-11T05:56:50.702814+00:00'
+    ),
+    (
+        '28df7de0-2712-413f-9cf9-4c9299d3cd17',
+        '16d8a595-548b-48ed-bb7e-9044f15bdb7e',
+        'Adidas',
+        '2022-05-11T05:56:39.998232+00:00'
+    ),
+    (
+        '92b4658f-7a1e-4b4b-8a4b-9b643cb30ec3',
+        '16d8a595-548b-48ed-bb7e-9044f15bdb7e',
+        'Puma',
+        '2022-05-11T05:57:32.473427+00:00'
+    ),
+    (
+        '6c8dc95a-fa63-49bd-bb1d-524d78737146',
+        '16d8a595-548b-48ed-bb7e-9044f15bdb7e',
+        'Fila',
+        '2022-05-11T05:57:54.593791+00:00'
+    ),
+    (
+        'f42c6e4f-0ed1-4a9a-aaeb-2fcf91073306',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Toner / Lotion',
+        '2022-05-10T05:07:42.241067+00:00'
+    ),
+    (
+        '108b362e-d13f-4ed7-9593-e6ac6d156494',
+        'bcbb10dd-413c-42f1-9e38-92bb3b14c3cc',
+        'T-shirt',
+        '2022-05-11T06:11:18.922666+00:00'
+    ),
+    (
+        'd7bfa5cd-1e9a-49a1-aeb5-c92128e79b60',
+        'bcbb10dd-413c-42f1-9e38-92bb3b14c3cc',
+        'Jacket',
+        '2022-05-11T06:11:19.295288+00:00'
+    ),
+    (
+        '4aec37b1-f5bd-41a7-90df-f3cceff4bf9c',
+        'bcbb10dd-413c-42f1-9e38-92bb3b14c3cc',
+        'Jeans',
+        '2022-05-11T06:12:04.232617+00:00'
+    ),
+    (
+        '237b42dd-2a7a-4de1-8083-e49cb6d577af',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Serum',
+        '2022-05-11T06:25:37.452258+00:00'
+    ),
+    (
+        'c8512b70-afd4-4cc8-82ac-eeb43bb7624b',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Face',
+        '2022-05-11T07:04:38.738574+00:00'
+    ),
+    (
+        'a058c319-5bb7-4764-9b5f-83346012e0d0',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Eye',
+        '2022-05-11T07:04:42.709525+00:00'
+    ),
+    (
+        '95c12621-ce39-494b-ba7f-6bce0adee1cf',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Lip',
+        '2022-05-11T07:04:48.475805+00:00'
+    ),
+    (
+        '6be7b200-2694-4fb4-a14f-0100b3a7eccb',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        'G-Shock',
+        '2022-05-11T04:33:10.426351+00:00'
+    ),
+    (
+        'a1c197c0-2294-414d-8425-4f696996233e',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        'Ray-ban',
+        '2022-05-11T04:34:26.457411+00:00'
+    ),
+    (
+        'e70870fc-c128-40b1-83fe-9111207f219b',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        'Edifice',
+        '2022-05-11T04:34:07.446153+00:00'
+    ),
+    (
+        'fe05a9bd-6bc8-4628-bed0-b718eb3c92af',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        'Casio',
+        '2022-05-11T04:33:19.851293+00:00'
+    );
+
+-- Populate data for the products table.
+INSERT INTO
+    public.products(
+        id,
+        outlet_id,
+        name,
+        description,
+        price,
+        avatar_url,
+        category_id,
+        created_at
+    )
+VALUES
+    (
+        '0a2461ae-a00e-4104-8821-03de44818571',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        'Casio W-218H-4B2VDF watch',
+        NULL,
+        45.99,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/4ab06afe-5072-4861-a2bb-0287b8c5f961.webp',
+        'fe05a9bd-6bc8-4628-bed0-b718eb3c92af',
+        '2022-05-11T05:49:02.894385+00:00'
+    ),
+    (
+        '8da736f6-71f9-4126-9ca2-0ded3bdd39c5',
+        'a80ce879-fcf5-4561-8d16-b2c8c4d18cbd',
+        'Cake',
+        'A delicious red velvet cake',
+        5.99,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/f545a7d5-69b5-4b33-972b-7c6ddfe07a5a.jpg',
+        '89295d90-b237-4389-9270-076d5363013d',
+        '2022-05-09T03:52:55.119864+00:00'
+    ),
+    (
+        '1f35c79e-9a70-4a2c-a731-0203270ecd69',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        'G-Shock DW-5600BB watch',
+        NULL,
+        125.35,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/0e08b2f5-b5da-480e-ba79-8801a41914e4.webp',
+        '6be7b200-2694-4fb4-a14f-0100b3a7eccb',
+        '2022-05-11T04:32:47.355166+00:00'
+    ),
+    (
+        '7df4bc18-2a56-4f7f-9fd4-28fc7835450b',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Cosrx',
+        NULL,
+        10,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/9ca61343-c442-42eb-ae33-f1270d3d683e.webp',
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '2022-05-10T05:10:18.746054+00:00'
+    ),
+    (
+        'ca11a3be-52c8-4cda-807a-4c749308d5df',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Neutrogena',
+        NULL,
+        22,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/3387ac12-d9d1-4b74-b065-48051cd6345e.webp',
+        'fdf20678-9196-4d3a-8d63-6b43a1cb2ac5',
+        '2022-05-10T05:20:31.705069+00:00'
+    ),
+    (
+        '3b267e84-b1a2-4b34-934c-b70736de3e66',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Simple',
+        NULL,
+        14,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/f96de7c6-a2ca-4c84-b84a-fb5f20e525b8.webp',
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '2022-05-10T05:11:20.721919+00:00'
+    ),
+    (
+        '3787cad8-2cec-4470-9dd2-1b95fce83d27',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Garnier',
+        NULL,
+        15,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/b3087509-8e77-440b-ad6c-19905371d328.webp',
+        '42baa25e-d432-4001-b15a-52b3445fe958',
+        '2022-05-10T05:11:39.225937+00:00'
+    ),
+    (
+        'a163f2c0-6b3e-41ed-8dd9-35b79963fbb0',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Celtaphil',
+        NULL,
+        7,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/02aba186-7db5-4b71-be51-87c8f10f9935.webp',
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '2022-05-10T05:09:52.066669+00:00'
+    ),
+    (
+        '91e3dc42-9663-4082-b997-cd975a00c163',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Senka',
+        NULL,
+        11,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/641306e3-6105-4856-bb49-743d29e5b439.webp',
+        '42baa25e-d432-4001-b15a-52b3445fe958',
+        '2022-05-10T05:14:14.248321+00:00'
+    ),
+    (
+        '96ee99c7-c49b-4d3e-b447-0ab24bacf960',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'La Roche Possay',
+        NULL,
+        10,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/1f2afa0f-b997-4c6b-895c-56aabb2b79db.webp',
+        'fdf20678-9196-4d3a-8d63-6b43a1cb2ac5',
+        '2022-05-10T05:21:07.857866+00:00'
+    ),
+    (
+        '6b4af90e-d63d-4e1e-8cfb-e3217e67b922',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Celtaphil',
+        NULL,
+        17,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/849387ab-0def-4946-82fd-89b79ec7ce19.jpg',
+        'fdf20678-9196-4d3a-8d63-6b43a1cb2ac5',
+        '2022-05-10T05:20:49.690896+00:00'
+    ),
+    (
+        '57c528a0-b1c9-4fa4-9250-67b7367b1c64',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Simple ',
+        NULL,
+        12,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/d7bbfd4f-c667-471c-b5d1-8e9d8f2abf41.webp',
+        'fdf20678-9196-4d3a-8d63-6b43a1cb2ac5',
+        '2022-05-10T05:22:00.864812+00:00'
+    ),
+    (
+        '28d2000d-050b-4d53-8c03-f4b593628b4e',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Estee Lauder',
+        NULL,
+        70,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/7c8a62c1-7ba9-4b37-9119-099df900fd92.jpg',
+        'fdf20678-9196-4d3a-8d63-6b43a1cb2ac5',
+        '2022-05-10T05:21:41.668189+00:00'
+    ),
+    (
+        'a01707a0-9ad0-45e9-b1df-173ea92f04b7',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Bioderma',
+        NULL,
+        13,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/32a07480-839c-472f-b356-4e1828017263.webp',
+        'fdf20678-9196-4d3a-8d63-6b43a1cb2ac5',
+        '2022-05-11T04:56:35.028283+00:00'
+    ),
+    (
+        'b385bcc8-496a-41d3-b044-925a5c87aa12',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'I''m From ',
+        NULL,
+        15,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/c8da2189-47bb-402a-afca-7dd56efbda9f.jpg',
+        'fdf20678-9196-4d3a-8d63-6b43a1cb2ac5',
+        '2022-05-10T06:14:26.126073+00:00'
+    ),
+    (
+        'fca9aa21-3386-45a7-8fc3-d86d56812796',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Innisfree',
+        NULL,
+        14,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/ca89c1fe-3da7-4962-87d1-b9e425ad1a7e.webp',
+        'fdf20678-9196-4d3a-8d63-6b43a1cb2ac5',
+        '2022-05-10T05:22:14.880888+00:00'
+    ),
+    (
+        'f393f274-eb71-4155-9a2c-4b34eaea8923',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Avene',
+        NULL,
+        15,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/24ef6f18-2782-4b44-a154-a225e9f6dbc6.webp',
+        'fdf20678-9196-4d3a-8d63-6b43a1cb2ac5',
+        '2022-05-11T05:00:42.723483+00:00'
+    ),
+    (
+        'b7acd360-e172-471f-ab59-db0957957052',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        'Edifice EFV-630L watch',
+        NULL,
+        178.35,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/5d07dad1-8988-4fca-9f8a-853b468e733f.webp',
+        'e70870fc-c128-40b1-83fe-9111207f219b',
+        '2022-05-11T05:02:02.105619+00:00'
+    ),
+    (
+        'ca699447-272c-4ca2-97bf-51466153f26b',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        'Casio W-218H-4B2VDF watch',
+        NULL,
+        78.35,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/81f971f0-9e57-467d-b7fd-b405b4613515.webp',
+        'fe05a9bd-6bc8-4628-bed0-b718eb3c92af',
+        '2022-05-11T05:07:43.845134+00:00'
+    ),
+    (
+        '127a4c15-0e47-4ae3-97ca-df1119f8af81',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Innisfree',
+        NULL,
+        9,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/e78783bd-ff91-4679-8b55-edaab52ff0ed.webp',
+        'fdf20678-9196-4d3a-8d63-6b43a1cb2ac5',
+        '2022-05-11T04:57:59.30191+00:00'
+    ),
+    (
+        '79185f87-1ca4-4c3a-ab50-3fa348079fda',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        'Edifice EQS-930MDC-1A watch',
+        NULL,
+        250.35,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/8d3a3f2c-a7d0-4893-8176-6b70618dde0d.webp',
+        'e70870fc-c128-40b1-83fe-9111207f219b',
+        '2022-05-11T05:05:05.597726+00:00'
+    ),
+    (
+        '7972c6cf-1d43-4da1-ba2c-3a5117dadb86',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Innisfree',
+        NULL,
+        16,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/e3578a3e-e858-4ae9-a8da-35ccb612ce58.webp',
+        'fdf20678-9196-4d3a-8d63-6b43a1cb2ac5',
+        '2022-05-10T05:22:30.332972+00:00'
+    ),
+    (
+        '4c59a06d-e6a5-41ee-8678-4a074d686e1d',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        'Edifice EQS-930MDC-1A watch',
+        NULL,
+        125.35,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/4d56e2ae-6a9a-44de-a2e4-1c8db3d9ef69.webp',
+        'e70870fc-c128-40b1-83fe-9111207f219b',
+        '2022-05-11T05:06:24.732857+00:00'
+    ),
+    (
+        '022438f0-ee24-4c47-b10c-1e30615264e8',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Laneige',
+        NULL,
+        20,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/69acb3c6-4de7-4a73-acdb-d25000a94a86.webp',
+        'fdf20678-9196-4d3a-8d63-6b43a1cb2ac5',
+        '2022-05-11T05:00:25.07198+00:00'
+    ),
+    (
+        'cf417a83-cb4d-499f-ab2e-3843a2fa6d97',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        'Casio AE-1200WHD-1AVDF watch',
+        NULL,
+        75.35,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/ef77c9cf-a41e-4d8d-84dc-63f07ccd119a.webp',
+        'fe05a9bd-6bc8-4628-bed0-b718eb3c92af',
+        '2022-05-11T05:07:43.825176+00:00'
+    ),
+    (
+        '7486e88e-36c8-456a-ac99-a8cd03c64234',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        'G-shock AW-1460-2 watch',
+        NULL,
+        210.35,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/53aa81de-e721-44fc-b538-e4d7bb47460a.webp',
+        '6be7b200-2694-4fb4-a14f-0100b3a7eccb',
+        '2022-05-11T04:51:25.494006+00:00'
+    ),
+    (
+        '94c514f4-17b3-4bea-b43c-f018a1ecd669',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        'G-Shock GST-B400MV watch',
+        NULL,
+        199.56,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/39e1d4cc-5540-46a7-8955-61148f5e5d8d.webp',
+        '6be7b200-2694-4fb4-a14f-0100b3a7eccb',
+        '2022-05-11T04:49:14.88227+00:00'
+    ),
+    (
+        '96043a3a-c9a0-4ece-bc8b-b385ae373f85',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        'Casio W-218H-4BVDF watch',
+        NULL,
+        48.99,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/7d10fda1-52a6-4668-86e1-078c83740d59.webp',
+        'fe05a9bd-6bc8-4628-bed0-b718eb3c92af',
+        '2022-05-11T05:49:03.126258+00:00'
+    ),
+    (
+        '379363aa-a1f9-404d-9e67-603e1eab2fb6',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        'G-Shock GA-2100-1A2 watch',
+        NULL,
+        140.35,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/a4eb2020-a9f9-405e-9534-b571fa250654.webp',
+        '6be7b200-2694-4fb4-a14f-0100b3a7eccb',
+        '2022-05-11T04:47:37.502865+00:00'
+    ),
+    (
+        '96045b59-5b24-4c9e-abf9-0910c0fc30fd',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Klairs ',
+        NULL,
+        15,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/2ffd597d-44a5-4793-babe-7185efbdb4d0.webp',
+        'f42c6e4f-0ed1-4a9a-aaeb-2fcf91073306',
+        '2022-05-11T05:53:08.950737+00:00'
+    ),
+    (
+        '45adb563-be5a-4ebc-8c83-be7deec13fe4',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Bioderma',
+        NULL,
+        17,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/3860f69d-8f7c-4d24-9d62-2feb2316575e.webp',
+        'f42c6e4f-0ed1-4a9a-aaeb-2fcf91073306',
+        '2022-05-11T05:53:52.064206+00:00'
+    ),
+    (
+        '1d05001b-3a6d-41b3-9fb1-713435da1e48',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'La Roche-Posay',
+        NULL,
+        24,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/283c5e1b-5316-4b27-b36b-8b1ee69c7f41.webp',
+        'f42c6e4f-0ed1-4a9a-aaeb-2fcf91073306',
+        '2022-05-11T05:54:24.997677+00:00'
+    ),
+    (
+        '0a74eac9-221a-46cc-a876-aa78c6f0a033',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'La Roche Posay suncream',
+        NULL,
+        12,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/b9cad89f-3545-427f-bff2-a5746c2a9476.webp',
+        '42baa25e-d432-4001-b15a-52b3445fe958',
+        '2022-05-10T05:09:17.39593+00:00'
+    ),
+    (
+        'e6678d42-c4db-403e-ab93-b5fb05789768',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Skin1004',
+        NULL,
+        20,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/78a1f313-4ad9-473e-b8f2-fd47c85a5e07.webp',
+        'f42c6e4f-0ed1-4a9a-aaeb-2fcf91073306',
+        '2022-05-11T05:52:52.080899+00:00'
+    ),
+    (
+        'c363c53d-c8fb-4b05-8229-079936a1b4b7',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Klairs ',
+        NULL,
+        13,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/8ac593f6-0d18-4d12-97f8-787aa7936273.webp',
+        'f42c6e4f-0ed1-4a9a-aaeb-2fcf91073306',
+        '2022-05-11T05:53:01.701863+00:00'
+    ),
+    (
+        '92a68c88-7533-4471-9cad-7b315134b66c',
+        '16d8a595-548b-48ed-bb7e-9044f15bdb7e',
+        'FILA Windshift 15 Men''s Running Shoes',
+        NULL,
+        137,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/3cdc68f5-f6d2-4c88-8c50-dfd261f1f334.jpg',
+        '6c8dc95a-fa63-49bd-bb1d-524d78737146',
+        '2022-05-11T06:02:39.045912+00:00'
+    ),
+    (
+        'b5102e76-0877-45a4-b32e-82c1dd958f09',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Some By Mi',
+        NULL,
+        14,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/9d0683a2-2b3a-43b3-9039-029eac13444e.webp',
+        'f42c6e4f-0ed1-4a9a-aaeb-2fcf91073306',
+        '2022-05-11T05:53:34.376119+00:00'
+    ),
+    (
+        '74b55e32-7002-48e2-b773-2ec5185b7c60',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Cocoon',
+        NULL,
+        14,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/302d9bb8-7727-4f00-9f82-0e5cd2355fec.webp',
+        'f42c6e4f-0ed1-4a9a-aaeb-2fcf91073306',
+        '2022-05-11T05:54:15.963947+00:00'
+    ),
+    (
+        '001b0701-874c-4ae8-8c57-1a820aadecaf',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Some By Mi',
+        NULL,
+        12,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/efbf7057-cacc-48b6-a8e8-b498c8a1c360.webp',
+        'f42c6e4f-0ed1-4a9a-aaeb-2fcf91073306',
+        '2022-05-11T05:54:48.33169+00:00'
+    ),
+    (
+        'b3f8778b-5a43-4abe-bcb7-0d1ad104c2cd',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Bioderma',
+        NULL,
+        19,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/26f53a21-ba30-4def-8011-06984042fabe.webp',
+        'f42c6e4f-0ed1-4a9a-aaeb-2fcf91073306',
+        '2022-05-11T06:02:44.257542+00:00'
+    ),
+    (
+        '990d6656-c35a-42a9-903e-3487ea2ca9fb',
+        '16d8a595-548b-48ed-bb7e-9044f15bdb7e',
+        'Fila Men''s XTENUATE Running ',
+        NULL,
+        105.35,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/65ed5a6c-d08c-4eae-8741-d8feedba2dd6.jpg',
+        '6c8dc95a-fa63-49bd-bb1d-524d78737146',
+        '2022-05-11T06:03:54.416109+00:00'
+    ),
+    (
+        '0385571a-8472-4019-ac10-a4456b03f9b6',
+        '16d8a595-548b-48ed-bb7e-9044f15bdb7e',
+        'Reebok Nano X2 Men''s Training Shoes',
+        NULL,
+        135,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/f8149620-c280-4f2d-ac83-0ee382d37763.webp',
+        '28df7de0-2712-413f-9cf9-4c9299d3cd17',
+        '2022-05-11T05:55:18.853801+00:00'
+    ),
+    (
+        '4ea83231-9645-49fe-97bd-1edfdbfad66a',
+        '16d8a595-548b-48ed-bb7e-9044f15bdb7e',
+        ' Adidas Mahomes Impact FLX Shoes',
+        NULL,
+        140,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/bb61d226-10f3-4dee-8239-039485c98014.webp',
+        '28df7de0-2712-413f-9cf9-4c9299d3cd17',
+        '2022-05-11T05:55:18.833463+00:00'
+    ),
+    (
+        '26ace6fb-3d7c-4f3b-95f9-4b3a228cdaf8',
+        '16d8a595-548b-48ed-bb7e-9044f15bdb7e',
+        'Reebok Nano X2 Men''s Training Shoes',
+        NULL,
+        135,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/1efaab52-2646-445d-a1e3-5feca75fd196.jpg',
+        'd1e22d52-e7bb-4833-926a-10947374360d',
+        '2022-05-11T05:55:19.266305+00:00'
+    ),
+    (
+        'a6a0547f-d310-4695-89f2-7402c54afdf3',
+        '16d8a595-548b-48ed-bb7e-9044f15bdb7e',
+        'Nike air jordan 1 red and black',
+        NULL,
+        275,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/ad659fcc-35b2-420c-a6b8-8969cdb808d1.webp',
+        'd1e22d52-e7bb-4833-926a-10947374360d',
+        '2022-05-11T06:00:35.152065+00:00'
+    ),
+    (
+        'ab71d7fe-6bd2-4b06-a7d7-90cd41b1cbfa',
+        '16d8a595-548b-48ed-bb7e-9044f15bdb7e',
+        'Nike Air Presto Men''s Shoes',
+        NULL,
+        117.35,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/22cbcb3c-9b30-479f-a347-ad31c43e34c3.jpg',
+        'd1e22d52-e7bb-4833-926a-10947374360d',
+        '2022-05-11T06:01:11.250186+00:00'
+    ),
+    (
+        '46eef8d2-294b-47b3-b204-042c8df2447c',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Naturie',
+        NULL,
+        13,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/b6263407-4326-424d-8640-cdd9f402ba6b.webp',
+        'f42c6e4f-0ed1-4a9a-aaeb-2fcf91073306',
+        '2022-05-11T06:01:12.124801+00:00'
+    ),
+    (
+        'fa91b407-00f7-4584-b9cd-07406e80a5ae',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Skin1004',
+        NULL,
+        20,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/3271dc7b-7237-4e31-9ee5-59a45e0a7f7a.webp',
+        'f42c6e4f-0ed1-4a9a-aaeb-2fcf91073306',
+        '2022-05-11T06:01:20.992672+00:00'
+    ),
+    (
+        'b8f878d6-ce6a-445a-bc18-9cd675dd66a1',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Senka',
+        NULL,
+        18,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/927f0d7b-f0ad-4384-ac0d-3e779e1a605f.webp',
+        'f42c6e4f-0ed1-4a9a-aaeb-2fcf91073306',
+        '2022-05-11T06:01:33.176296+00:00'
+    ),
+    (
+        '80959b30-066d-4f8a-963d-387cb6e1992c',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Eucerin',
+        NULL,
+        23,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/3838c28f-ef4e-4fac-ad2b-b369934f222f.webp',
+        'f42c6e4f-0ed1-4a9a-aaeb-2fcf91073306',
+        '2022-05-11T06:01:48.985702+00:00'
+    ),
+    (
+        '84acd8f4-4a55-434a-ad32-2d1cd19fc99d',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        '9 Wishes',
+        NULL,
+        29,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/a9b92062-8862-4f21-9fb2-ef0d47e440e8.webp',
+        'f42c6e4f-0ed1-4a9a-aaeb-2fcf91073306',
+        '2022-05-11T06:02:01.897109+00:00'
+    ),
+    (
+        '002acc00-b2d9-4ec3-9bb0-f4b266e51c3f',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Thayers',
+        NULL,
+        20,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/7c576c87-f516-4acc-9b05-d99db6e7424a.webp',
+        'f42c6e4f-0ed1-4a9a-aaeb-2fcf91073306',
+        '2022-05-11T06:02:21.60718+00:00'
+    ),
+    (
+        '68ad47f1-921c-4041-ae0e-d127ccba82ea',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'I''m From',
+        NULL,
+        18,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/127e77ee-a6d1-48d1-978b-eb12d51d511b.webp',
+        'f42c6e4f-0ed1-4a9a-aaeb-2fcf91073306',
+        '2022-05-11T06:02:32.508525+00:00'
+    ),
+    (
+        '8840d02d-9fc0-4521-927a-88bd9ae26caa',
+        '16d8a595-548b-48ed-bb7e-9044f15bdb7e',
+        'Puma Rs-fast',
+        NULL,
+        116.35,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/0b623245-caa2-40d5-969a-dcb2084e3909.jpg',
+        '92b4658f-7a1e-4b4b-8a4b-9b643cb30ec3',
+        '2022-05-11T06:05:29.994254+00:00'
+    ),
+    (
+        '58b9dbde-1f57-44c1-9375-a290cc12dabe',
+        '16d8a595-548b-48ed-bb7e-9044f15bdb7e',
+        'Puma Men''s sneaker',
+        NULL,
+        128.35,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/a22f26c2-dfc3-407a-a979-354efe14d6f6.jpg',
+        '92b4658f-7a1e-4b4b-8a4b-9b643cb30ec3',
+        '2022-05-11T06:06:12.676851+00:00'
+    ),
+    (
+        '73160a26-3f5f-468b-9bcd-f5b349b56ce2',
+        'bcbb10dd-413c-42f1-9e38-92bb3b14c3cc',
+        'T-shirt Hanoi Cycle',
+        NULL,
+        15,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/1c09145a-0f3a-4ea1-817a-789f368c59dc.jpg',
+        '108b362e-d13f-4ed7-9593-e6ac6d156494',
+        '2022-05-11T06:11:08.727059+00:00'
+    ),
+    (
+        '03281973-391a-4cf3-9a66-cb4478eb66fc',
+        'bcbb10dd-413c-42f1-9e38-92bb3b14c3cc',
+        'T-shirt 100% cotton',
+        NULL,
+        15,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/a2120f5b-443b-44a6-836f-ebaeed5770ab.jpg',
+        '108b362e-d13f-4ed7-9593-e6ac6d156494',
+        '2022-05-11T06:11:07.92983+00:00'
+    ),
+    (
+        'e2e538c3-85b6-44f9-ad49-a662844f81ea',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'La Roche-Posay',
+        NULL,
+        18,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/185c5e47-66d2-4b44-8838-c0a330ebc018.webp',
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '2022-05-11T06:10:15.654441+00:00'
+    ),
+    (
+        '86aef71a-8188-4c37-8716-44df36b8c558',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Skin1004',
+        NULL,
+        10,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/d7a8233c-8c7d-437f-b520-5a9a508cf624.webp',
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '2022-05-11T06:10:27.643451+00:00'
+    ),
+    (
+        'd89441fa-24af-4fa7-a8fa-845f63754fde',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Senka',
+        NULL,
+        8,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/040ec5d4-f379-4443-a663-bd3fa257ff3b.webp',
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '2022-05-11T06:10:35.818219+00:00'
+    ),
+    (
+        '0066d9a2-12b5-4f10-87b6-fd0e49ac0933',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Cosrx',
+        NULL,
+        18,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/43b1e73a-657b-4a47-b2a5-21069fec2425.webp',
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '2022-05-11T06:11:38.054897+00:00'
+    ),
+    (
+        '960674d0-62c9-4010-937f-1542cd859eb0',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Some By Mi',
+        NULL,
+        18,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/aca65c28-bb2b-4eee-86e8-67fa027810fb.webp',
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '2022-05-11T06:11:49.21804+00:00'
+    ),
+    (
+        '031e4621-cbac-43d8-9fe0-f8b902b15014',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'La Roche-Posay',
+        NULL,
+        23,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/650b9f39-4002-4950-a3f2-e6db8731f019.webp',
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '2022-05-11T06:11:20.157717+00:00'
+    ),
+    (
+        '70f566bb-deab-4229-9584-c4eaac43c4d9',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Vichy',
+        NULL,
+        18,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/4ed4c79d-3d12-4047-aa1c-bec43251cb91.webp',
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '2022-05-11T06:12:27.018198+00:00'
+    ),
+    (
+        '0b3e1c76-96c8-4ced-b609-3bafc7753b8d',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Dove',
+        NULL,
+        15,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/a800c6e6-622b-44b8-b0a3-a79b76c96d73.webp',
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '2022-05-11T06:14:35.235995+00:00'
+    ),
+    (
+        '96e32201-ebd4-4331-856d-a7e1d87c8531',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Hada Labo ',
+        NULL,
+        17,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/5a4d6710-59d7-4bb5-a15d-f6f9ee2ce6bf.webp',
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '2022-05-11T06:13:11.861051+00:00'
+    ),
+    (
+        '43f2ce9d-c746-4ba5-800a-e253af23715b',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Eucerin',
+        NULL,
+        12,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/b2582922-04a8-4f83-9157-60fe079e7fa8.webp',
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '2022-05-11T06:13:55.571272+00:00'
+    ),
+    (
+        '292fdbba-fc2c-4307-a95e-1e8ff5dda125',
+        'bcbb10dd-413c-42f1-9e38-92bb3b14c3cc',
+        'Capman T-shirt',
+        NULL,
+        18,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/f38f48de-d099-4c23-8b86-a87fb4619194.jpg',
+        '108b362e-d13f-4ed7-9593-e6ac6d156494',
+        '2022-05-11T06:15:39.007936+00:00'
+    ),
+    (
+        '9ac16f49-bb3e-443b-a6cf-53a0e97dd9fc',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Bioderma',
+        NULL,
+        19,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/810e2c72-156a-479c-85c0-d42de3ff673e.webp',
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '2022-05-11T06:10:54.803834+00:00'
+    ),
+    (
+        '56530caf-8318-4927-9e22-544cf401d22c',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Garnier',
+        NULL,
+        18,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/2446c9ef-033c-4e93-813a-0d4c32510133.webp',
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '2022-05-11T06:12:15.312684+00:00'
+    ),
+    (
+        '35e87b6b-48b3-4b0d-b283-091b2ad98e86',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'L''oreal ',
+        NULL,
+        18,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/db50c72f-8767-49ef-94d7-02d413558206.webp',
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '2022-05-11T06:12:38.76004+00:00'
+    ),
+    (
+        '964feb9b-61a7-4acb-ae8d-d2f3ad33e54a',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Hada Labo ',
+        NULL,
+        12,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/80c5a694-2352-4a48-9384-692e3db929b0.webp',
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '2022-05-11T06:13:03.881538+00:00'
+    ),
+    (
+        '57e3e9d4-e783-43a6-8aa7-aace4c4be55a',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Cocoon',
+        NULL,
+        16,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/a8306a85-7a0e-40cc-b3e8-303789aca834.webp',
+        '237b42dd-2a7a-4de1-8083-e49cb6d577af',
+        '2022-05-11T06:28:29.325761+00:00'
+    ),
+    (
+        '55635c6f-faeb-4a88-b758-a04b3f05de1b',
+        'bcbb10dd-413c-42f1-9e38-92bb3b14c3cc',
+        'Dansibel Jacket',
+        NULL,
+        22,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/974fd0ee-f7dd-461e-b472-9246d64b8112.jpg',
+        'd7bfa5cd-1e9a-49a1-aeb5-c92128e79b60',
+        '2022-05-11T06:18:27.006808+00:00'
+    ),
+    (
+        '94d28028-51b7-4a16-8551-cc87b31ba8aa',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'SVR',
+        NULL,
+        23,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/974655ea-b5c4-477e-b94b-0eab48ac45be.webp',
+        '7f3fe6b4-9781-4af0-99be-b4c4189022df',
+        '2022-05-11T06:13:20.842738+00:00'
+    ),
+    (
+        '2a5c453e-7302-4804-9621-45ee02c5ebec',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Vichy',
+        NULL,
+        25,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/31dca5b5-a1b1-4865-be19-3ac0247788a6.webp',
+        '237b42dd-2a7a-4de1-8083-e49cb6d577af',
+        '2022-05-11T06:27:59.27701+00:00'
+    ),
+    (
+        '3c4e6383-0c01-4df6-992a-dd3e2743fbf0',
+        'bcbb10dd-413c-42f1-9e38-92bb3b14c3cc',
+        'Grimm DC jacket',
+        NULL,
+        23,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/d1b3785d-fb3f-451c-8b1d-93f5b23081f9.webp',
+        'd7bfa5cd-1e9a-49a1-aeb5-c92128e79b60',
+        '2022-05-11T06:17:12.414175+00:00'
+    ),
+    (
+        'b79dea79-c9e3-4981-b495-ff648c3f15d0',
+        'bcbb10dd-413c-42f1-9e38-92bb3b14c3cc',
+        'Winbreaker jacket',
+        NULL,
+        21,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/d2062b89-d142-4c85-9e05-fd62ac86748a.webp',
+        'd7bfa5cd-1e9a-49a1-aeb5-c92128e79b60',
+        '2022-05-11T06:19:31.920992+00:00'
+    ),
+    (
+        'dc3ffec2-a625-4ead-8ac3-e8856f9de68a',
+        'bcbb10dd-413c-42f1-9e38-92bb3b14c3cc',
+        'Young men jeans',
+        NULL,
+        24,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/fe68107e-dc3b-4728-a5a9-923bbb684cb8.webp',
+        '4aec37b1-f5bd-41a7-90df-f3cceff4bf9c',
+        '2022-05-11T06:23:45.974869+00:00'
+    ),
+    (
+        'ff9a5043-83ab-4650-9e09-0c69999123c7',
+        'bcbb10dd-413c-42f1-9e38-92bb3b14c3cc',
+        'Young men jeans',
+        NULL,
+        24,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/71c69e9d-ab90-45a2-815b-6d4cc20bf807.webp',
+        '4aec37b1-f5bd-41a7-90df-f3cceff4bf9c',
+        '2022-05-11T06:23:46.516635+00:00'
+    ),
+    (
+        '9ac5e7e5-2416-44f1-a970-79bb6851cc4b',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Garnier ',
+        NULL,
+        12,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/7ae55856-bdbe-4aa1-be39-86ac9753e41f.webp',
+        '237b42dd-2a7a-4de1-8083-e49cb6d577af',
+        '2022-05-11T06:25:51.755459+00:00'
+    ),
+    (
+        'f05e5cb8-0505-4ac2-8b23-da52b43a2e2d',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Skin2004',
+        NULL,
+        12,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/85f042e4-db19-49a8-956f-4f13b26e1e40.webp',
+        '237b42dd-2a7a-4de1-8083-e49cb6d577af',
+        '2022-05-11T06:26:00.760335+00:00'
+    ),
+    (
+        '3cedb137-f8ac-4394-8ec6-86a031969279',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Skin1004',
+        NULL,
+        23,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/b9eb1359-9c31-4156-a1ab-1204370a81c8.webp',
+        '237b42dd-2a7a-4de1-8083-e49cb6d577af',
+        '2022-05-11T06:26:50.967036+00:00'
+    ),
+    (
+        '12294277-0aea-44b5-90dc-2a98e21f1bfa',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'L''oreal',
+        NULL,
+        13,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/4e95dbde-5ef0-4b6e-a712-9c795f298345.webp',
+        '237b42dd-2a7a-4de1-8083-e49cb6d577af',
+        '2022-05-11T06:27:14.757031+00:00'
+    ),
+    (
+        '681cb3a0-ba85-48c7-9ac5-ce4f8fa00344',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Balance',
+        NULL,
+        12,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/9f9550e3-8d99-460d-9df8-15f5cce5ee05.webp',
+        '237b42dd-2a7a-4de1-8083-e49cb6d577af',
+        '2022-05-11T06:26:33.349889+00:00'
+    ),
+    (
+        'c464f92c-7453-42c4-92dc-c781bca66e6d',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Klairs',
+        NULL,
+        12,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/be80e588-9dc9-41ca-9e2a-d66776f8b70c.webp',
+        '237b42dd-2a7a-4de1-8083-e49cb6d577af',
+        '2022-05-11T06:26:10.731021+00:00'
+    ),
+    (
+        '03c574fc-2768-4541-b50d-a7fbf4c5a197',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Klairs',
+        NULL,
+        18,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/b35c7567-af80-46b0-a26d-42ba8b0668aa.webp',
+        '237b42dd-2a7a-4de1-8083-e49cb6d577af',
+        '2022-05-11T06:26:42.612236+00:00'
+    ),
+    (
+        '9325b335-d2cc-4609-94f2-5c5f08d7c9c0',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'L''Oreal ',
+        NULL,
+        13,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/cd58a051-3959-4a3d-9561-2a1b67946703.webp',
+        '42baa25e-d432-4001-b15a-52b3445fe958',
+        '2022-05-11T06:43:17.814054+00:00'
+    ),
+    (
+        '5971f6fb-2f0b-470d-a51b-ac00cef5d8cc',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Some By Mi',
+        NULL,
+        13,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/a58d0d3d-df5a-4533-aa8b-09ff408cb43c.webp',
+        '237b42dd-2a7a-4de1-8083-e49cb6d577af',
+        '2022-05-11T06:27:41.062134+00:00'
+    ),
+    (
+        '5fc2543b-42c5-4856-9e06-42c51fd7ece7',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'La Roche-Posay',
+        NULL,
+        14,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/16e24577-db37-4906-881f-ccc2cba4db29.webp',
+        '237b42dd-2a7a-4de1-8083-e49cb6d577af',
+        '2022-05-11T06:28:37.76599+00:00'
+    ),
+    (
+        '8728c767-52f8-4b8b-9f48-d485ff97f93a',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Vichy',
+        NULL,
+        16,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/ff757c02-9e37-4fcf-8ff3-e9fe044080b0.webp',
+        '237b42dd-2a7a-4de1-8083-e49cb6d577af',
+        '2022-05-11T06:28:49.929115+00:00'
+    ),
+    (
+        '770c28f1-ddd4-410e-bfe9-dc5288158954',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Some By Mi',
+        NULL,
+        12,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/a3cfa670-da89-4665-9cd3-ad68bb0f9a70.webp',
+        '237b42dd-2a7a-4de1-8083-e49cb6d577af',
+        '2022-05-11T06:30:55.631365+00:00'
+    ),
+    (
+        'f3c7f842-6b81-4aa8-bb72-70df01226ec5',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Vichy',
+        NULL,
+        16,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/e97224b1-b3c8-46b1-b056-fc95b671a491.webp',
+        '237b42dd-2a7a-4de1-8083-e49cb6d577af',
+        '2022-05-11T06:31:06.255134+00:00'
+    ),
+    (
+        '67c73a9a-0b97-4fbc-9421-005f0db7f512',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        '9 Wishes',
+        NULL,
+        112,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/923b1cbe-de28-428d-b866-8171b22ac7dd.webp',
+        '237b42dd-2a7a-4de1-8083-e49cb6d577af',
+        '2022-05-11T06:27:27.565676+00:00'
+    ),
+    (
+        'bd9cef03-67e0-4cdd-9253-a235b7c941b2',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'The Saem',
+        NULL,
+        14,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/e2a2dc1f-7e26-401a-8fec-20126619facf.webp',
+        '42baa25e-d432-4001-b15a-52b3445fe958',
+        '2022-05-11T06:43:29.196755+00:00'
+    ),
+    (
+        '0561d77f-daf3-4319-89d6-1a3b432002cf',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Bioderma',
+        NULL,
+        17,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/f0fd0b94-aca4-45d8-9873-4704e4ed3a52.webp',
+        '42baa25e-d432-4001-b15a-52b3445fe958',
+        '2022-05-11T06:43:37.971654+00:00'
+    ),
+    (
+        '2d092ab8-71bb-4615-b016-843bd4a2b5d5',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Skin1004',
+        NULL,
+        12,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/4cfe0985-cbeb-4f5d-9565-2111994fa414.webp',
+        '42baa25e-d432-4001-b15a-52b3445fe958',
+        '2022-05-11T06:43:57.776668+00:00'
+    ),
+    (
+        '43ed3d85-c28f-4e3a-b1ab-3825b26a9489',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Some By Mi',
+        NULL,
+        13,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/e2d32469-2100-46ce-8e85-1a5778524527.webp',
+        '42baa25e-d432-4001-b15a-52b3445fe958',
+        '2022-05-11T06:44:32.7441+00:00'
+    ),
+    (
+        'eeb28690-5a03-4798-b5e5-4c9d6820915f',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Anessa ',
+        NULL,
+        26,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/da8f59ea-e0ab-40c5-9399-5e955eda89e9.webp',
+        '42baa25e-d432-4001-b15a-52b3445fe958',
+        '2022-05-11T06:44:43.184723+00:00'
+    ),
+    (
+        '6115bbf1-9267-4451-9a99-3a10fc477d98',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'La Roche-Possay',
+        NULL,
+        22,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/dec86ed5-441e-459c-bd38-b7316f94cbec.webp',
+        '42baa25e-d432-4001-b15a-52b3445fe958',
+        '2022-05-11T06:44:56.977775+00:00'
+    ),
+    (
+        '29c48ce5-604d-4917-b8de-d2ca54276a3f',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Eucerin',
+        NULL,
+        18,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/382edb61-2ec9-4339-9e3f-292e461288b4.webp',
+        '42baa25e-d432-4001-b15a-52b3445fe958',
+        '2022-05-11T06:45:20.072404+00:00'
+    ),
+    (
+        '30ec5d12-6cef-4d7a-87a2-0fd1ff4b9408',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        '9 Wishes',
+        NULL,
+        15,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/f83afe12-e5cb-44ea-a5eb-b52722a8f588.webp',
+        'fdf20678-9196-4d3a-8d63-6b43a1cb2ac5',
+        '2022-05-11T06:45:11.957476+00:00'
+    ),
+    (
+        '5ba138e8-3f44-44fd-acc3-cb245f892361',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        'Bioderma',
+        NULL,
+        19,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/1ac62238-714d-4b96-a5eb-76fd71afccb5.webp',
+        '42baa25e-d432-4001-b15a-52b3445fe958',
+        '2022-05-11T06:45:30.128559+00:00'
+    ),
+    (
+        '6e2c1e4d-0ff0-4b5a-9a6d-56d181278f1c',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Maybelline ',
+        NULL,
+        50,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/c8ac9153-648a-4ae3-adac-36d408f31a65.webp',
+        'c8512b70-afd4-4cc8-82ac-eeb43bb7624b',
+        '2022-05-11T07:11:59.914088+00:00'
+    ),
+    (
+        '9ac88f0c-16af-4652-b57f-706771a802ed',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Maybelline ',
+        NULL,
+        18,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/89713228-b082-4cd3-a855-0a07721e725e.webp',
+        'c8512b70-afd4-4cc8-82ac-eeb43bb7624b',
+        '2022-05-11T07:12:11.905597+00:00'
+    ),
+    (
+        '9ea8a7fb-2e4b-4734-b438-2c6ac7fcec8c',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'L''Oreal',
+        NULL,
+        44,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/66e22539-6baa-4671-9ae6-c96c33121a6e.webp',
+        'c8512b70-afd4-4cc8-82ac-eeb43bb7624b',
+        '2022-05-11T07:12:22.308197+00:00'
+    ),
+    (
+        '67996666-6ced-452e-ad77-a8a8aeeedc9b',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Romand ',
+        NULL,
+        22,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/c36f41ee-a996-48f5-8cc4-545f28c3cf02.webp',
+        'c8512b70-afd4-4cc8-82ac-eeb43bb7624b',
+        '2022-05-11T07:12:34.110977+00:00'
+    ),
+    (
+        '06d5bfed-6e50-4403-a63b-2cb4dd7bf138',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Gilaa ',
+        NULL,
+        30,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/3aa0d7f7-26ab-402a-95d0-39180e8887d8.webp',
+        'c8512b70-afd4-4cc8-82ac-eeb43bb7624b',
+        '2022-05-11T07:12:44.39669+00:00'
+    ),
+    (
+        '535dd017-ee34-4e02-a119-47c88e13c089',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'LIME ',
+        NULL,
+        33,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/5dffdc68-a4c0-4eba-bb9b-189353c22e8b.webp',
+        'c8512b70-afd4-4cc8-82ac-eeb43bb7624b',
+        '2022-05-11T07:12:56.048519+00:00'
+    ),
+    (
+        'e56bd0e3-dbf9-4350-92d6-ab1cde6342b8',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Black Rouge',
+        NULL,
+        23,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/0b355bd7-07fc-4c6e-aa90-1aeb18b1aae7.webp',
+        'c8512b70-afd4-4cc8-82ac-eeb43bb7624b',
+        '2022-05-11T07:13:05.251272+00:00'
+    ),
+    (
+        'a8ceffd8-d44a-4460-8dca-3e2c99c01388',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Laneige ',
+        NULL,
+        45,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/c6992abd-b2bc-405b-aa73-7e36e1256963.webp',
+        'c8512b70-afd4-4cc8-82ac-eeb43bb7624b',
+        '2022-05-11T07:14:37.596704+00:00'
+    ),
+    (
+        'bea45f63-80d1-479a-ac63-b5ccf3be1ae0',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'LIME',
+        NULL,
+        29,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/f9f32e4f-b7b7-46c8-ab76-be518630e3cd.webp',
+        'c8512b70-afd4-4cc8-82ac-eeb43bb7624b',
+        '2022-05-11T07:14:45.570354+00:00'
+    ),
+    (
+        '0c214fb5-0bf1-4423-a0df-3dc516fb94b0',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Romand ',
+        NULL,
+        45,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/2e1c95c1-b072-4815-8d19-25e2063c5df1.webp',
+        'c8512b70-afd4-4cc8-82ac-eeb43bb7624b',
+        '2022-05-11T07:15:17.358989+00:00'
+    ),
+    (
+        'fb2a22cf-9e2f-46c2-9d45-6e4abad24368',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Lemonade ',
+        NULL,
+        20,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/c55f4efe-dd7e-4892-9d0e-f0d6c2aec824.webp',
+        'c8512b70-afd4-4cc8-82ac-eeb43bb7624b',
+        '2022-05-11T07:16:11.142138+00:00'
+    ),
+    (
+        '9f44a5c5-be78-4f73-a213-392174e4ea2a',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Huxley',
+        NULL,
+        15,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/4bb3e69c-348d-4c59-8cb6-0f87e29ac933.webp',
+        'c8512b70-afd4-4cc8-82ac-eeb43bb7624b',
+        '2022-05-11T07:16:18.46665+00:00'
+    ),
+    (
+        'ba55a47c-2f54-4d6b-b4e2-87ced23245bb',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Silkygirl ',
+        NULL,
+        30,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/e26411a9-5a17-474c-90ec-fb3a9d1670a9.webp',
+        'c8512b70-afd4-4cc8-82ac-eeb43bb7624b',
+        '2022-05-11T07:16:28.005187+00:00'
+    ),
+    (
+        'f513faa8-9d75-49f4-aa2b-70e48fa7070f',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Merzy',
+        NULL,
+        22,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/6927dd55-a1a0-4a63-8325-9541a0537f63.webp',
+        'a058c319-5bb7-4764-9b5f-83346012e0d0',
+        '2022-05-11T07:20:53.72388+00:00'
+    ),
+    (
+        'd0fa99a6-8ba3-4dde-8ecb-25a8bfa93c51',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Clio',
+        NULL,
+        20,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/eedaef65-b4e6-4d28-9af3-366dcba009e3.webp',
+        'a058c319-5bb7-4764-9b5f-83346012e0d0',
+        '2022-05-11T07:21:01.743622+00:00'
+    ),
+    (
+        'bd4b8077-4161-45e2-be99-252111c9ffcf',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Romand',
+        NULL,
+        26,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/2fac9d6b-7f24-4db3-971a-06ce540b944a.webp',
+        'a058c319-5bb7-4764-9b5f-83346012e0d0',
+        '2022-05-11T07:21:09.743593+00:00'
+    ),
+    (
+        '1299b48d-d7e3-4306-9bbe-b84aab0bc451',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'CandyLab',
+        NULL,
+        22,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/15b47cb2-11b1-41ec-bb2c-0cbf217570fa.webp',
+        'a058c319-5bb7-4764-9b5f-83346012e0d0',
+        '2022-05-11T07:21:30.298438+00:00'
+    ),
+    (
+        'f38170d6-3d67-4073-add4-db38263366ac',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Lemonade ',
+        NULL,
+        18,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/57133369-15e9-40c2-8cf4-08f0d86d9c53.webp',
+        'a058c319-5bb7-4764-9b5f-83346012e0d0',
+        '2022-05-11T07:21:46.982752+00:00'
+    ),
+    (
+        'c1ce4e9b-a297-49ff-9a6a-f6420f9c46ea',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Maybelline ',
+        NULL,
+        21,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/7603cacf-068e-4eb3-922d-7b0b3aa36f23.webp',
+        'a058c319-5bb7-4764-9b5f-83346012e0d0',
+        '2022-05-11T07:21:59.226382+00:00'
+    ),
+    (
+        'db1c6410-7f6e-4c7d-86ff-13ddce57568f',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        '3CE ',
+        NULL,
+        24,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/c5043f8b-77bc-4b87-a288-9d8c87888283.webp',
+        'a058c319-5bb7-4764-9b5f-83346012e0d0',
+        '2022-05-11T07:22:35.054495+00:00'
+    ),
+    (
+        'a9f7f434-4ec2-4eb2-b6bd-bb08c266820c',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Etude ',
+        NULL,
+        10,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/803dc0ab-e596-4e5a-88ee-3232ba613e9d.webp',
+        'a058c319-5bb7-4764-9b5f-83346012e0d0',
+        '2022-05-11T07:22:25.96033+00:00'
+    ),
+    (
+        'ca63aefd-4bae-4cb8-a9c2-7a78683c26ba',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Merzy ',
+        NULL,
+        8,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/8861dbd1-542c-49d2-87ee-d5bc14846f46.webp',
+        'a058c319-5bb7-4764-9b5f-83346012e0d0',
+        '2022-05-11T07:22:42.190607+00:00'
+    ),
+    (
+        'b135f2e7-225b-4b1b-a71f-a6b9450c4166',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Clio',
+        NULL,
+        40,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/fc0a22c2-380f-407d-b54f-b1ea3da952d1.webp',
+        'a058c319-5bb7-4764-9b5f-83346012e0d0',
+        '2022-05-11T07:23:13.136489+00:00'
+    ),
+    (
+        '7126cd98-da9a-443c-af85-84ecea312be0',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        'Silkygirl ',
+        NULL,
+        28,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/a824c8c3-02ee-41dc-b346-485c0e038056.webp',
+        'a058c319-5bb7-4764-9b5f-83346012e0d0',
+        '2022-05-11T07:23:05.102674+00:00'
+    ),
+    (
+        '5ac46e85-3f9b-46ad-af64-9af5c50418fc',
+        '5d15b35e-d185-4bd4-b0f7-dca3dac4a0e2',
+        'Brown shoe',
+        NULL,
+        19.99,
+        NULL,
+        NULL,
+        '2022-05-15T10:51:02.696984+00:00'
+    ),
+    (
+        'd2334224-d541-477e-a458-2b1b9fc035c5',
+        '7fac4847-e695-42df-a1ba-c8b1571c9c11',
+        'Galaxy S22 Ultra',
+        'Great phone with an affordable price!',
+        1514.99,
+        'https://wdfmjzdkzfryqbrbbbpo.supabase.co/storage/v1/object/public/avatars/3866effa-6a6f-4fd9-abdb-3083b21038b4.jpeg',
+        '948ec544-6280-4a20-a804-39cbeba9c0c8',
+        '2022-05-11T08:13:24.544306+00:00'
+    );
+
+-- Populate data for the wishlisted_products table.
+INSERT INTO
+    public.wishlisted_products(user_id, product_id, created_at)
+VALUES
+    (
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        '26ace6fb-3d7c-4f3b-95f9-4b3a228cdaf8',
+        '2022-05-15T03:56:49.721391+00:00'
+    ),
+    (
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f393f274-eb71-4155-9a2c-4b34eaea8923',
+        '2022-05-15T03:57:02.51877+00:00'
+    ),
+    (
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'e2e538c3-85b6-44f9-ad49-a662844f81ea',
+        '2022-05-15T03:57:14.881098+00:00'
+    ),
+    (
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        '06d5bfed-6e50-4403-a63b-2cb4dd7bf138',
+        '2022-05-15T03:57:27.121761+00:00'
+    ),
+    (
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'd0fa99a6-8ba3-4dde-8ecb-25a8bfa93c51',
+        '2022-05-15T03:57:42.114249+00:00'
+    ),
+    (
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        '8728c767-52f8-4b8b-9f48-d485ff97f93a',
+        '2022-05-15T03:57:51.535533+00:00'
+    ),
+    (
+        '33971715-cfac-45c0-8af3-982cecd50c3c',
+        '8da736f6-71f9-4126-9ca2-0ded3bdd39c5',
+        '2022-05-15T13:56:24.580983+00:00'
+    ),
+    (
+        '33971715-cfac-45c0-8af3-982cecd50c3c',
+        '7df4bc18-2a56-4f7f-9fd4-28fc7835450b',
+        '2022-05-15T13:56:29.181756+00:00'
+    ),
+    (
+        '33971715-cfac-45c0-8af3-982cecd50c3c',
+        'a163f2c0-6b3e-41ed-8dd9-35b79963fbb0',
+        '2022-05-15T13:56:38.121962+00:00'
+    ),
+    (
+        '33971715-cfac-45c0-8af3-982cecd50c3c',
+        '0a2461ae-a00e-4104-8821-03de44818571',
+        '2022-05-15T13:56:41.805063+00:00'
+    ),
+    (
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        '8da736f6-71f9-4126-9ca2-0ded3bdd39c5',
+        '2022-05-16T03:16:38.733785+00:00'
+    ),
+    (
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        '1f35c79e-9a70-4a2c-a731-0203270ecd69',
+        '2022-05-16T03:16:46.34607+00:00'
+    ),
+    (
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        '7df4bc18-2a56-4f7f-9fd4-28fc7835450b',
+        '2022-05-16T05:09:55.8056+00:00'
+    );
+
+-- Populate data for the bills table.
+INSERT INTO
+    public.bills(
+        id,
+        customer_id,
+        card_id,
+        address_id,
+        outlet_id,
+        total,
+        created_at
+    )
+VALUES
+    (
+        '4b81deb6-a82e-4673-b972-6ac9ceba73b5',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        171.34,
+        '2022-05-13T17:51:58.787888+00:00'
+    ),
+    (
+        'fccd87c8-78d2-41c0-ba47-05293bef921d',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        11,
+        '2022-05-13T17:51:59.073167+00:00'
+    ),
+    (
+        'f24d6aa6-e6bf-467d-bad8-6038c0fadac9',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        10,
+        '2022-05-13T17:53:24.719332+00:00'
+    ),
+    (
+        '876fc179-cdea-4d64-9b29-dd518a877e21',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        45.99,
+        '2022-05-13T17:53:25.076408+00:00'
+    ),
+    (
+        '789f65b9-1481-41ce-9968-0f539b4a6d4f',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        45.99,
+        '2022-05-13T17:56:29.464314+00:00'
+    ),
+    (
+        '377136a0-1f0a-47fe-ae54-7ddcbc7901a7',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        'a80ce879-fcf5-4561-8d16-b2c8c4d18cbd',
+        5.99,
+        '2022-05-13T18:04:07.947458+00:00'
+    ),
+    (
+        '66c78964-af7e-4639-8684-e47d94424e8f',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        10,
+        '2022-05-13T18:04:08.312629+00:00'
+    ),
+    (
+        '216e14e7-9d42-49c9-9652-e0dc077bdc66',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        125.35,
+        '2022-05-13T18:04:08.626245+00:00'
+    ),
+    (
+        'b40bbedf-8928-4748-8aaf-6b1d13b245ab',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        'a80ce879-fcf5-4561-8d16-b2c8c4d18cbd',
+        5.99,
+        '2022-05-13T18:19:13.040751+00:00'
+    ),
+    (
+        '02de815e-ce48-4514-9995-5d9c1b016e70',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        28,
+        '2022-05-13T18:19:13.454173+00:00'
+    ),
+    (
+        '444d5a6e-c140-45a3-9d85-c171b97fae7b',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        407.4,
+        '2022-05-13T18:22:13.671077+00:00'
+    ),
+    (
+        '9f3b7cb0-4329-4aa7-88d2-5070c77503ad',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        36,
+        '2022-05-13T18:22:14.17105+00:00'
+    ),
+    (
+        '9ebf9690-c6da-41ae-9cea-9ceff7234d27',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        'a80ce879-fcf5-4561-8d16-b2c8c4d18cbd',
+        5.99,
+        '2022-05-13T18:22:48.183439+00:00'
+    ),
+    (
+        '1b0f1c04-f4d9-4304-ac2a-4fda41e7b168',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        14,
+        '2022-05-13T18:22:48.556861+00:00'
+    ),
+    (
+        'a6ed6d38-0d3b-4bed-8b43-54d0e50f479a',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        171.34,
+        '2022-05-13T18:28:44.235871+00:00'
+    ),
+    (
+        'c05d0987-7354-46c2-9742-3c737eac982f',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        32,
+        '2022-05-13T18:28:44.509105+00:00'
+    ),
+    (
+        '6d939090-5473-4c76-9a42-597df0d4b61a',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        'a80ce879-fcf5-4561-8d16-b2c8c4d18cbd',
+        5.99,
+        '2022-05-13T18:28:44.780579+00:00'
+    ),
+    (
+        'c6c74b55-88e2-4f98-9ffc-0ea6b32cf271',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        45.99,
+        '2022-05-14T03:46:32.671429+00:00'
+    ),
+    (
+        '0724db8c-3d92-4bb4-9666-6db027d75845',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        'a80ce879-fcf5-4561-8d16-b2c8c4d18cbd',
+        25.94,
+        '2022-05-14T04:35:13.46786+00:00'
+    ),
+    (
+        '350cc4bc-3135-439c-b1cf-940d2a317794',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        1394.9175,
+        '2022-05-14T04:54:55.039108+00:00'
+    ),
+    (
+        'a3212ad3-5df6-4a13-a320-654ff2111bb1',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        'a80ce879-fcf5-4561-8d16-b2c8c4d18cbd',
+        0,
+        '2022-05-14T04:59:44.681593+00:00'
+    ),
+    (
+        'bae88b85-a09d-4da9-ac07-08a53f5efe0a',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        28,
+        '2022-05-14T06:47:41.892229+00:00'
+    ),
+    (
+        '72075922-3eac-4379-a1bf-d2308de76d2e',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        240.35,
+        '2022-05-14T06:49:06.836527+00:00'
+    ),
+    (
+        '4ccc3d96-fa6e-4971-a8fd-832f3c41de41',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        35.99,
+        '2022-05-14T07:06:59.93142+00:00'
+    ),
+    (
+        'bc76b2a8-a3ae-4693-8b80-fd47212e4e05',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '4e36c0e5-291d-441b-8611-4a617399b987',
+        'a80ce879-fcf5-4561-8d16-b2c8c4d18cbd',
+        5.99,
+        '2022-05-14T07:11:53.784741+00:00'
+    ),
+    (
+        'e465eb13-c937-4ebc-a643-9ed2cf06de30',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        'a80ce879-fcf5-4561-8d16-b2c8c4d18cbd',
+        5.99,
+        '2022-05-14T07:12:54.843624+00:00'
+    ),
+    (
+        'ed1efe80-be78-4ac1-bcc7-21c9f298658a',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        'a80ce879-fcf5-4561-8d16-b2c8c4d18cbd',
+        5.99,
+        '2022-05-14T10:14:50.974487+00:00'
+    ),
+    (
+        '1163543b-2804-48e1-80e7-ad3b022535f4',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        '16d8a595-548b-48ed-bb7e-9044f15bdb7e',
+        256.35,
+        '2022-05-14T15:36:18.361688+00:00'
+    ),
+    (
+        'c09088e1-0fd1-4eab-8145-ee14c7b2a37f',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        '3f7f34c3-b5c8-40b7-8719-a11116f8a746',
+        52,
+        '2022-05-14T15:36:18.861169+00:00'
+    ),
+    (
+        '7b793ab9-1944-41a4-9911-d83f1e6c16c4',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        59,
+        '2022-05-15T03:43:12.063336+00:00'
+    ),
+    (
+        '69399cf3-4002-44d0-b8fd-f043f1830978',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        'bcbb10dd-413c-42f1-9e38-92bb3b14c3cc',
+        21,
+        '2022-05-15T03:43:12.632345+00:00'
+    ),
+    (
+        'ba012177-4096-489d-bfd7-d5a812198f2c',
+        '89508b5b-59f0-4503-9a2e-454c0fa14991',
+        'f0fc8ece-fe78-4cca-8c01-bfaa5698078a',
+        '337b6bbc-1642-4039-92ad-333781cdfb5f',
+        '16d8a595-548b-48ed-bb7e-9044f15bdb7e',
+        270,
+        '2022-05-15T03:43:13.111609+00:00'
+    ),
+    (
+        '8de502c9-ea0f-4a95-8a0f-b0310cd601b9',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        459.9,
+        '2022-05-15T06:25:56.629824+00:00'
+    ),
+    (
+        '7e96623c-6416-498a-8cb6-b291c4bb04fa',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        'a80ce879-fcf5-4561-8d16-b2c8c4d18cbd',
+        59.9,
+        '2022-05-15T06:25:57.020631+00:00'
+    ),
+    (
+        'a3c1ba8a-ba44-402a-8541-e963e6e9da5d',
+        '46b636e8-57a1-4bb9-bb3a-0bb2fa3291ea',
+        '022e8179-3c08-48e1-b73f-21e141866e70',
+        '480703eb-75dd-4a76-8750-a6e482c396e2',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        5,
+        '2022-05-15T12:27:41.662654+00:00'
+    ),
+    (
+        '5f397813-74b4-474f-b2ee-fdb5709ab5da',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        '583d8a7e-4a3f-41d7-afaa-3844a79a2b30',
+        0,
+        '2022-05-15T15:06:35.735316+00:00'
+    ),
+    (
+        'ac079af0-545c-4d39-a7b2-892c9dcd2971',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        'a80ce879-fcf5-4561-8d16-b2c8c4d18cbd',
+        0,
+        '2022-05-15T15:06:36.15216+00:00'
+    ),
+    (
+        'd6d88175-6e60-4840-9d93-d186a5bb54c7',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        151.85,
+        '2022-05-15T15:06:36.374157+00:00'
+    ),
+    (
+        '27b80557-1364-49b1-bf2e-39c1ceb9b945',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'd655819e-215d-491a-b693-4bd762ddadf2',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        '16d8a595-548b-48ed-bb7e-9044f15bdb7e',
+        101.25,
+        '2022-05-15T15:12:48.112694+00:00'
+    ),
+    (
+        '36c96e13-223a-4fb9-b639-618b6af04cfc',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'b80cd86d-4a24-47c5-b807-2c886fe26b3c',
+        '4e36c0e5-291d-441b-8611-4a617399b987',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        22.995,
+        '2022-05-15T15:15:33.846042+00:00'
+    ),
+    (
+        '17e4435e-5114-49f1-bdae-f0eb3dcc27c5',
+        'cfe1575d-7566-444c-a353-0dce8a760962',
+        'b80cd86d-4a24-47c5-b807-2c886fe26b3c',
+        '9397d26b-94dc-4f64-9a55-3b11b0f6e5c0',
+        '4c76e16a-9918-41d1-8e23-37cf4d2a33a8',
+        125.35,
+        '2022-05-16T03:05:49.342449+00:00'
+    );
+
+-- Populate data for the bill_products table.
+INSERT INTO
+    public.bill_products(bill_id, product_id, amount)
+VALUES
+    (
+        '4b81deb6-a82e-4673-b972-6ac9ceba73b5',
+        '1f35c79e-9a70-4a2c-a731-0203270ecd69',
+        1
+    ),
+    (
+        '4b81deb6-a82e-4673-b972-6ac9ceba73b5',
+        '0a2461ae-a00e-4104-8821-03de44818571',
+        1
+    ),
+    (
+        'fccd87c8-78d2-41c0-ba47-05293bef921d',
+        '91e3dc42-9663-4082-b997-cd975a00c163',
+        1
+    ),
+    (
+        'f24d6aa6-e6bf-467d-bad8-6038c0fadac9',
+        '7df4bc18-2a56-4f7f-9fd4-28fc7835450b',
+        1
+    ),
+    (
+        '876fc179-cdea-4d64-9b29-dd518a877e21',
+        '0a2461ae-a00e-4104-8821-03de44818571',
+        1
+    ),
+    (
+        '789f65b9-1481-41ce-9968-0f539b4a6d4f',
+        '0a2461ae-a00e-4104-8821-03de44818571',
+        1
+    ),
+    (
+        '377136a0-1f0a-47fe-ae54-7ddcbc7901a7',
+        '8da736f6-71f9-4126-9ca2-0ded3bdd39c5',
+        1
+    ),
+    (
+        '66c78964-af7e-4639-8684-e47d94424e8f',
+        '7df4bc18-2a56-4f7f-9fd4-28fc7835450b',
+        1
+    ),
+    (
+        '216e14e7-9d42-49c9-9652-e0dc077bdc66',
+        '1f35c79e-9a70-4a2c-a731-0203270ecd69',
+        1
+    ),
+    (
+        'b40bbedf-8928-4748-8aaf-6b1d13b245ab',
+        '8da736f6-71f9-4126-9ca2-0ded3bdd39c5',
+        1
+    ),
+    (
+        '02de815e-ce48-4514-9995-5d9c1b016e70',
+        '3b267e84-b1a2-4b34-934c-b70736de3e66',
+        2
+    ),
+    (
+        '444d5a6e-c140-45a3-9d85-c171b97fae7b',
+        '1f35c79e-9a70-4a2c-a731-0203270ecd69',
+        2
+    ),
+    (
+        '444d5a6e-c140-45a3-9d85-c171b97fae7b',
+        'ca699447-272c-4ca2-97bf-51466153f26b',
+        2
+    ),
+    (
+        '9f3b7cb0-4329-4aa7-88d2-5070c77503ad',
+        '57c528a0-b1c9-4fa4-9250-67b7367b1c64',
+        1
+    ),
+    (
+        '9f3b7cb0-4329-4aa7-88d2-5070c77503ad',
+        '1d05001b-3a6d-41b3-9fb1-713435da1e48',
+        1
+    ),
+    (
+        '9ebf9690-c6da-41ae-9cea-9ceff7234d27',
+        '8da736f6-71f9-4126-9ca2-0ded3bdd39c5',
+        1
+    ),
+    (
+        '1b0f1c04-f4d9-4304-ac2a-4fda41e7b168',
+        'a163f2c0-6b3e-41ed-8dd9-35b79963fbb0',
+        2
+    ),
+    (
+        'a6ed6d38-0d3b-4bed-8b43-54d0e50f479a',
+        '0a2461ae-a00e-4104-8821-03de44818571',
+        1
+    ),
+    (
+        'a6ed6d38-0d3b-4bed-8b43-54d0e50f479a',
+        '1f35c79e-9a70-4a2c-a731-0203270ecd69',
+        1
+    ),
+    (
+        'c05d0987-7354-46c2-9742-3c737eac982f',
+        '7df4bc18-2a56-4f7f-9fd4-28fc7835450b',
+        1
+    ),
+    (
+        'c05d0987-7354-46c2-9742-3c737eac982f',
+        'ca11a3be-52c8-4cda-807a-4c749308d5df',
+        1
+    ),
+    (
+        '6d939090-5473-4c76-9a42-597df0d4b61a',
+        '8da736f6-71f9-4126-9ca2-0ded3bdd39c5',
+        1
+    ),
+    (
+        'c6c74b55-88e2-4f98-9ffc-0ea6b32cf271',
+        '0a2461ae-a00e-4104-8821-03de44818571',
+        1
+    ),
+    (
+        '0724db8c-3d92-4bb4-9666-6db027d75845',
+        '8da736f6-71f9-4126-9ca2-0ded3bdd39c5',
+        6
+    ),
+    (
+        '350cc4bc-3135-439c-b1cf-940d2a317794',
+        '1f35c79e-9a70-4a2c-a731-0203270ecd69',
+        8
+    ),
+    (
+        '350cc4bc-3135-439c-b1cf-940d2a317794',
+        '0a2461ae-a00e-4104-8821-03de44818571',
+        1
+    ),
+    (
+        '350cc4bc-3135-439c-b1cf-940d2a317794',
+        'ca699447-272c-4ca2-97bf-51466153f26b',
+        1
+    ),
+    (
+        '350cc4bc-3135-439c-b1cf-940d2a317794',
+        'b7acd360-e172-471f-ab59-db0957957052',
+        2
+    ),
+    (
+        '350cc4bc-3135-439c-b1cf-940d2a317794',
+        '4c59a06d-e6a5-41ee-8678-4a074d686e1d',
+        3
+    ),
+    (
+        'a3212ad3-5df6-4a13-a320-654ff2111bb1',
+        '8da736f6-71f9-4126-9ca2-0ded3bdd39c5',
+        1
+    ),
+    (
+        'bae88b85-a09d-4da9-ac07-08a53f5efe0a',
+        '91e3dc42-9663-4082-b997-cd975a00c163',
+        1
+    ),
+    (
+        'bae88b85-a09d-4da9-ac07-08a53f5efe0a',
+        '57c528a0-b1c9-4fa4-9250-67b7367b1c64',
+        1
+    ),
+    (
+        'bae88b85-a09d-4da9-ac07-08a53f5efe0a',
+        'b385bcc8-496a-41d3-b044-925a5c87aa12',
+        1
+    ),
+    (
+        '72075922-3eac-4379-a1bf-d2308de76d2e',
+        '79185f87-1ca4-4c3a-ab50-3fa348079fda',
+        1
+    ),
+    (
+        '4ccc3d96-fa6e-4971-a8fd-832f3c41de41',
+        '0a2461ae-a00e-4104-8821-03de44818571',
+        1
+    ),
+    (
+        'bc76b2a8-a3ae-4693-8b80-fd47212e4e05',
+        '8da736f6-71f9-4126-9ca2-0ded3bdd39c5',
+        1
+    ),
+    (
+        'e465eb13-c937-4ebc-a643-9ed2cf06de30',
+        '8da736f6-71f9-4126-9ca2-0ded3bdd39c5',
+        1
+    ),
+    (
+        'ed1efe80-be78-4ac1-bcc7-21c9f298658a',
+        '8da736f6-71f9-4126-9ca2-0ded3bdd39c5',
+        1
+    ),
+    (
+        '1163543b-2804-48e1-80e7-ad3b022535f4',
+        '8840d02d-9fc0-4521-927a-88bd9ae26caa',
+        1
+    ),
+    (
+        '1163543b-2804-48e1-80e7-ad3b022535f4',
+        '4ea83231-9645-49fe-97bd-1edfdbfad66a',
+        1
+    ),
+    (
+        'c09088e1-0fd1-4eab-8145-ee14c7b2a37f',
+        '06d5bfed-6e50-4403-a63b-2cb4dd7bf138',
+        1
+    ),
+    (
+        'c09088e1-0fd1-4eab-8145-ee14c7b2a37f',
+        '67996666-6ced-452e-ad77-a8a8aeeedc9b',
+        1
+    ),
+    (
+        '7b793ab9-1944-41a4-9911-d83f1e6c16c4',
+        '57c528a0-b1c9-4fa4-9250-67b7367b1c64',
+        1
+    ),
+    (
+        '7b793ab9-1944-41a4-9911-d83f1e6c16c4',
+        '9325b335-d2cc-4609-94f2-5c5f08d7c9c0',
+        1
+    ),
+    (
+        '7b793ab9-1944-41a4-9911-d83f1e6c16c4',
+        'ca11a3be-52c8-4cda-807a-4c749308d5df',
+        1
+    ),
+    (
+        '7b793ab9-1944-41a4-9911-d83f1e6c16c4',
+        '001b0701-874c-4ae8-8c57-1a820aadecaf',
+        1
+    ),
+    (
+        '69399cf3-4002-44d0-b8fd-f043f1830978',
+        'b79dea79-c9e3-4981-b495-ff648c3f15d0',
+        1
+    ),
+    (
+        'ba012177-4096-489d-bfd7-d5a812198f2c',
+        '26ace6fb-3d7c-4f3b-95f9-4b3a228cdaf8',
+        1
+    ),
+    (
+        'ba012177-4096-489d-bfd7-d5a812198f2c',
+        '0385571a-8472-4019-ac10-a4456b03f9b6',
+        1
+    ),
+    (
+        '8de502c9-ea0f-4a95-8a0f-b0310cd601b9',
+        '0a2461ae-a00e-4104-8821-03de44818571',
+        10
+    ),
+    (
+        '7e96623c-6416-498a-8cb6-b291c4bb04fa',
+        '8da736f6-71f9-4126-9ca2-0ded3bdd39c5',
+        10
+    ),
+    (
+        'a3c1ba8a-ba44-402a-8541-e963e6e9da5d',
+        '7df4bc18-2a56-4f7f-9fd4-28fc7835450b',
+        1
+    ),
+    (
+        '5f397813-74b4-474f-b2ee-fdb5709ab5da',
+        '7df4bc18-2a56-4f7f-9fd4-28fc7835450b',
+        4
+    ),
+    (
+        'ac079af0-545c-4d39-a7b2-892c9dcd2971',
+        '8da736f6-71f9-4126-9ca2-0ded3bdd39c5',
+        1
+    ),
+    (
+        'd6d88175-6e60-4840-9d93-d186a5bb54c7',
+        '0a2461ae-a00e-4104-8821-03de44818571',
+        1
+    ),
+    (
+        'd6d88175-6e60-4840-9d93-d186a5bb54c7',
+        '1f35c79e-9a70-4a2c-a731-0203270ecd69',
+        1
+    ),
+    (
+        'd6d88175-6e60-4840-9d93-d186a5bb54c7',
+        'b7acd360-e172-471f-ab59-db0957957052',
+        1
+    ),
+    (
+        '27b80557-1364-49b1-bf2e-39c1ceb9b945',
+        '26ace6fb-3d7c-4f3b-95f9-4b3a228cdaf8',
+        1
+    ),
+    (
+        '36c96e13-223a-4fb9-b639-618b6af04cfc',
+        '0a2461ae-a00e-4104-8821-03de44818571',
+        1
+    ),
+    (
+        '17e4435e-5114-49f1-bdae-f0eb3dcc27c5',
+        '1f35c79e-9a70-4a2c-a731-0203270ecd69',
+        1
+    );
+
+-- Populate data for the coupons table.
+INSERT INTO
+    public.coupons(id, code, name, value, use_ratio, created_at)
+VALUES
+    (
+        'fe484ee8-1a18-42d0-8059-61ae60e8ca2d',
+        'TEST2',
+        'Special Offer 2',
+        10,
+        false,
+        '2022-05-13T16:30:39+00:00'
+    ),
+    (
+        '809d50e1-e748-4097-a7c9-d13cc2a6738b',
+        'TEST',
+        'Special Offer 1',
+        25,
+        true,
+        '2022-05-13T16:22:52+00:00'
+    ),
+    (
+        '95fdae08-de2a-4050-8b7f-90ae37cf54a8',
+        'TEST3',
+        'Special Offer 3',
+        50,
+        true,
+        '2022-05-15T08:32:21.314787+00:00'
+    );
+
+-- Populate data for the bill_coupons table.
+INSERT INTO
+    public.bill_coupons(bill_id, coupon_id)
+VALUES
+    (
+        '0724db8c-3d92-4bb4-9666-6db027d75845',
+        'fe484ee8-1a18-42d0-8059-61ae60e8ca2d'
+    ),
+    (
+        '350cc4bc-3135-439c-b1cf-940d2a317794',
+        '809d50e1-e748-4097-a7c9-d13cc2a6738b'
+    ),
+    (
+        'a3212ad3-5df6-4a13-a320-654ff2111bb1',
+        'fe484ee8-1a18-42d0-8059-61ae60e8ca2d'
+    ),
+    (
+        'bae88b85-a09d-4da9-ac07-08a53f5efe0a',
+        'fe484ee8-1a18-42d0-8059-61ae60e8ca2d'
+    ),
+    (
+        'a3c1ba8a-ba44-402a-8541-e963e6e9da5d',
+        '95fdae08-de2a-4050-8b7f-90ae37cf54a8'
+    ),
+    (
+        '5f397813-74b4-474f-b2ee-fdb5709ab5da',
+        '95fdae08-de2a-4050-8b7f-90ae37cf54a8'
+    ),
+    (
+        'ac079af0-545c-4d39-a7b2-892c9dcd2971',
+        '95fdae08-de2a-4050-8b7f-90ae37cf54a8'
+    ),
+    (
+        'd6d88175-6e60-4840-9d93-d186a5bb54c7',
+        '95fdae08-de2a-4050-8b7f-90ae37cf54a8'
+    ),
+    (
+        '27b80557-1364-49b1-bf2e-39c1ceb9b945',
+        '809d50e1-e748-4097-a7c9-d13cc2a6738b'
+    ),
+    (
+        '36c96e13-223a-4fb9-b639-618b6af04cfc',
+        '95fdae08-de2a-4050-8b7f-90ae37cf54a8'
+    );
+
+-- The following queries are used to select data from the tables.
+-- In order for the queries to work properly on Supabase's integrated SQL Editor,
+-- please only put a single select statement in each query.
+--
+-- Select all data from the users table.
+SELECT
+    *
+FROM
+    public.users;
+
+-- Select all data from the memberships table.
+SELECT
+    *
+FROM
+    public.memberships;
+
+-- Select all data from the admins table.
+SELECT
+    *
+FROM
+    public.admins;
+
+-- Select all data from the addresses table.
+SELECT
+    *
+FROM
+    public.addresses;
+
+-- Select all data from the banks table.
+SELECT
+    *
+FROM
+    public.banks;
+
+-- Select all data from the bank_cards table.
+SELECT
+    *
+FROM
+    public.bank_cards;
+
+-- Select all data from the user_cards table.
+SELECT
+    *
+FROM
+    public.user_cards;
+
+-- Select all data from the outlets table.
+SELECT
+    *
+FROM
+    public.outlets;
+
+-- Select all data from the outlet_categories table.
+SELECT
+    *
+FROM
+    public.outlet_categories;
+
+-- Select all data from the products table.
+SELECT
+    *
+FROM
+    public.products;
+
+-- Select all data from the wishlisted_products table.
+SELECT
+    *
+FROM
+    public.wishlisted_products;
+
+-- Select all data from the bills table.
+SELECT
+    *
+FROM
+    public.bills;
+
+-- Select all data from the bill_products table.
+SELECT
+    *
+FROM
+    public.bill_products;
+
+-- Select all data from the coupons table.
+SELECT
+    *
+FROM
+    public.coupons;
+
+-- Select all data from the bill_coupons table.
+SELECT
+    *
+FROM
+    public.bill_coupons;
