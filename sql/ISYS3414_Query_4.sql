@@ -1,6 +1,12 @@
+-- This database insertion script is used to insert data into the database for the ISYS3414_DB_4 project.
+-- It has been fully tested and works correctly using a PostgreSQL (v14) database provided by Supabase (https://app.supabase.io/).
+--
+-- To test this script, you should create a project in Supabase,
+-- Then, visit https://app.supabase.io/project/[project-id]/sql and run the following query:
+-- NOTE: By default, the database is created in the `public` schema.
+--
 -- Please refer to the 'ISYS3414_DB_4.sql' if you have not yet
 -- created the database and tables for this project.
--- By default, Supabase uses the `public` schema.
 --
 -- Populate data for the users table.
 INSERT INTO
