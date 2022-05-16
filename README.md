@@ -12,6 +12,12 @@ npm install
 npm i
 ```
 
+In case you are using npm v7 or above, you can also use the following command:
+
+```bash
+npm i --legacy-peer-deps
+```
+
 Then, run the development server:
 
 ```bash

@@ -46,7 +46,7 @@ export default function DetailedBillPage() {
                 const { data, error } = await supabase
                     .from('bills')
                     .select(
-                        'id, total, outlets (*), addresses (*), user_cards (*), bill_products (*), created_at'
+                        'id, total, users (*), outlets (*), addresses (*), user_cards (*), bill_products (*), created_at'
                     )
                     .eq('customer_id', user.id)
                     .eq('id', billId)
@@ -167,9 +167,9 @@ export default function DetailedBillPage() {
     return (
         <div className="p-4 md:p-8 lg:p-16 space-y-8">
             <OutlinedButton
-                href="/history"
-                label="Back to purchase history"
+                label="Back"
                 widthConstraint="w-full md:max-w-[20rem]"
+                onClick={() => router.back()}
             />
 
             <div className="bg-white dark:bg-zinc-800/50 p-8 rounded-lg">
@@ -298,6 +298,37 @@ export default function DetailedBillPage() {
                                             </div>
                                         )}
                                     </div>
+                                </div>
+
+                                <Divider className="mb-2" />
+                                <div className="flex gap-4 justify-end">
+                                    <div>
+                                        <div className="text-right font-semibold text-purple-500 dark:text-blue-200/70">
+                                            Purchased by
+                                        </div>
+                                        <div className="text-right text-xl lg:text-2xl font-semibold">
+                                            {purchase?.users?.name || 'No Name'}
+                                        </div>
+                                        <div className="text-right text-sm text-zinc-500 dark:text-zinc-400">
+                                            {purchase?.users?.email ||
+                                                'No Email'}
+                                        </div>
+                                    </div>
+
+                                    {purchase?.users?.avatar_url ? (
+                                        <div className="aspect-square rounded-lg">
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                                            <img
+                                                className="aspect-square rounded-lg mb-2"
+                                                src={purchase?.users.avatar_url}
+                                                alt={purchase?.users.name}
+                                                height={120}
+                                                width={120}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="aspect-square w-full bg-gradient-to-br from-green-300 via-blue-500 to-purple-600 dark:from-green-300/70 dark:via-blue-500/70 dark:to-purple-600/70 rounded-lg" />
+                                    )}
                                 </div>
                             </div>
                         </div>
