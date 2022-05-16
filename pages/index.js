@@ -83,7 +83,7 @@ export default function Home() {
 
     useEffect(() => {
         if (mostPopularProducts) {
-            const displayedProducts = mostPopularProducts.slice(0, 6);
+            const displayedProducts = mostPopularProducts.slice(0, 12);
 
             // remove displayed products from products
             setProducts((prevProducts) => {
@@ -100,13 +100,13 @@ export default function Home() {
             <Title label="Featured products" />
             <Divider />
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 mb-8">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 mb-8">
                 {loadingMostPopularProducts ? (
                     <div className="w-full text-center col-span-full">
                         <LoadingIndicator svgClassName="h-8 w-8" />
                     </div>
                 ) : mostPopularProducts && mostPopularProducts.length > 0 ? (
-                    mostPopularProducts.slice(0, 6).map((product) => (
+                    mostPopularProducts.slice(0, 12).map((product) => (
                         <div className="relative" key={product.id}>
                             <ProductCard product={product} aspectVideo={true} />
                             <div className="absolute top-3 right-3">
