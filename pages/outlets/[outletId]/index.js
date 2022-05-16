@@ -537,7 +537,7 @@ export default function DetailedOutletPage() {
                     ))}
                 </div>
 
-                <div className="mt-4 grid grid-cols-4 gap-4">
+                <div className="mt-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                     {loadingProducts ? (
                         <div className="w-full text-center col-span-full">
                             <LoadingIndicator svgClassName="h-8 w-8" />
