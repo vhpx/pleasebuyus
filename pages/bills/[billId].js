@@ -199,10 +199,13 @@ export default function DetailedBillPage() {
                                         alt={purchase?.outlets.name}
                                         height={400}
                                         width={400}
+                                        style={{
+                                            objectFit: 'cover',
+                                        }}
                                     />
                                 </div>
                             ) : (
-                                <div className="aspect-square w-full bg-gradient-to-br from-green-300 via-blue-500 to-purple-600 dark:from-green-300/70 dark:via-blue-500/70 dark:to-purple-600/70 rounded-lg" />
+                                <div className="aspect-square h-auto w-[400px] bg-gradient-to-br from-green-300 via-blue-500 to-purple-600 dark:from-green-300/70 dark:via-blue-500/70 dark:to-purple-600/70 rounded-lg" />
                             )}
 
                             <div className="w-full">
@@ -315,18 +318,21 @@ export default function DetailedBillPage() {
                                     </div>
 
                                     {purchase?.users?.avatar_url ? (
-                                        <div className="aspect-square rounded-lg">
+                                        <div className="aspect-square h-32 w-32 rounded-lg">
                                             {/* eslint-disable-next-line @next/next/no-img-element */}
                                             <img
-                                                className="aspect-square rounded-lg mb-2"
+                                                className="aspect-square h-32 w-32 rounded-lg mb-2"
                                                 src={purchase?.users.avatar_url}
                                                 alt={purchase?.users.name}
                                                 height={120}
                                                 width={120}
+                                                style={{
+                                                    objectFit: 'cover',
+                                                }}
                                             />
                                         </div>
                                     ) : (
-                                        <div className="aspect-square w-full bg-gradient-to-br from-green-300 via-blue-500 to-purple-600 dark:from-green-300/70 dark:via-blue-500/70 dark:to-purple-600/70 rounded-lg" />
+                                        <div className="aspect-square h-32 w-32 bg-gradient-to-br from-green-300 via-blue-500 to-purple-600 dark:from-green-300/70 dark:via-blue-500/70 dark:to-purple-600/70 rounded-lg" />
                                     )}
                                 </div>
                             </div>
