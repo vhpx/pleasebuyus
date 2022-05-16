@@ -30,6 +30,14 @@ export default function EditOutletForm({
             />
 
             <FormInput
+                label={outlet?.users?.name ? 'Owner Name' : 'Owner Email'}
+                id={outlet?.users?.name ? 'owner-name' : 'owner-email'}
+                value={outlet?.users?.name || outlet?.users?.email || ''}
+                disabled={true}
+                required
+            />
+
+            <FormInput
                 label="Owner ID"
                 id="owner_id"
                 value={ownerId}
