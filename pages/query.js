@@ -29,9 +29,7 @@ export default function QueryPage() {
     useEffect(() => {
         try {
             if (!userData) return;
-            if (
-                !(userData.isAdmin && userData.email === 'phucvo0708@gmail.com')
-            ) {
+            if (!userData.isAdmin) {
                 toast.error('You are not authorized to access this page.');
                 return;
             }
