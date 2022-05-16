@@ -7,6 +7,7 @@ import { StoreLayout } from '../../components/layout/layout';
 import BetterLink from '../../components/link/BetterLink';
 import { useUser } from '../../hooks/useUser';
 import { formatCurrency } from '../../utils/currency-format';
+import { getRelativeTime } from '../../utils/date-format';
 import { supabase } from '../../utils/supabase-client';
 
 WishlistPage.getLayout = (page) => {
@@ -26,8 +27,11 @@ export default function WishlistPage() {
             try {
                 const { data, error } = await supabase
                     .from('wishlisted_products')
-                    .select('products (*)')
-                    .eq('user_id', user?.id);
+                    .select('created_at, products (*)')
+                    .eq('user_id', user?.id)
+                    .order('created_at', {
+                        ascending: false,
+                    });
 
                 if (error) throw error;
                 setWishlistedProducts(data);
@@ -108,6 +112,11 @@ export default function WishlistPage() {
                                         <span className="text-sm font-semibold">
                                             {formatCurrency(
                                                 product.products.price
+                                            )}
+                                        </span>
+                                        <span className="text-sm font-semibold">
+                                            {getRelativeTime(
+                                                product.created_at
                                             )}
                                         </span>
 

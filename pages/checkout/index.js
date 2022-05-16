@@ -15,6 +15,7 @@ import { BankLogo } from '../../components/common/Logo';
 import OutletProductsCard from '../../components/cards/OutletProductsCard';
 import FormInput from '../../components/form/FormInput';
 import BetterLink from '../../components/link/BetterLink';
+import { getRelativeTime } from '../../utils/date-format';
 
 CheckoutPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -120,8 +121,11 @@ export default function CheckoutPage() {
             try {
                 const { data, error } = await supabase
                     .from('wishlisted_products')
-                    .select('products (*)')
-                    .eq('user_id', user?.id);
+                    .select('created_at, products (*)')
+                    .eq('user_id', user?.id)
+                    .order('created_at', {
+                        ascending: false,
+                    });
 
                 if (error) throw error;
                 setWishlistedProducts(data);
@@ -508,6 +512,11 @@ export default function CheckoutPage() {
                                         <span className="text-sm font-semibold">
                                             {formatCurrency(
                                                 product.products.price
+                                            )}
+                                        </span>
+                                        <span className="text-sm font-semibold">
+                                            {getRelativeTime(
+                                                product.created_at
                                             )}
                                         </span>
 
