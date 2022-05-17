@@ -6,9 +6,9 @@ import { tableNames, tables } from '../data/tables';
 import { supabase } from '../utils/supabase-client';
 import { toast } from 'react-toastify';
 import LoadingIndicator from '../components/common/LoadingIndicator';
-import { ClipboardCopyIcon } from '@heroicons/react/outline';
 import { useUser } from '../hooks/useUser';
 import { Prism } from '@mantine/prism';
+import { useRouter } from 'next/router';
 
 QueryPage.getLayout = (page) => {
     return <StoreLayout>{page}</StoreLayout>;
@@ -213,14 +213,28 @@ DROP TABLE IF EXISTS users;
 `;
 
 export default function QueryPage() {
-    const { userData } = useUser();
+    const router = useRouter();
+    const { user, userData } = useUser();
 
     const [tablesData, setTablesData] = useState([]);
     const [query, setQuery] = useState('');
 
+    const [initialized, setInitialized] = useState(false);
+
+    useEffect(() => {
+        if (!userData) return;
+
+        if (!userData?.isAdmin) {
+            toast.error('You are not authorized to view this page.');
+            router.replace('/');
+        } else {
+            setInitialized(true);
+        }
+    }, [user, userData, router]);
+
     useEffect(() => {
         try {
-            if (!userData) return;
+            if (!userData || !initialized) return;
             if (!userData.isAdmin) {
                 toast.error('You are not authorized to access this page.');
                 return;
@@ -246,7 +260,7 @@ export default function QueryPage() {
         } catch (err) {
             toast.error(err);
         }
-    }, [userData]);
+    }, [userData, initialized]);
 
     useEffect(() => {
         if (!tablesData || !tablesData.length) return;
@@ -288,31 +302,42 @@ export default function QueryPage() {
             if (i < tablesData.length - 1) response += '\n\n';
         }
 
-        console.log(response);
         setQuery(response);
     }, [tablesData]);
 
     return (
         <div className="p-4 md:p-8 lg:p-16 space-y-8">
-            <div className="bg-white dark:bg-zinc-800/50 p-8 rounded-lg">
-                <Title label="Database Creation Queries" />
-                <Divider />
-
-                <Prism language="sql">{defaultQueries}</Prism>
-            </div>
-
-            <div className="bg-white dark:bg-zinc-800/50 p-8 rounded-lg">
-                <Title label="Database Insert Queries" />
-                <Divider />
-
-                {query ? (
-                    <Prism language="sql">{query}</Prism>
-                ) : (
+            {initialized || (
+                <div className="bg-white dark:bg-zinc-800/50 p-8 rounded-lg">
                     <div className="w-full text-center">
                         <LoadingIndicator svgClassName="w-8 h-8" />
                     </div>
-                )}
-            </div>
+                </div>
+            )}
+
+            {initialized && (
+                <div className="bg-white dark:bg-zinc-800/50 p-8 rounded-lg">
+                    <Title label="Database Creation Queries" />
+                    <Divider />
+
+                    <Prism language="sql">{defaultQueries}</Prism>
+                </div>
+            )}
+
+            {initialized && (
+                <div className="bg-white dark:bg-zinc-800/50 p-8 rounded-lg">
+                    <Title label="Database Insert Queries" />
+                    <Divider />
+
+                    {query ? (
+                        <Prism language="sql">{query}</Prism>
+                    ) : (
+                        <div className="w-full text-center">
+                            <LoadingIndicator svgClassName="w-8 h-8" />
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 }
