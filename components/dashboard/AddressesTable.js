@@ -197,7 +197,9 @@ export default function AddressesTable({ addresses, loading, setter }) {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="text-sm text-zinc-900 dark:text-zinc-200">
-                                                {address?.street_info || '-'}
+                                                {address?.street_info ||
+                                                    address?.streetInfo ||
+                                                    ''}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
@@ -206,7 +208,7 @@ export default function AddressesTable({ addresses, loading, setter }) {
                                                     ? getRelativeTime(
                                                           address?.created_at
                                                       )
-                                                    : '-'}
+                                                    : 'Recently'}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
