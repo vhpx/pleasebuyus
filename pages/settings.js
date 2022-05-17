@@ -279,7 +279,7 @@ export default function SettingsPage() {
 
             try {
                 const { data } = await supabase
-                    .from('user_cards')
+                    .from('saved_cards')
                     .select('*')
                     .eq('user_id', user?.id);
 
@@ -303,7 +303,7 @@ export default function SettingsPage() {
 
         try {
             const { error } = await supabase
-                .from('user_cards')
+                .from('saved_cards')
                 .delete()
                 .eq('id', card.id);
 

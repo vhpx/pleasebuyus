@@ -105,7 +105,7 @@ export default function CheckoutPage() {
 
             try {
                 const { data } = await supabase
-                    .from('user_cards')
+                    .from('saved_cards')
                     .select('*')
                     .eq('user_id', user?.id);
 

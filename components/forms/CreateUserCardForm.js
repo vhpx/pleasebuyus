@@ -100,7 +100,7 @@ export default function CreateUserCardForm({
                 throw new Error('Card holder name do not match');
 
             const { data, error } = await supabase
-                .from('user_cards')
+                .from('saved_cards')
                 .insert(cardData)
                 .maybeSingle();
 

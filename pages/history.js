@@ -41,7 +41,7 @@ export default function PurchaseHistoryPage() {
                 const { data, error } = await supabase
                     .from('bills')
                     .select(
-                        'id, total, outlets (*), addresses (*), user_cards (*), bill_products (*), created_at'
+                        'id, total, outlets (*), addresses (*), saved_cards (*), bill_products (*), created_at'
                     )
                     .eq('customer_id', user.id)
                     .order('created_at', {
@@ -127,7 +127,7 @@ export default function PurchaseHistoryPage() {
                                                 disableHoverEffect
                                             >
                                                 <div>
-                                                    {purchase?.user_cards?.card_number
+                                                    {purchase?.saved_cards?.card_number
                                                         ?.replace(
                                                             /(\d{4})/g,
                                                             '$1 '
@@ -136,7 +136,7 @@ export default function PurchaseHistoryPage() {
                                                 </div>
                                                 <div className="text-sm font-bold px-4 py-1 rounded-lg bg-blue-500 dark:bg-blue-500/20 text-white dark:text-blue-200">
                                                     {
-                                                        purchase.user_cards
+                                                        purchase.saved_cards
                                                             .bank_code
                                                     }
                                                 </div>
