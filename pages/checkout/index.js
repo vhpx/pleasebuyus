@@ -248,7 +248,7 @@ export default function CheckoutPage() {
 
             {products && products.length > 0 && (
                 <div className="md:col-span-2 lg:col-span-1 bg-white dark:bg-zinc-800/50 p-8 rounded-lg">
-                    {user || (
+                    {!!user || (
                         <div className="w-full text-center">
                             <div className="font-semibold text-xl text-zinc-500 dark:text-zinc-400">
                                 Please login to checkout.
@@ -270,7 +270,7 @@ export default function CheckoutPage() {
                             </div>
                         </div>
                     )}
-                    {user &&
+                    {!!user &&
                         (selectedProducts && selectedProducts.length > 0 ? (
                             <>
                                 <Title label="Order summary" />
