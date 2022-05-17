@@ -541,9 +541,9 @@ VALUES
         '2022-05-16T17:56:45.523282+00:00'
     );
 
--- Populate data for the user_cards table.
+-- Populate data for the saved_cards table.
 INSERT INTO
-    public.user_cards(id, user_id, bank_code, card_number, created_at)
+    public.saved_cards(id, user_id, bank_code, card_number, created_at)
 VALUES
     (
         'd655819e-215d-491a-b693-4bd762ddadf2',
@@ -3235,11 +3235,11 @@ SELECT
 FROM
     public.bank_cards;
 
--- Select all data from the user_cards table.
+-- Select all data from the saved_cards table.
 SELECT
     *
 FROM
-    public.user_cards;
+    public.saved_cards;
 
 -- Select all data from the outlets table.
 SELECT

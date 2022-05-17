@@ -67,7 +67,7 @@ CREATE TABLE public.bank_cards (
     FOREIGN KEY(bank_code) REFERENCES banks(code) ON DELETE CASCADE
 );
 
-CREATE TABLE public.user_cards (
+CREATE TABLE public.saved_cards (
     id UUID,
     user_id UUID,
     bank_code TEXT,
@@ -116,7 +116,7 @@ CREATE TABLE public.bills (
         FOREIGN KEY(outlet_id) REFERENCES outlets(id) ON DELETE
     SET
         NULL,
-        FOREIGN KEY(card_id) REFERENCES user_cards(id) ON DELETE
+        FOREIGN KEY(card_id) REFERENCES saved_cards(id) ON DELETE
     SET
         NULL,
         FOREIGN KEY(coupon_id) REFERENCES coupons(id) ON DELETE
@@ -187,7 +187,7 @@ DROP TABLE IF EXISTS memberships;
 
 DROP TABLE IF EXISTS bank_cards;
 
-DROP TABLE IF EXISTS user_cards;
+DROP TABLE IF EXISTS saved_cards;
 
 DROP TABLE IF EXISTS admins;
 

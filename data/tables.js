@@ -5,7 +5,7 @@ const tableNames = [
     'addresses',
     'banks',
     'bank_cards',
-    'user_cards',
+    'saved_cards',
     'outlets',
     'outlet_categories',
     'products',
@@ -59,7 +59,7 @@ const tables = [
         columns: ['bank_code', 'card_number', 'PIN', 'owner_id', 'created_at'],
     },
     {
-        name: 'user_cards',
+        name: 'saved_cards',
         columns: ['id', 'user_id', 'bank_code', 'card_number', 'created_at'],
     },
     {
