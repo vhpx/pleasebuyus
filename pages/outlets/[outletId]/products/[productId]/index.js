@@ -283,7 +283,7 @@ export default function DetailedProductPage() {
                 </div>
 
                 <div className="bg-white dark:bg-zinc-800/50 rounded-lg p-8">
-                    <Title label="Provider" />
+                    <Title label="Outlet details" />
                     <Divider />
 
                     {loadingOutlet ? (
