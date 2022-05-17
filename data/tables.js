@@ -10,10 +10,9 @@ const tableNames = [
     'outlet_categories',
     'products',
     'wishlisted_products',
+    'coupons',
     'bills',
     'bill_products',
-    'coupons',
-    'bill_coupons',
 ];
 
 const tables = [
@@ -96,6 +95,10 @@ const tables = [
         columns: ['user_id', 'product_id', 'created_at'],
     },
     {
+        name: 'coupons',
+        columns: ['id', 'code', 'name', 'value', 'use_ratio', 'created_at'],
+    },
+    {
         name: 'bills',
         columns: [
             'id',
@@ -103,6 +106,7 @@ const tables = [
             'card_id',
             'address_id',
             'outlet_id',
+            'coupon_id',
             'total',
             'created_at',
         ],
@@ -110,14 +114,6 @@ const tables = [
     {
         name: 'bill_products',
         columns: ['bill_id', 'product_id', 'amount'],
-    },
-    {
-        name: 'coupons',
-        columns: ['id', 'code', 'name', 'value', 'use_ratio', 'created_at'],
-    },
-    {
-        name: 'bill_coupons',
-        columns: ['bill_id', 'coupon_id'],
     },
 ];
 

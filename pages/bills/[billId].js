@@ -97,12 +97,14 @@ export default function DetailedBillPage() {
                 if (!purchase) return;
 
                 const { data, error } = await supabase
-                    .from('bill_coupons')
+                    .from('bills')
                     .select('coupons (*)')
-                    .eq('bill_id', purchase.id);
+                    .eq('id', purchase.id);
 
                 if (error) throw error;
                 const coupons = data.map((coupon) => coupon.coupons);
+                console.log('data', data);
+                console.log('coupons', coupons);
                 setAppliedCoupons(coupons);
             } catch (error) {
                 toast.error(error);

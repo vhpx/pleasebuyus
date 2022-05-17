@@ -268,10 +268,12 @@ export const CartProvider = (props) => {
 
                 if (selectedCoupon) {
                     const { data: billCouponsData, error: billCouponsError } =
-                        await supabase.from('bill_coupons').insert({
-                            bill_id: billData.id,
-                            coupon_id: selectedCoupon?.id,
-                        });
+                        await supabase
+                            .from('bills')
+                            .update({
+                                coupon_id: selectedCoupon?.id,
+                            })
+                            .eq('id', billData.id);
 
                     if (billCouponsError) {
                         toast.error(

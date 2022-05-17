@@ -89,12 +89,23 @@ CREATE TABLE public.outlets (
     FOREIGN KEY(owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
+CREATE TABLE public.coupons (
+    id UUID,
+    code TEXT,
+    name TEXT,
+    value FLOAT4,
+    use_ratio BOOL,
+    created_at TIMESTAMPTZ(6),
+    PRIMARY KEY(id)
+);
+
 CREATE TABLE public.bills (
     id UUID,
     customer_id UUID,
     card_id UUID,
     address_id UUID,
     outlet_id UUID,
+    coupon_id UUID,
     total FLOAT8,
     created_at TIMESTAMPTZ(6),
     PRIMARY KEY(id),
@@ -107,17 +118,10 @@ CREATE TABLE public.bills (
         NULL,
         FOREIGN KEY(card_id) REFERENCES user_cards(id) ON DELETE
     SET
+        NULL,
+        FOREIGN KEY(coupon_id) REFERENCES coupons(id) ON DELETE
+    SET
         NULL
-);
-
-CREATE TABLE public.coupons (
-    id UUID,
-    code TEXT,
-    name TEXT,
-    value FLOAT4,
-    use_ratio BOOL,
-    created_at TIMESTAMPTZ(6),
-    PRIMARY KEY(id)
 );
 
 CREATE TABLE public.outlet_categories (
@@ -141,16 +145,6 @@ CREATE TABLE public.products (
     PRIMARY KEY(id),
     FOREIGN KEY(outlet_id) REFERENCES outlets(id) ON DELETE CASCADE,
     FOREIGN KEY(category_id) REFERENCES outlet_categories(id) ON DELETE
-    SET
-        NULL
-);
-
-CREATE TABLE public.bill_coupons (
-    bill_id UUID,
-    coupon_id UUID,
-    PRIMARY KEY(bill_id, coupon_id),
-    FOREIGN KEY(bill_id) REFERENCES bills(id) ON DELETE CASCADE,
-    FOREIGN KEY(coupon_id) REFERENCES coupons(id) ON DELETE
     SET
         NULL
 );
@@ -182,8 +176,6 @@ CREATE TABLE public.wishlisted_products (
 );
 
 -- Query to delete all tables
-
-DROP TABLE IF EXISTS bill_coupons;
 
 DROP TABLE IF EXISTS bill_products;
 
