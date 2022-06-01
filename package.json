@@ -17,7 +17,7 @@
         "@mantine/modals": "4.2.7",
         "@mantine/next": "4.2.7",
         "@mantine/prism": "4.2.7",
-        "@mui/material": "5.8.1",
+        "@mui/material": "5.8.2",
         "@supabase/supabase-js": "1.35.3",
         "@tailwindcss/aspect-ratio": "^0.4.0",
         "chart.js": "3.8.0",
