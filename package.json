@@ -15,7 +15,7 @@
         "@mantine/core": "4.2.11",
         "@mantine/hooks": "4.2.11",
         "@mantine/modals": "4.2.11",
-        "@mantine/next": "4.2.11",
+        "@mantine/next": "4.2.12",
         "@mantine/prism": "4.2.11",
         "@mui/material": "5.8.6",
         "@supabase/supabase-js": "1.35.4",
