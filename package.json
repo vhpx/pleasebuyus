@@ -12,7 +12,7 @@
         "@emotion/styled": "11.9.3",
         "@headlessui/react": "1.6.5",
         "@heroicons/react": "1.0.6",
-        "@mantine/core": "4.2.11",
+        "@mantine/core": "4.2.12",
         "@mantine/hooks": "4.2.11",
         "@mantine/modals": "4.2.11",
         "@mantine/next": "4.2.11",
