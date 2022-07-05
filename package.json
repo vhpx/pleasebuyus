@@ -16,7 +16,7 @@
         "@mantine/hooks": "4.2.11",
         "@mantine/modals": "4.2.11",
         "@mantine/next": "4.2.11",
-        "@mantine/prism": "4.2.11",
+        "@mantine/prism": "4.2.12",
         "@mui/material": "5.8.7",
         "@supabase/supabase-js": "1.35.4",
         "@tailwindcss/aspect-ratio": "^0.4.0",
