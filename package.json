@@ -20,7 +20,7 @@
         "@mantine/prism": "5.1.6",
         "@mui/material": "5.10.3",
         "@supabase/supabase-js": "1.35.6",
-        "@tailwindcss/aspect-ratio": "0.4.0",
+        "@tailwindcss/aspect-ratio": "0.4.1",
         "chart.js": "3.9.1",
         "next": "12.2.5",
         "react": "18.2.0",
