@@ -34,7 +34,7 @@
         "@tailwindcss/line-clamp": "0.4.2",
         "@types/node": "18.7.11",
         "@types/react": "18.0.20",
-        "autoprefixer": "10.4.10",
+        "autoprefixer": "10.4.11",
         "eslint": "8.23.1",
         "eslint-config-next": "12.3.0",
         "postcss": "8.4.16",
