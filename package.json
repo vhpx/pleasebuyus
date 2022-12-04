@@ -15,7 +15,7 @@
         "@heroicons/react": "1.0.6",
         "@mantine/core": "5.1.6",
         "@mantine/hooks": "5.1.6",
-        "@mantine/modals": "5.1.6",
+        "@mantine/modals": "5.9.1",
         "@mantine/next": "5.2.3",
         "@mantine/prism": "5.1.6",
         "@mui/material": "5.10.16",
